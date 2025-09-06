@@ -1,5 +1,5 @@
-# <img src="favicon.ico" width="50px" style="vertical-align: -23%"/> mc-lianji
-基于Xbox的我的世界基岩板联机网页
+# mc-lianji
+**基于Xbox的我的世界基岩板联机网页**
 
 ---
 ## 1.0.3 - latest
