@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="mdui-theme-light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="这是一个适用于我的世界国际基岩板的在线的在线联机平台，完全免费，不用下载app，仅仅需要简单的几步，您就可以愉快地与其他人联机了" />
+    <meta name="keywords" content="Minecraft,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,Multi" />
+    <title>MinecraftBE 联机平台</title>
+    <link rel="stylesheet" href="src/mdui.css" />
+    <link rel="stylesheet" href="src/toastr.min.css" />
+    <link rel="stylesheet" href="src/mi-sans.css" />
+    <link rel="stylesheet" href="src/s.css" />
+    <!-- <link rel="stylesheet" href="src/editormd.preview.min.css" /> -->
+    <script src="src/mdui.global.js"></script>
+    <script src="src/jquery.min.js"></script>
+    <script src="src/toastr.min.js"></script>
+    <!-- <script src="src/marked.min.js"></script>
+    <script src="src/editormd.min.js"></script>
+    <script src="src/prettify.min.js"></script> -->
+
+    <link href="src/mdui_icon.css" rel="stylesheet" />
+    <script type="text/javascript">
+      ;(function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            ;(c[a].q = c[a].q || []).push(arguments)
+          }
+        t = l.createElement(r)
+        t.async = 1
+        t.src = 'https://www.clarity.ms/tag/' + i
+        y = l.getElementsByTagName(r)[0]
+        y.parentNode.insertBefore(t, y)
+      })(window, document, 'clarity', 'script', 'sy1yhmgd2s')
+    </script>
+  </head>
+  <body>
+    <header class="mdui-appbar mdui-appbar-fixed">
+      <h2 id="lj_title"><mdui-icon class="material-icons" style="padding-right: 15px; font-size: 30px; margin: 0 10px 0 0; vertical-align: -20%">cloud</mdui-icon>MCBE联机平台</h2>
+      <div class="user-info">
+        <p class="username" id="user-id">
+          <mdui-avatar style="margin-right: 1px; font-size: 24px; vertical-align: -54%" icon="account_circle" id="avatar-view"></mdui-avatar>
+          <span id="span-userid">未设置id</span>
+          <mdui-tooltip variant="rich" headline="设置按钮" content="单击打开用户配置界面,可进行自定义设置">
+            <mdui-button-icon icon="settings" style="vertical-align: -39%" id="settings-btn"></mdui-button-icon>
+          </mdui-tooltip>
+        </p>
+      </div>
+    </header>
+    <div class="search-bar">
+      <mdui-text-field label="输入房间名，房主，游戏模式或游戏版本搜索..." id="search-input" type="search" inputmode="search">
+        <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
+      </mdui-text-field>
+    </div>
+
+    <div class="room-list"></div>
+
+    <!--  -->
+
+    <mdui-dialog headline="Welcome" id="dialog-new-user">
+      <p>
+        欢迎来到Minecraft基岩版联机平台，本站是根据mc.miaaoo.com的API开发的一个网页，适用于游戏《Minecraft:Bedrock
+        Edition》进行多人联机，你可以找到你喜欢的房间，并点击下方的"广播房间"按钮即可游玩。在正式开始前，我们需要进行一些简单的设置，点击"下一步"开始新手教程
+      </p>
+      <div>
+        <iframe
+          src="https://player.bilibili.com/player.html?isOutside=true&aid=115026656497077&bvid=BV1VCbzztE1g&cid=31691440462&p=1&autoplay=0"
+          scrolling="no"
+          border="0"
+          width="95%"
+          frameborder="no"
+          framespacing="0"
+          allowfullscreen="true"
+        ></iframe>
+      </div>
+      <mdui-button slot="action" variant="tonal" id="dialog-next">下一步</mdui-button>
+    </mdui-dialog>
+
+    <mdui-dialog close-on-overlay-click headline="用户配置" id="dialog-user-settings">
+      <p>游戏ID</p>
+      <mdui-text-field label="输入你的游戏id" icon="person" id="input-userid" class="input-config userid"></mdui-text-field>
+      <div id="accounts-list" class="accounts-list">
+        <!-- 这里是账号列表 -->
+      </div>
+      <p>其他设置</p>
+      <div class="other-settings">
+        <mdui-switch id="hide-invalid-room"></mdui-switch>
+        <span>隐藏不可加入的房间</span>
+      </div>
+      <div class="other-settings">
+        <mdui-switch id="hide-other-room"></mdui-switch>
+        <span>隐藏其他共享账号的房间</span>
+      </div>
+      <div class="other-settings">
+        <mdui-switch id="decode-color-string" checked="true"></mdui-switch>
+        <span>解析颜色代码(§)</span>
+      </div>
+      <div class="other-settings">
+        <mdui-switch id="enable-old-ui" checked="true"></mdui-switch>
+        <span>使用旧UI</span>
+      </div>
+      <div class="other-settings">
+        <mdui-button onclick="toastr.success('我是张大树，欠钱已跑路');//window.open('https:/\/space.bilibili.com/454289422')">肘击👊张大树🌳</mdui-button>
+      </div>
+      <mdui-button slot="action" variant="text" id="dialog-cancel">取消</mdui-button>
+      <mdui-button slot="action" variant="tonal" id="dialog-save">保存</mdui-button>
+    </mdui-dialog>
+
+    <mdui-dialog close-on-overlay-click headline="有新版本" id="dialog-app-update">
+      <p class="newver-p">版本号：1.0.1</p>
+      <p class="newver-p">修复了一些bug</p>
+      <mdui-button slot="action" variant="text" id="dialog-ca">取消</mdui-button>
+      <mdui-button slot="action" variant="tonal" id="dialog-update">下载更新</mdui-button>
+    </mdui-dialog>
+
+    <mdui-dialog close-on-overlay-click headline="分享房间" id="dialog-room-share">
+      <p class="newver-p">分享链接</p>
+      <div class="share-link">
+        <mdui-text-field id="t-share-url" readonly style="width: 50vh; max-width: 100%" value="加载中...">
+          <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-link"></mdui-button-icon>
+        </mdui-text-field>
+      </div>
+      <p>将上面的链接复制并发送给其他人即完成分享</p>
+      <mdui-button slot="action" variant="tonal" id="dialog-share-done">完成</mdui-button>
+    </mdui-dialog>
+
+    <mdui-dialog id="dialog-loading">
+      <div class="dialog-loading-div">
+        <!-- <mdui-circular-progress></mdui-circular-progress> -->
+        <img src="src/loading.gif" />
+        <h3 style="margin: 0">加载中</h3>
+        <!-- 移除默认边距 -->
+      </div>
+    </mdui-dialog>
+
+    <mdui-dialog id="dialog-cardui-choose" headline="房间卡片样式选择">
+      <p>我们最近上线了新的房间卡片UI，请选择您喜欢的样式<br />您也可以在设置界面选择UI样式</p>
+
+      <div>
+        <mdui-radio-group value="false" id="ui-choose-old">
+          <div>
+            <div class="room-list" style="display: flex; justify-content: center; width: 100%">
+              <mdui-card class="room-card" variant="elevated" style="width: 100%; cursor: pointer" id="demo-card1">
+                <div class="room-card-header">
+                  <p id="room-name2" title="丧尸来了，快建房！">丧尸来了，快建房！</p>
+                </div>
+
+                <div class="room-card-body">
+                  <div class="info-line">
+                    <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/2535446053481762/image/head" class="host-avatar" alt="Host Avatar" />
+                    <span
+                      ><a href="https://www.xbox.com/play/user/Madefake114514" target="_blank" title="查看 Madefake114514 的Xbox主页"><strong>Madefake114514</strong></a></span
+                    >
+                  </div>
+                  <div class="info-line">
+                    <mdui-icon name="people"></mdui-icon>
+                    <span>人数: <span class="people-num non-full">12 / 31</span></span>
+                  </div>
+                  <div style="display: flex">
+                    <div class="info-line tags" style="margin-left: 0px" title="单击以搜索标签" id="btn-mode-bde5b4c5-e26c-467d-9998-229f0c15c1f4">
+                      <img src="src/jixian.png" width="18" height="18" style="image-rendering: pixelated; margin-left: 1px; margin-right: 2px" />
+                      <span style="color: rgb(var(--mdui-color-on-primary))">极限模式</span>
+                    </div>
+                    <div class="info-line tags" style="margin-left: 5px" title="单击以搜索标签" id="btn-version-bde5b4c5-e26c-467d-9998-229f0c15c1f4">
+                      <img src="/src/new_mc.png" width="18" height="18" style="image-rendering: pixelated; margin-left: 2px" />
+                      <span style="color: rgb(var(--mdui-color-on-primary))">1.21.101</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="room-card-footer">
+                  <mdui-button class="join-button" end-icon="login" id="btn-joinroom-bde5b4c5-e26c-467d-9998-229f0c15c1f4" name="" value="" type="button" variant="filled"
+                    >广播房间</mdui-button
+                  >
+                  <mdui-tooltip content="分享房间" variant="plain" placement="auto" open-delay="150" close-delay="150" trigger="hover focus">
+                    <mdui-button-icon icon="share" id="btn-share-5722A48C-F038-4060-939F-D93F2FD94090" name="" value="" type="button" variant="standard"></mdui-button-icon>
+                  </mdui-tooltip>
+                </div>
+              </mdui-card>
+            </div>
+
+            <div style="text-align: center">
+              <mdui-radio value="false">新UI</mdui-radio>
+            </div>
+            <br />
+            <div class="room-list" style="display: flex; justify-content: center; width: 100%">
+              <mdui-card class="room-items" variant="elevated" style="width: 100%; cursor: pointer" id="demo-card2">
+                <p id="room-name2" title="丧尸来了，快建房！">丧尸来了，快建房！</p>
+                <div class="room-info">
+                  <p id="room-host">
+                    <img
+                      src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/2535446053481762/image/head"
+                      width="18"
+                      height="18"
+                      class="room-icon"
+                      id="Madefake114514_t"
+                      style="vertical-align: -10%; margin-right: 6px"
+                    />Madefake114514
+                  </p>
+                  <p id="room-people">
+                    <mdui-icon name="people" class="room-icon"></mdui-icon><span class="people-num non-full">12/31</span
+                    ><img
+                      alt="GameMode"
+                      src="src/jixian.png"
+                      decoding="async"
+                      loading="lazy"
+                      width="18"
+                      height="18"
+                      class="room-icon"
+                      style="margin-left: 20px; image-rendering: pixelated; vertical-align: -18%"
+                    />极限<mdui-icon name="videogame_asset" class="room-icon" style="margin-left: 20px"></mdui-icon>1.21.101
+                  </p>
+                </div>
+
+                <div style="display: flex; gap: 3px; margin-bottom: 10px">
+                  <mdui-button end-icon="login" id="btn-joinroom-bde5b4c5-e26c-467d-9998-229f0c15c1f4-example" style="flex: 1" name="" value="" type="button" variant="filled"
+                    >广播房间</mdui-button
+                  >
+                  <mdui-tooltip content="分享房间" variant="plain" placement="auto" open-delay="150" close-delay="150" trigger="hover focus">
+                    <mdui-button-icon icon="share" id="btn-share-5722A48C-F038-4060-939F-D93F2FD94090-example" name="" value="" type="button" variant="standard"></mdui-button-icon>
+                  </mdui-tooltip>
+                </div>
+              </mdui-card>
+            </div>
+            <div style="text-align: center">
+              <mdui-radio value="true">旧UI</mdui-radio>
+            </div>
+          </div>
+        </mdui-radio-group>
+      </div>
+      <mdui-button slot="action" variant="tonal" id="btn-save-ui">确定并保存</mdui-button>
+    </mdui-dialog>
+
+    <mdui-dialog close-on-overlay-click headline="其他选项" id="dialog-chat">
+      <div id="other-btn-group">
+        <mdui-button id="dialog-newer" icon="menu_book" style="margin-right: 0px">新手教程</mdui-button>
+
+        <mdui-button id="dialog-newer" icon="file_download" onclick="window.open('https:/\/lianji.qqaq.top/app-release.apk')">下载apk</mdui-button>
+        <!-- <p>如果您在使用过程中遇到问题，或者想要给我们提出一些建议，可以点击下方按钮联系我们</p> -->
+
+        <mdui-button id="dialog-addqq" icon="group" style="margin-right: 1px">加入QQ群</mdui-button>
+        <mdui-button id="dialog-feedback" icon="feedback">在线反馈</mdui-button>
+        <mdui-button id="dialog-feedback" icon="event_note" onclick="window.open('/update_notice.html')">更新日志</mdui-button>
+      </div>
+      <!-- <p>您也可以在<a href="https://chat.qqaq.top/" target="_blank">此处</a>与其他人讨论</p> -->
+      <!-- <p>性价比稳定云服务器</p>
+      <a href="https://www.rainyun.com/wzy_?s=hsb"><img src="src/rainyun.png" width="30%" /></a>
+      <p style="color: red">点击注册可享专属首月5折优惠</p> -->
+      <mdui-button slot="action" variant="tonal" id="dialog-done">完成</mdui-button>
+    </mdui-dialog>
+
+    <mdui-dialog close-on-overlay-click headline="在线反馈" id="dialog-efeedback">
+      <p>您的每一个反馈与建议都在促使我们的网站变得更好，我们十分重视您的每一个建议。如果您有任何意见，可以发送邮件到下方的邮箱或是填写下方的表单并提交。我们收到您的反馈后会及时给您回复</p>
+      <p><mdui-icon name="emails" style="vertical-align: -23%; margin-right: 5px"></mdui-icon>反馈邮箱：<a href="mailto:wzy@qqaq.top">wzy@qqaq.top</a></p>
+      <div>
+        <p>昵称：</p>
+        <mdui-text-field label="昵称" id="dialog-feedback-name" icon="person"></mdui-text-field>
+        <br />
+        <p>联系邮箱：</p>
+        <mdui-text-field label="邮箱" id="dialog-feedback-mail" type="email" inputmode="email" icon="email"></mdui-text-field>
+        <br />
+        <p>反馈内容：</p>
+        <mdui-text-field label="反馈内容" autosize min-rows="2" maxlength="1024" counter id="dialog-feedback-context" icon="brush"></mdui-text-field>
+      </div>
+      <div style="text-align: center">
+        <mdui-button icon="done" style="width: 70%; max-width: 350px; margin: 0 auto" id="dialog-feedback-submit">提交反馈</mdui-button>
+      </div>
+      <mdui-button slot="action" variant="tonal" id="dialog-fdone">返回</mdui-button>
+    </mdui-dialog>
+
+    <mdui-dialog close-on-overlay-click fullscreen headline="新手教程" id="dialog-help">
+      <mdui-button id="dialog-exit" icon="close">关闭新手教程</mdui-button>
+      <mdui-button onclick="window.open('/newer_help.html')" icon="open_in_new">新页面打开</mdui-button>
+      <p>为了提升阅读体验,建议在新页面打开新手教程</p>
+      <!-- 这个 div 将会伸展并填充剩余空间 -->
+      <div id="newer-context" style="width: 99%; height: 71vh">
+        <iframe src="/newer_help.html" width="100%" allowtransparency="yes" frameborder="no" border="0" style="height: 100%; border: none"></iframe>
+      </div>
+
+      <mdui-button icon="close" slot="action" variant="tonal" id="dialog-exit1">关闭新手教程</mdui-button>
+    </mdui-dialog>
+
+    <div style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">
+      <mdui-tooltip placement="left" content="刷新房间列表">
+        <mdui-fab variant="primary" icon="refresh" id="fab-reload" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+      </mdui-tooltip>
+      <mdui-tooltip placement="left" content="主题颜色">
+        <mdui-fab variant="primary" icon="light_mode" id="fab-theme" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+      </mdui-tooltip>
+      <mdui-tooltip placement="left" content="更多">
+        <mdui-fab variant="primary" icon="more_horiz" id="fab-chat" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+      </mdui-tooltip>
+    </div>
+
+    <script>
+      toastr.options = {
+        // toastr配置
+        closeButton: true,
+        debug: false,
+        progressBar: true,
+        positionClass: 'toast-top-center',
+        showDuration: '400',
+        hideDuration: '1000',
+        timeOut: '3000',
+        extendedTimeOut: '1000',
+        showEasing: 'swing',
+        hideEasing: 'linear',
+        showMethod: 'fadeIn',
+        hideMethod: 'fadeOut',
+      }
+    </script>
+    <script src="src/s.js"></script>
+  </body>
+</html>

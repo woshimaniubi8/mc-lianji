@@ -1,0 +1,387 @@
+/* 
+// 文件: s.css
+// 描述: 前端样式
+// 时间: 2025-08-30
+// 作者: wohenaighs@163.com 
+*/
+
+html {
+  background-color: rgb(var(--mdui-color-surface-container)); /* 使用柔和的背景色提升质感 */
+  transition: background-color 0.3s ease; /* 主题切换动画 */
+}
+body {
+  font-family: 'MiSans Normal', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 30px;
+}
+
+/* 头部样式 */
+header {
+  background-color: rgb(var(--mdui-color-primary-container));
+  transition: background-color 0.3s ease; /* 主题切换动画 */
+  padding: 1px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影更柔和 */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-radius: 20px;
+}
+
+.user-info {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap; /* 禁止换行 */
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+}
+
+.username {
+  font-size: 20px;
+  font-weight: normal;
+  color: rgb(var(--mdui-color-on-surface));
+}
+
+a {
+  color: rgb(var(--mdui-color-primary));
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: rgb(var(--mdui-color-tertiary));
+  text-decoration: underline;
+}
+
+/* Minecraft 文本格式效果 */
+.mc-bold {
+  font-weight: bold;
+}
+.mc-italic {
+  font-style: italic;
+}
+.mc-underline {
+  text-decoration: underline;
+}
+.mc-strikethrough {
+  text-decoration: line-through;
+}
+.mc-obfuscated {
+  filter: blur(3px);
+  transition: filter 0.5s ease;
+}
+.mc-obfuscated:hover {
+  filter: none;
+}
+#room-name span {
+  display: inline;
+}
+
+/* --- 搜索栏 --- */
+.search-bar {
+  display: flex;
+  margin: 20px auto; /* 增加上下间距 */
+  padding: 10px 0;
+  max-width: 1000px;
+}
+.search-bar mdui-text-field {
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 95%;
+}
+
+#search-input .container.has-icon {
+  border-radius: 30px;
+}
+
+/* --- 核心优化：房间列表与卡片 --- */
+
+/* 1. 优化房间列表的网格布局 */
+.room-list {
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(35vh, 1fr));
+  gap: 15px;
+  width: 98%;
+  max-height: calc(100vh - 10px);
+  margin: 0 auto;
+}
+
+/* 2. 全新的卡片设计 */
+.room-card {
+  background-color: rgb(var(--mdui-color-surface-container-highest));
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.room-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border-color: rgb(var(--mdui-color-primary));
+}
+
+/* 3. 卡片头部 */
+.room-card-header {
+  padding-left: 16px;
+  background-color: rgba(var(--mdui-color-primary-container), 0.9);
+  border-bottom: 1px solid rgba(var(--mdui-color-primary), 0.7);
+}
+
+#room-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgb(var(--mdui-color-on-surface));
+  margin: 0; /* 移除旧的 margin */
+}
+
+/* 4. 卡片主体信息 */
+.room-card-body {
+  background-color: rgba(var(--mdui-color-primary-container), 0.9);
+  padding: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: rgb(var(--mdui-color-on-surface-variant));
+}
+
+.info-line.tags {
+  display: flex; /* 使标签内部元素可以并排显示 */
+  font-size: 14px;
+  padding: 4px 7px; /* 容器边界与元素之间的空隙 */
+  width: max-content;
+  background-color: rgb(var(--mdui-color-primary));
+  border-radius: 7px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 3px;
+  cursor: pointer;
+}
+
+.info-line.tags:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.info-line mdui-icon,
+.info-line img {
+  flex-shrink: 0;
+}
+
+.host-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+/* 5. 状态标签 */
+.room-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.tag {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tag-gamemode {
+  background-color: rgba(var(--mdui-color-tertiary-rgb), 0.2);
+  color: rgb(var(--mdui-color-tertiary));
+}
+
+.tag-version {
+  background-color: rgba(var(--mdui-color-secondary-rgb), 0.2);
+  color: rgb(var(--mdui-color-secondary));
+}
+
+.tag-hardcore {
+  background-color: rgba(var(--mdui-color-error-rgb), 0.2);
+  color: rgb(var(--mdui-color-error));
+}
+
+/* 6. 卡片底部操作区 */
+.room-card-footer {
+  padding: 8px 12px 8px;
+  display: flex;
+  gap: 4px;
+  border-top: 1px solid rgb(var(--mdui-color-outline-variant));
+  background-color: rgba(var(--mdui-color-primary-container), 0.9);
+}
+
+.join-button {
+  flex-grow: 1;
+}
+
+/* 人数颜色 */
+.people-num.non-full {
+  color: #32d337;
+  font-weight: bold;
+}
+.people-num.full {
+  color: #e9302a;
+  font-weight: bold;
+}
+
+/* --- 弹窗与其他组件 --- */
+.input-config {
+  max-width: 500px;
+}
+
+.room-items {
+  padding: 0 15px;
+  flex-wrap: wrap;
+  position: relative;
+  display: flex;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: rgb(var(--mdui-color-primary-container));
+  /* max-height: 218px; */
+  min-width: 10%;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(var(--mdui-color-theme));
+}
+
+.room-items:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border-color: rgb(var(--mdui-color-primary));
+}
+
+.input-config.userid {
+  max-width: 500px;
+}
+.account-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+#radio-g {
+  margin-top: 20px;
+}
+#dialog-loading {
+  z-index: 999999;
+}
+.dialog-loading-div {
+  z-index: 99999;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  min-height: 150px;
+}
+
+#dialog-cardui-choose {
+  width: 100%;
+  max-width: none;
+}
+
+#dialog-cardui-choose .mdui-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#dialog-cardui-choose .room-list {
+  width: 100%;
+  max-width: none; /* 移除对room-list的max-width限制 */
+  grid-template-columns: 1fr; /* 确保在dialog中是单列布局 */
+}
+
+#dialog-cardui-choose mdui-radio-group {
+  width: 100%;
+}
+.other-settings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 10px auto;
+}
+#room-name2 {
+  font-size: 18px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.room-icon {
+  margin: auto 4px;
+  /* margin-left: 10px; */
+  vertical-align: -22%;
+}
+#newer-context {
+  overflow: auto;
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+#dialog-help::-webkit-scrollbar {
+  display: none; /* 隐藏滚动条 */
+}
+
+/* --- 响应式布局 --- */
+@media (max-width: 590px) {
+  .room-list {
+    grid-template-columns: 1fr; /* 在小屏幕上变为单列 */
+    width: 90%;
+  }
+}
+
+@media (max-width: 530px) {
+  #lj_title {
+    display: none; /* 在非常小的屏幕上隐藏标题 */
+  }
+
+  .room-list {
+    grid-template-columns: 1fr;
+    width: 95%; /* 在移动端稍微加宽以利用空间 */
+    gap: 16px; /* 移动端减小间距 */
+  }
+
+  .room-card {
+    border-radius: 12px; /* 移动端减小圆角 */
+  }
+}
+
+@media (max-width: 650px) {
+  #other-btn-group {
+    text-align: center;
+  }
+  #other-btn-group mdui-button {
+    margin-bottom: 10px;
+    text-align: center;
+    width: 80%;
+  }
+}

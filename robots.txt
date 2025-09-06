@@ -1,0 +1,4 @@
+Disallow:https://lianji.qqaq.top/sitemap.html
+Disallow:/src/
+User-agent: *
+Disallow:
