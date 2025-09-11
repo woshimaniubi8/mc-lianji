@@ -632,7 +632,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
         })
       }
       roomCard.querySelector('#btn-share-' + room.sessionName).addEventListener('click', () => {
-        const shareUrl = `${clients ? 'https://lianji.qqaq.top' : window.location.origin}/share?id=${room.sessionName}&user=${userID === '未设置id' ? '' : userID}&avatar=${user_avatar}`
+        const shareUrl = `${clients ? 'https://lianji.qqaq.top' : window.location.origin}/share?id=${room.sessionName}&user=${userID === '未设置id' ? '' : userID}`//&avatar=${user_avatar}`
         document.getElementById('dialog-room-share').open = true
         document.getElementById('t-share-url').value = shareUrl
       })
