@@ -927,7 +927,7 @@ document.getElementById('btn-save-ui').addEventListener('click', (e) => {
 mdui.setTheme(mdui_theme[LDtheme][0])
 document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
 fetchAccount()
-fetchMarkdown()
+//fetchMarkdown()
 if ((userID != '未设置id') | (xuid != '')) {
   document.getElementById('avatar-view').src = user_avatar
 } else {
