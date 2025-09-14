@@ -14,6 +14,7 @@
     <script src="src/mdui.global.js"></script>
     <script src="src/jquery.min.js"></script>
     <script src="src/toastr.min.js"></script>
+    <script src="src/vconsole.min.js"></script>
     <!-- <script src="src/marked.min.js"></script>
     <script src="src/editormd.min.js"></script>
     <script src="src/prettify.min.js"></script> -->
@@ -240,8 +241,8 @@
 
         <mdui-button id="dialog-addqq" icon="group" style="margin-right: 1px">加入QQ群</mdui-button>
         <mdui-button id="dialog-feedback" icon="feedback">在线反馈</mdui-button>
-        <mdui-button id="dialog-feedback" icon="event_note" onclick="window.open('https:\/\/lianji.qqaq.top/update_notice.html')">更新日志</mdui-button>
-        <mdui-button id="dialog-feedback" onclick="window.open('https:\/\/github.com/woshimaniubi8/mc-lianji')">
+        <mdui-button icon="event_note" onclick="window.open('https:\/\/lianji.qqaq.top/update_notice.html')">更新日志</mdui-button>
+        <mdui-button onclick="window.open('https:\/\/github.com/woshimaniubi8/mc-lianji')">
           <mdui-icon style="font-size: 18px">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
               <!--!Font Awesome Free v7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
@@ -250,6 +251,7 @@
               /></svg></mdui-icon
           ><span style="padding-left: 0.5rem">在Github查看</span></mdui-button
         >
+        <mdui-button icon="code" onclick="document.getElementById('dialog-dev').open=true">确定</mdui-button>
       </div>
       <!-- <p>您也可以在<a href="https://chat.qqaq.top/" target="_blank">此处</a>与其他人讨论</p> -->
       <!-- <p>性价比稳定云服务器</p>
@@ -289,6 +291,11 @@
       <mdui-button icon="close" slot="action" variant="tonal" id="dialog-exit1">关闭新手教程</mdui-button>
     </mdui-dialog>
 
+    <mdui-dialog open close-on-overlay-click headline="Develop" id="dialog-dev">
+      <mdui-button onclick=" vConsole = new window.VConsole() " icon="open_in_new">vConsole</mdui-button>
+      <mdui-button icon="close" slot="action" variant="tonal" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
+    </mdui-dialog>
+
     <div style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">
       <mdui-tooltip placement="left" content="刷新房间列表">
         <mdui-fab variant="primary" icon="refresh" id="fab-reload" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
@@ -317,6 +324,7 @@
         showMethod: 'fadeIn',
         hideMethod: 'fadeOut',
       }
+      var VConsole
     </script>
     <script src="src/s.js"></script>
   </body>
