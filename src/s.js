@@ -45,7 +45,6 @@ let headimg = ''
 let newerMarkdown
 let accountInfo = []
 let roomList = []
-
 function escapeHtml(unsafe) {
   if (!unsafe) return ''
   return unsafe.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;')
@@ -632,7 +631,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
         })
       }
       roomCard.querySelector('#btn-share-' + room.sessionName).addEventListener('click', () => {
-        const shareUrl = `${clients ? 'https://lianji.qqaq.top' : window.location.origin}/share?id=${room.sessionName}&user=${userID === '未设置id' ? '' : userID}`//&avatar=${user_avatar}`
+        const shareUrl = `${clients ? 'https://lianji.qqaq.top' : window.location.origin}/share?id=${room.sessionName}&user=${userID === '未设置id' ? '' : userID}` //&avatar=${user_avatar}`
         document.getElementById('dialog-room-share').open = true
         document.getElementById('t-share-url').value = shareUrl
       })
@@ -926,6 +925,7 @@ document.getElementById('btn-save-ui').addEventListener('click', (e) => {
 
 mdui.setTheme(mdui_theme[LDtheme][0])
 document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
+console.log(vConsole)
 fetchAccount()
 //fetchMarkdown()
 if ((userID != '未设置id') | (xuid != '')) {

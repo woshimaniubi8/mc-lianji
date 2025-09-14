@@ -15,6 +15,12 @@
     <script src="src/jquery.min.js"></script>
     <script src="src/toastr.min.js"></script>
     <script src="src/vconsole.min.js"></script>
+    <script>
+      let vConsole = new window.VConsole()
+      vConsole.setOption('onReady', (e) => {
+        vConsole.hideSwitch()
+      })
+    </script>
     <!-- <script src="src/marked.min.js"></script>
     <script src="src/editormd.min.js"></script>
     <script src="src/prettify.min.js"></script> -->
@@ -292,7 +298,7 @@
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="Develop" id="dialog-dev">
-      <mdui-button onclick=" vConsole = new window.VConsole() " icon="open_in_new">vConsole</mdui-button>
+      <mdui-button onclick="vConsole.showSwitch() " icon="open_in_new">vConsole</mdui-button>
       <mdui-button icon="close" slot="action" variant="tonal" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
     </mdui-dialog>
 
@@ -324,8 +330,9 @@
         showMethod: 'fadeIn',
         hideMethod: 'fadeOut',
       }
-      var VConsole
+      vConsole.show()
     </script>
+
     <script src="src/s.js"></script>
   </body>
 </html>
