@@ -528,7 +528,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
 
       const peopleNumClass = isFull ? 'people-num full' : 'people-num non-full'
       const gamemode = room.isHardcore ? ['jixian', '极限'] : gameMode[room.type] || ['unknown', '未知']
-      const verIcon = Number(room.version.slice(0, 4)) >= 1.2 ? '/src/new_mc.png' : '/src/old_mc.png'
+      const verIcon = Number(room.version.slice(0, 4)) >= 1.2 ? './src/new_mc.png' : './src/old_mc.png'
       const roomCard = document.createElement('mdui-card')
       roomCard.className = 'room-card' // 使用新的 class
 
@@ -934,7 +934,8 @@ if ((userID != '未设置id') | (xuid != '')) {
 }
 document.getElementById('span-userid').innerHTML = userID
 if (localStorage.getItem('enable_old_ui') === null) {
-  document.getElementById('dialog-cardui-choose').open = true
+  //document.getElementById('dialog-cardui-choose').open = true
+  enableOldUI = false
 }
 if (first_go) {
   document.getElementById('dialog-new-user').open = true

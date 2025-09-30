@@ -14,13 +14,8 @@
     <script src="src/mdui.global.js"></script>
     <script src="src/jquery.min.js"></script>
     <script src="src/toastr.min.js"></script>
-    <script src="src/vconsole.min.js"></script>
-    <script>
-      let vConsole = new window.VConsole()
-      vConsole.setOption('onReady', (e) => {
-        vConsole.hideSwitch()
-      })
-    </script>
+    <!-- <script src="src/vconsole.min.js"></script> -->
+
     <!-- <script src="src/marked.min.js"></script>
     <script src="src/editormd.min.js"></script>
     <script src="src/prettify.min.js"></script> -->
@@ -287,11 +282,11 @@
 
     <mdui-dialog close-on-overlay-click fullscreen headline="新手教程" id="dialog-help">
       <mdui-button id="dialog-exit" icon="close">关闭新手教程</mdui-button>
-      <mdui-button onclick="window.open('/newer_help.html')" icon="open_in_new">新页面打开</mdui-button>
+      <mdui-button onclick="window.open('./newer_help.html')" icon="open_in_new">新页面打开</mdui-button>
       <p>为了提升阅读体验,建议在新页面打开新手教程</p>
       <!-- 这个 div 将会伸展并填充剩余空间 -->
       <div id="newer-context" style="width: 99%; height: 71vh">
-        <iframe src="/newer_help.html" width="100%" allowtransparency="yes" frameborder="no" border="0" style="height: 100%; border: none"></iframe>
+        <iframe src="./newer_help.html" width="100%" allowtransparency="yes" frameborder="no" border="0" style="height: 100%; border: none"></iframe>
       </div>
 
       <mdui-button icon="close" slot="action" variant="tonal" id="dialog-exit1">关闭新手教程</mdui-button>
@@ -333,5 +328,14 @@
     </script>
 
     <script src="src/s.js"></script>
+    <script>
+      console.log("> I knew we'd meet here")
+      console.log('> Minecraft!!!!')
+      console.log('> aHR0cHM6Ly9naXRodWIuY29tL3dvc2hpbWFuaXViaTgvbWMtbGlhbmpp')
+      // let vConsole = new window.VConsole()
+      // vConsole.setOption('onReady', (e) => {
+      //   vConsole.hideSwitch()
+      // })
+    </script>
   </body>
 </html>
