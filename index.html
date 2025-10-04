@@ -59,11 +59,8 @@
 
     <!--  -->
 
-    <mdui-dialog headline="Welcome" id="dialog-new-user">
-      <p>
-        欢迎来到Minecraft基岩版联机平台，本站是根据mc.miaaoo.com的API开发的一个网页，适用于游戏《Minecraft:Bedrock
-        Edition》进行多人联机，你可以找到你喜欢的房间，并点击下方的"广播房间"按钮即可游玩。在正式开始前，我们需要进行一些简单的设置，点击"下一步"开始新手教程
-      </p>
+    <mdui-dialog headline="👋欢迎" id="dialog-new-user">
+      <p>欢迎来到Minecraft基岩版联机平台，本站适用于游戏《Minecraft》基岩版进行多人联机。<br />赶快点击<span style="color: blueviolet">"下一步"</span>开始联机吧</p>
       <div>
         <iframe
           src="https://player.bilibili.com/player.html?isOutside=true&aid=115026656497077&bvid=BV1VCbzztE1g&cid=31691440462&p=1&autoplay=0"
@@ -75,7 +72,8 @@
           allowfullscreen="true"
         ></iframe>
       </div>
-      <mdui-button slot="action" variant="tonal" id="dialog-next">下一步</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-next-help" icon="help">教程</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-next" icon="arrow_outward">开始</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="用户配置" id="dialog-user-settings">
@@ -104,15 +102,15 @@
       <div class="other-settings">
         <mdui-button onclick="toastr.success('我是张大树，欠钱已跑路');//window.open('https:/\/space.bilibili.com/454289422')">肘击👊张大树🌳</mdui-button>
       </div>
-      <mdui-button slot="action" variant="text" id="dialog-cancel">取消</mdui-button>
-      <mdui-button slot="action" variant="tonal" id="dialog-save">保存</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-cancel" icon="close">取消</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-save" icon="save">保存</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="有新版本" id="dialog-app-update">
       <p class="newver-p">版本号：1.0.1</p>
       <p class="newver-p">修复了一些bug</p>
-      <mdui-button slot="action" variant="text" id="dialog-ca">取消</mdui-button>
-      <mdui-button slot="action" variant="tonal" id="dialog-update">下载更新</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-ca" icon="close">取消</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-update" icon="download">下载更新</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="分享房间" id="dialog-room-share">
@@ -123,7 +121,7 @@
         </mdui-text-field>
       </div>
       <p>将上面的链接复制并发送给其他人即完成分享</p>
-      <mdui-button slot="action" variant="tonal" id="dialog-share-done">完成</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-share-done" icon="check">完成</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog id="dialog-loading">
@@ -230,7 +228,7 @@
           </div>
         </mdui-radio-group>
       </div>
-      <mdui-button slot="action" variant="tonal" id="btn-save-ui">确定并保存</mdui-button>
+      <mdui-button slot="action" variant="filled" id="btn-save-ui" icon="check">确定并保存</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="其他选项" id="dialog-chat">
@@ -258,7 +256,7 @@
       <!-- <p>性价比稳定云服务器</p>
       <a href="https://www.rainyun.com/wzy_?s=hsb"><img src="src/rainyun.png" width="30%" /></a>
       <p style="color: red">点击注册可享专属首月5折优惠</p> -->
-      <mdui-button slot="action" variant="tonal" id="dialog-done">完成</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-done" icon="check">完成</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="在线反馈" id="dialog-efeedback">
@@ -277,11 +275,11 @@
       <div style="text-align: center">
         <mdui-button icon="done" style="width: 70%; max-width: 350px; margin: 0 auto" id="dialog-feedback-submit">提交反馈</mdui-button>
       </div>
-      <mdui-button slot="action" variant="tonal" id="dialog-fdone">返回</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-fdone" icon="arrow_back">返回</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click fullscreen headline="新手教程" id="dialog-help">
-      <mdui-button id="dialog-exit" icon="close">关闭新手教程</mdui-button>
+      <mdui-button id="dialog-exit" icon="close" style="display: none">关闭新手教程</mdui-button>
       <mdui-button onclick="window.open('./newer_help.html')" icon="open_in_new">新页面打开</mdui-button>
       <p>为了提升阅读体验,建议在新页面打开新手教程</p>
       <!-- 这个 div 将会伸展并填充剩余空间 -->
@@ -289,12 +287,12 @@
         <iframe src="./newer_help.html" width="100%" allowtransparency="yes" frameborder="no" border="0" style="height: 100%; border: none"></iframe>
       </div>
 
-      <mdui-button icon="close" slot="action" variant="tonal" id="dialog-exit1">关闭新手教程</mdui-button>
+      <mdui-button icon="close" slot="action" variant="outlined" id="dialog-exit1">关闭新手教程</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="Develop" id="dialog-dev">
       <mdui-button onclick="vConsole.show() " icon="open_in_new">vConsole</mdui-button>
-      <mdui-button icon="close" slot="action" variant="tonal" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
+      <mdui-button icon="close" slot="action" variant="filled" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
     </mdui-dialog>
 
     <div style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">

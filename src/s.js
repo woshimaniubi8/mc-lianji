@@ -757,6 +757,11 @@ document.getElementById('search-input').addEventListener('keyup', (e) => {
 })
 
 document.getElementById('dialog-next').addEventListener('click', (e) => {
+  openConfigDialog()
+  document.getElementById('dialog-new-user').open = false
+})
+
+document.getElementById('dialog-next-help').addEventListener('click', (e) => {
   document.getElementById('dialog-help').open = true
 
   document.getElementById('dialog-new-user').open = false
