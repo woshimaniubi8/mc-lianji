@@ -9,7 +9,7 @@
 
 const version_code = '1.0.3'
 const clients = 0 //1: electron  0: 浏览器
-const LOCAL_TEST = 0
+const LOCAL_TEST = 1
 
 const mdui_theme = {
   1: ['light', 'light_mode', '浅色主题'],
