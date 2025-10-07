@@ -7,9 +7,9 @@
 // 你要他干啥呀[发怒]反正我是不要[发怒]快看[憨笑]我命由我不由天🤬这是谁说的[发怒]所以啊[憨笑]才不要敖丙进来呢[发怒]
 // 爱[憨笑]这个放到我这不刚刚好吗[憨笑]正好我的敖丙缺了一半[憨笑]就算你拼上了敖丙也特别的丑[发怒]倒是好玩啊[愉快]你看
 
-const version_code = '1.0.3'
+const version_code = '1.0.4'
 const clients = 0 //1: electron  0: 浏览器
-const LOCAL_TEST = 1
+const LOCAL_TEST = 0
 
 const mdui_theme = {
   1: ['light', 'light_mode', '浅色主题'],
