@@ -103,7 +103,7 @@ a:hover {
 .room-list {
   padding: 10px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(23vh, 2fr));
+  grid-template-columns: repeat(auto-fill, minmax(35vh, 2fr));
   gap: 15px;
   width: 98%;
   max-height: calc(100vh - 10px);
@@ -358,6 +358,11 @@ a:hover {
 #room-list-icongroup {
   flex-direction: row;
 }
+
+.join-button {
+  font-size: 12px;
+}
+
 /* --- 响应式布局 --- */
 @media (max-width: 0px) {
   .room-list {
