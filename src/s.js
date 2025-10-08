@@ -8,7 +8,7 @@
 // 爱[憨笑]这个放到我这不刚刚好吗[憨笑]正好我的敖丙缺了一半[憨笑]就算你拼上了敖丙也特别的丑[发怒]倒是好玩啊[愉快]你看
 
 const version_code = '1.0.4'
-const clients = 0 //1: electron  0: 浏览器
+const clients = 1 //1: electron  0: 浏览器
 const LOCAL_TEST = 0
 
 const mdui_theme = {
@@ -47,7 +47,7 @@ let newerMarkdown
 let accountInfo = []
 let roomList = []
 
-const roomListElement = document.querySelector(`.room-list${enableTwoFr ? '.TwoFr' : ''}`)
+const roomListElement = document.querySelector(`.room-list`)
 roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
 
 function escapeHtml(unsafe) {
@@ -492,7 +492,7 @@ async function saveUserConfig() {
   localStorage.setItem('hide_other_room', hideOtherroom)
   localStorage.setItem('decode_color_string', decodeColorstring)
   localStorage.setItem('enable_old_ui', enableOldUI)
-  localStorage.setItem('enbale_TwoFr', enableTwoFr)
+  localStorage.setItem('enable_TwoFr', enableTwoFr)
   await displayRoomList(allRoomList)
   loadingScreen.open = false
   document.getElementById('dialog-cancel').style.display = 'block'
@@ -721,6 +721,7 @@ function openConfigDialog() {
   document.getElementById('hide-invalid-room').checked = hideInvalidroom
   document.getElementById('hide-other-room').checked = hideOtherroom
   document.getElementById('decode-color-string').checked = decodeColorstring
+  document.getElementById('enable-TwoFr').checked = enableTwoFr
   userInput.value = localStorage.getItem('user_id')
   const accountList = document.getElementById('accounts-list')
   accountList.innerHTML = ''

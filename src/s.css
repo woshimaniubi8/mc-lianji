@@ -392,7 +392,7 @@ a:hover {
   }
 
   .room-list.TwoFr {
-    grid-template-columns: repeat(auto-fill, minmax(20vh, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(22vh, 1fr));
     width: 100%;
   }
   #room-list-icongroup-2fr {
