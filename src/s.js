@@ -8,7 +8,7 @@
 // 爱[憨笑]这个放到我这不刚刚好吗[憨笑]正好我的敖丙缺了一半[憨笑]就算你拼上了敖丙也特别的丑[发怒]倒是好玩啊[愉快]你看
 
 const version_code = '1.0.4'
-const clients = 1 //1: electron  0: 浏览器
+const clients = 0 //1: electron  0: 浏览器
 const LOCAL_TEST = 0
 
 const mdui_theme = {
@@ -556,13 +556,13 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
             <mdui-icon name="people"></mdui-icon>
             <span>人数: <span class="${peopleNumClass}">${room.memberCount} / ${room.maxMemberCount}</span></span>
           </div>
-          <div style="display:flex" id="room-list-icongroupt${enableTwoFr ? '-2fr' : ''}">
+          <div style="display:flex" id="room-list-icongroup${enableTwoFr ? '-twofr' : ''}">
           <div class="info-line tags" style="margin-left:0px;" title="单击以搜索标签" id="btn-mode-${room.id}">
-            <img src="src/${gamemode[0]}.png" width="14" height="14" style="image-rendering: pixelated;margin-left:1px;margin-right:2px"/>
+            <img src="src/${gamemode[0]}.png" class="room-tag-img"style="image-rendering: pixelated;margin-left:1px;margin-right:2px"/>
             <span style="color:rgb(var(--mdui-color-on-primary))">${gamemode[1]}</span>
            </div>
             <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-version-${room.id}">
-            <img src="${verIcon}" width="14" height="14" style="image-rendering: pixelated;margin-left:2px;"/>
+            <img src="${verIcon}"class="room-tag-img" style="image-rendering: pixelated;margin-left:2px;"/>
             <span style="color:rgb(var(--mdui-color-on-primary))">${room.version}</span>
            </div>
            </div>

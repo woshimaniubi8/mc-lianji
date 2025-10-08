@@ -166,7 +166,7 @@ a:hover {
 
 .info-line.tags {
   display: flex; /* 使标签内部元素可以并排显示 */
-  font-size: 12px;
+  font-size: 14px;
   padding: 4px 7px; /* 容器边界与元素之间的空隙 */
   width: max-content;
   background-color: rgb(var(--mdui-color-primary));
@@ -359,8 +359,9 @@ a:hover {
   flex-direction: row;
 }
 
-.join-button {
-  font-size: 12px;
+.room-tag-img {
+  width: 16px;
+  height: auto;
 }
 
 /* --- 响应式布局 --- */
@@ -369,18 +370,9 @@ a:hover {
     grid-template-columns: repeat(auto-fill, minmax(20vh, 1fr));
     width: 90%;
   }
-  #room-list-icongroup {
-    flex-direction: column;
-  }
-  .info-line.tags.ver {
-    margin-left: 5px;
-  }
-  .join-button {
-    font-size: 11px;
-  }
 }
 
-@media (max-width: 530px) {
+@media (max-width: 600px) {
   #lj_title {
     display: none; /* 在非常小的屏幕上隐藏标题 */
   }
@@ -395,21 +387,29 @@ a:hover {
     grid-template-columns: repeat(auto-fill, minmax(22vh, 1fr));
     width: 100%;
   }
-  #room-list-icongroup-2fr {
-    flex-direction: column;
-  }
+
   .info-line.tags.ver {
     margin-left: 5px;
   }
-  .join-button {
+  .room-list.TwoFr .join-button {
     font-size: 11px;
   }
-
+  #room-list-icongroup-twofr .info-line.tags .room-tag-img {
+    width: 14px;
+    height: auto;
+  }
   .room-card {
     border-radius: 12px; /* 移动端减小圆角 */
   }
+  #room-list-icongroup-twofr .info-line.tags {
+    font-size: 14px;
+  }
 }
-
+@media (max-width: 520px) {
+  #room-list-icongroup-twofr {
+    flex-direction: column;
+  }
+}
 @media (max-width: 650px) {
   #other-btn-group {
     text-align: center;
