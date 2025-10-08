@@ -451,7 +451,7 @@ async function fetchRoomlist() {
     })
   } catch (error) {
     console.error('Error fetching room list:', error)
-    toastr.error('获取房间列表失败：' + error)
+    toastr.error('获取房间列表失败：<br>' + error)
     return []
   }
 }
@@ -684,7 +684,7 @@ async function catchNewVersion() {
       ps[1].innerHTML = `${data.notice}`
     }
   } catch (error) {
-    toastr.error('获取更新信息失败：' + error)
+    toastr.error('获取更新信息失败：<br>' + error)
     console.error('获取更新信息失败：', error)
   }
 }
@@ -886,7 +886,7 @@ document.getElementById('dialog-feedback-submit').addEventListener('click', asyn
   }
   try {
     const a = await fetch('https://feedback.qqaq.top', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-    if (!a.ok) throw new Error('Submit Failed, code:' + a.status)
+    if (!a.ok) throw new Error('feedback-HTTP-err:' + a.status)
     localStorage.setItem('f-name', aa)
     localStorage.setItem('f-mail', b)
     toastr.success('成功提交反馈')
@@ -897,7 +897,7 @@ document.getElementById('dialog-feedback-submit').addEventListener('click', asyn
     loadingScreen.open = false
     localStorage.setItem('f-name', aa)
     localStorage.setItem('f-mail', b)
-    toastr.error('提交反馈时发生错误:' + e)
+    toastr.error('提交反馈失败：' + e)
   }
 })
 
