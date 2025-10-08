@@ -1,7 +1,7 @@
 /* 
 // 文件: s.css
 // 描述: 前端样式
-// 时间: 2025-08-30
+// 时间: 2025-10-08
 // 作者: wohenaighs@163.com 
 */
 
@@ -103,7 +103,7 @@ a:hover {
 .room-list {
   padding: 10px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(35vh, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(23vh, 2fr));
   gap: 15px;
   width: 98%;
   max-height: calc(100vh - 10px);
@@ -131,7 +131,7 @@ a:hover {
 
 /* 3. 卡片头部 */
 .room-card-header {
-  padding-left: 16px;
+  padding-left: 10px;
   background-color: rgba(var(--mdui-color-primary-container), 0.9);
   border-bottom: 1px solid rgba(var(--mdui-color-primary), 0.7);
 }
@@ -166,7 +166,7 @@ a:hover {
 
 .info-line.tags {
   display: flex; /* 使标签内部元素可以并排显示 */
-  font-size: 14px;
+  font-size: 12px;
   padding: 4px 7px; /* 容器边界与元素之间的空隙 */
   width: max-content;
   background-color: rgb(var(--mdui-color-primary));
@@ -179,6 +179,10 @@ a:hover {
 .info-line.tags:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.info-line.tags.ver {
+  margin-left: 5px;
 }
 
 .info-line mdui-icon,
@@ -329,7 +333,7 @@ a:hover {
   margin: 10px auto;
 }
 #room-name2 {
-  font-size: 18px;
+  font-size: 16px;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -351,11 +355,23 @@ a:hover {
   display: none; /* 隐藏滚动条 */
 }
 
+#room-list-icongroup {
+  flex-direction: row;
+}
 /* --- 响应式布局 --- */
-@media (max-width: 590px) {
+@media (max-width: 0px) {
   .room-list {
-    grid-template-columns: 1fr; /* 在小屏幕上变为单列 */
+    grid-template-columns: repeat(auto-fill, minmax(20vh, 1fr));
     width: 90%;
+  }
+  #room-list-icongroup {
+    flex-direction: column;
+  }
+  .info-line.tags.ver {
+    margin-left: 5px;
+  }
+  .join-button {
+    font-size: 11px;
   }
 }
 
@@ -366,8 +382,22 @@ a:hover {
 
   .room-list {
     grid-template-columns: 1fr;
-    width: 95%; /* 在移动端稍微加宽以利用空间 */
-    gap: 16px; /* 移动端减小间距 */
+    width: 100%; /* 在移动端稍微加宽以利用空间 */
+    gap: 8px; /* 移动端减小间距 */
+  }
+
+  .room-list.TwoFr {
+    grid-template-columns: repeat(auto-fill, minmax(20vh, 1fr));
+    width: 100%;
+  }
+  #room-list-icongroup-2fr {
+    flex-direction: column;
+  }
+  .info-line.tags.ver {
+    margin-left: 5px;
+  }
+  .join-button {
+    font-size: 11px;
   }
 
   .room-card {

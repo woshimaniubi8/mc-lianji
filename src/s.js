@@ -36,6 +36,7 @@ let hideInvalidroom = localStorage.getItem('hide_invalid_room') === 'true' ? tru
 let hideOtherroom = localStorage.getItem('hide_other_room') === 'true' ? true : false
 let decodeColorstring = localStorage.getItem('decode_color_string') === 'true' ? true : false
 let enableOldUI = localStorage.getItem('enable_old_ui') === 'false' ? false : true
+let enableTwoFr = localStorage.getItem('enable_TwoFr') === 'true' ? true : false
 let first_go = localStorage.getItem('is_first_times') === null ? true : false
 let LDtheme = localStorage.getItem('themes') || 1
 LDtheme = Number(LDtheme)
@@ -45,6 +46,10 @@ let headimg = ''
 let newerMarkdown
 let accountInfo = []
 let roomList = []
+
+const roomListElement = document.querySelector(`.room-list${enableTwoFr ? '.TwoFr' : ''}`)
+roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
+
 function escapeHtml(unsafe) {
   if (!unsafe) return ''
   return unsafe.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;')
@@ -482,10 +487,12 @@ async function saveUserConfig() {
   hideOtherroom = document.getElementById('hide-other-room').checked
   decodeColorstring = document.getElementById('decode-color-string').checked
   enableOldUI = document.getElementById('enable-old-ui').checked
+  enableTwoFr = document.getElementById('enable-TwoFr').checked
   localStorage.setItem('hide_invalid_room', hideInvalidroom)
   localStorage.setItem('hide_other_room', hideOtherroom)
   localStorage.setItem('decode_color_string', decodeColorstring)
   localStorage.setItem('enable_old_ui', enableOldUI)
+  localStorage.setItem('enbale_TwoFr', enableTwoFr)
   await displayRoomList(allRoomList)
   loadingScreen.open = false
   document.getElementById('dialog-cancel').style.display = 'block'
@@ -495,7 +502,8 @@ async function saveUserConfig() {
   toastr.success('更新配置成功')
 }
 async function displayRoomList(roomsToDisplay = filteredRoomList) {
-  const roomListElement = document.querySelector('.room-list')
+  // const roomListElement = document.querySelector(`.room-list${enableTwoFr ? '.TwoFr' : ''}`)
+  roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
   roomListElement.innerHTML = ''
   const uniqueRooms = [...new Map(roomsToDisplay.map((room) => [room.id, room])).values()]
 
@@ -548,13 +556,13 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
             <mdui-icon name="people"></mdui-icon>
             <span>人数: <span class="${peopleNumClass}">${room.memberCount} / ${room.maxMemberCount}</span></span>
           </div>
-          <div style="display:flex">
+          <div style="display:flex" id="room-list-icongroupt${enableTwoFr ? '-2fr' : ''}">
           <div class="info-line tags" style="margin-left:0px;" title="单击以搜索标签" id="btn-mode-${room.id}">
-            <img src="src/${gamemode[0]}.png" width="18" height="18" style="image-rendering: pixelated;margin-left:1px;margin-right:2px"/>
-            <span style="color:rgb(var(--mdui-color-on-primary))">${gamemode[1]}模式</span>
+            <img src="src/${gamemode[0]}.png" width="14" height="14" style="image-rendering: pixelated;margin-left:1px;margin-right:2px"/>
+            <span style="color:rgb(var(--mdui-color-on-primary))">${gamemode[1]}</span>
            </div>
-            <div class="info-line tags" style="margin-left:5px;" title="单击以搜索标签" id="btn-version-${room.id}">
-            <img src="${verIcon}" width="18" height="18" style="image-rendering: pixelated;margin-left:2px;"/>
+            <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-version-${room.id}">
+            <img src="${verIcon}" width="14" height="14" style="image-rendering: pixelated;margin-left:2px;"/>
             <span style="color:rgb(var(--mdui-color-on-primary))">${room.version}</span>
            </div>
            </div>
