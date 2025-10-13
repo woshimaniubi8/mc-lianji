@@ -208,8 +208,8 @@
 
     <mdui-dialog headline="👋欢迎" id="dialog-new-user">
       <p>欢迎来到Minecraft基岩版联机平台，本站适用于游戏《Minecraft》基岩版进行多人联机。<br />赶快点击<span style="color: blueviolet">"下一步"</span>开始联机吧</p>
-      <div>
-        <iframe
+      <div id="newer-video">
+        <!-- <iframe
           src="https://player.bilibili.com/player.html?isOutside=true&aid=115026656497077&bvid=BV1VCbzztE1g&cid=31691440462&p=1&autoplay=0"
           scrolling="no"
           border="0"
@@ -217,7 +217,8 @@
           frameborder="no"
           framespacing="0"
           allowfullscreen="true"
-        ></iframe>
+        ></iframe> -->
+        <!-- 仅新用户回加载这个iframe -->
       </div>
       <mdui-button slot="action" variant="outlined" id="dialog-next-help" icon="help">教程</mdui-button>
       <mdui-button slot="action" variant="filled" id="dialog-next" icon="arrow_outward">开始</mdui-button>

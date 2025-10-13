@@ -971,6 +971,16 @@ if (localStorage.getItem('enable_old_ui') === null) {
   enableOldUI = false
 }
 if (first_go) {
+  document.getElementById(
+    'newer-video'
+  ).innerHTML = `<iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=115026656497077&bvid=BV1VCbzztE1g&cid=31691440462&p=1&autoplay=0"
+          scrolling="no"
+          border="0"
+          width="95%"
+          frameborder="no"
+          framespacing="0"
+          allowfullscreen="true">
+          </iframe>`
   document.getElementById('dialog-new-user').open = true
 }
 if (clients) {
@@ -985,3 +995,28 @@ fetchRoomlist().then(() => {
   displayRoomList(allRoomList)
   loadingScreen.open = false
 })
+class Debug {
+  /**
+   * 清除浏览器的 localStorage 并打印结果
+   */
+  static clearLocalStorage() {
+    try {
+      localStorage.clear()
+      console.log('✅ Local storage has been cleared. Current item count:', localStorage.length)
+    } catch (e) {
+      console.error('❌ Failed to clear local storage:', e)
+    }
+  }
+
+  static logCookies() {
+    console.log('🍪 Cookies:', document.cookie)
+  }
+
+  static testToastr() {
+    toastr.error('Error msg')
+    toastr.warning('Warning msg')
+    toastr.success('Success msg')
+    toastr.info('Info msg')
+    console.log('测试Toastr成功')
+  }
+}
