@@ -6,24 +6,24 @@
        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
 >
 
-<url>
+<!-- <url>
  <loc>https://www.xbox.com/play/user/Madefake114514</loc>
  <priority>0.3</priority>
- <lastmod>2025-09-30</lastmod>
+ <lastmod>2025-10-13</lastmod>
  <changefreq>weekly</changefreq>
-</url>
+</url> -->
 
 <url>
  <loc>mailto:wzy@qqaq.top</loc>
  <priority>0.3</priority>
- <lastmod>2025-09-30</lastmod>
+ <lastmod>2025-10-13</lastmod>
  <changefreq>weekly</changefreq>
 </url>
 
 <url>
  <loc>https://lianji.qqaq.top</loc>
  <priority>0.3</priority>
- <lastmod>2025-09-30</lastmod>
+ <lastmod>2025-10-13</lastmod>
  <changefreq>weekly</changefreq>
 </url>
 
