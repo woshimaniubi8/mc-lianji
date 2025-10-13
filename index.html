@@ -12,19 +12,11 @@
       content="Minecraft,MinecraftBE,Minecraft联机,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,Multi,我的世界, 国际版, 基岩版, 联机, 联机平台, 基岩版联机平台, 路人局, 联机盒子, 没好友, 找人联机, 房间列表, 在线游戏, 在线房间, Minecraft, Bedrock, Multiplay"
     />
     <title>Minecraft基岩版联机平台-我的世界联机 - 在线多人游戏，支持我的世界国际基岩版</title>
-    <link rel="stylesheet" href="src/mdui.css" />
-    <link rel="stylesheet" href="src/toastr.min.css" />
-    <!-- <link rel="stylesheet" href="src/mi-sans.css" /> -->
-    <link rel="stylesheet" href="src/s.css" />
-    <!-- <link rel="stylesheet" href="src/editormd.preview.min.css" /> -->
-    <script src="src/mdui.global.js"></script>
-    <script src="src/jquery.min.js"></script>
-    <script src="src/toastr.min.js"></script>
-    <!-- <script src="src/vconsole.min.js"></script> -->
-
-    <!-- <script src="src/marked.min.js"></script>
-    <script src="src/editormd.min.js"></script>
-    <script src="src/prettify.min.js"></script> -->
+    <!-- 预加载关键CSS，但异步加载 -->
+    <link rel="preload" href="src/mdui.css" as="style" onload="this.rel='stylesheet'" />
+    <link rel="preload" href="src/toastr.min.css" as="style" onload="this.rel='stylesheet'" />
+    <link rel="preload" href="src/s.css" as="style" onload="this.rel='stylesheet'" />
+    <link rel="preload" href="src/mdui_icon.css" as="style" onload="this.rel='stylesheet'" />
 
     <link href="src/mdui_icon.css" rel="stylesheet" />
     <script type="text/javascript">
@@ -61,7 +53,156 @@
       </mdui-text-field>
     </div>
 
-    <div class="room-list"></div>
+    <div class="room-list">
+      <!-- 添加 6-8 个骨架屏卡片作为占位符 -->
+      <mdui-card class="room-card skeleton">
+        <div class="room-card-header">
+          <p class="skeleton-text" style="width: 70%"></p>
+        </div>
+        <div class="room-card-body">
+          <div class="info-line">
+            <div class="skeleton-avatar"></div>
+            <span class="skeleton-text" style="width: 40%"></span>
+          </div>
+          <div class="info-line">
+            <span class="skeleton-text" style="width: 50%"></span>
+          </div>
+          <div style="display: flex">
+            <div class="skeleton-tag" style="width: 80px"></div>
+            <div class="skeleton-tag" style="width: 90px; margin-left: 8px"></div>
+          </div>
+        </div>
+        <div class="room-card-footer">
+          <div class="skeleton-button"></div>
+        </div>
+      </mdui-card>
+      <mdui-card class="room-card skeleton">
+        <div class="room-card-header">
+          <p class="skeleton-text" style="width: 70%"></p>
+        </div>
+        <div class="room-card-body">
+          <div class="info-line">
+            <div class="skeleton-avatar"></div>
+            <span class="skeleton-text" style="width: 40%"></span>
+          </div>
+          <div class="info-line">
+            <span class="skeleton-text" style="width: 50%"></span>
+          </div>
+          <div style="display: flex">
+            <div class="skeleton-tag" style="width: 80px"></div>
+            <div class="skeleton-tag" style="width: 90px; margin-left: 8px"></div>
+          </div>
+        </div>
+        <div class="room-card-footer">
+          <div class="skeleton-button"></div>
+        </div>
+      </mdui-card>
+      <mdui-card class="room-card skeleton">
+        <div class="room-card-header">
+          <p class="skeleton-text" style="width: 70%"></p>
+        </div>
+        <div class="room-card-body">
+          <div class="info-line">
+            <div class="skeleton-avatar"></div>
+            <span class="skeleton-text" style="width: 40%"></span>
+          </div>
+          <div class="info-line">
+            <span class="skeleton-text" style="width: 50%"></span>
+          </div>
+          <div style="display: flex">
+            <div class="skeleton-tag" style="width: 80px"></div>
+            <div class="skeleton-tag" style="width: 90px; margin-left: 8px"></div>
+          </div>
+        </div>
+        <div class="room-card-footer">
+          <div class="skeleton-button"></div>
+        </div>
+      </mdui-card>
+      <mdui-card class="room-card skeleton">
+        <div class="room-card-header">
+          <p class="skeleton-text" style="width: 70%"></p>
+        </div>
+        <div class="room-card-body">
+          <div class="info-line">
+            <div class="skeleton-avatar"></div>
+            <span class="skeleton-text" style="width: 40%"></span>
+          </div>
+          <div class="info-line">
+            <span class="skeleton-text" style="width: 50%"></span>
+          </div>
+          <div style="display: flex">
+            <div class="skeleton-tag" style="width: 80px"></div>
+            <div class="skeleton-tag" style="width: 90px; margin-left: 8px"></div>
+          </div>
+        </div>
+        <div class="room-card-footer">
+          <div class="skeleton-button"></div>
+        </div>
+      </mdui-card>
+      <mdui-card class="room-card skeleton">
+        <div class="room-card-header">
+          <p class="skeleton-text" style="width: 70%"></p>
+        </div>
+        <div class="room-card-body">
+          <div class="info-line">
+            <div class="skeleton-avatar"></div>
+            <span class="skeleton-text" style="width: 40%"></span>
+          </div>
+          <div class="info-line">
+            <span class="skeleton-text" style="width: 50%"></span>
+          </div>
+          <div style="display: flex">
+            <div class="skeleton-tag" style="width: 80px"></div>
+            <div class="skeleton-tag" style="width: 90px; margin-left: 8px"></div>
+          </div>
+        </div>
+        <div class="room-card-footer">
+          <div class="skeleton-button"></div>
+        </div>
+      </mdui-card>
+      <mdui-card class="room-card skeleton">
+        <div class="room-card-header">
+          <p class="skeleton-text" style="width: 70%"></p>
+        </div>
+        <div class="room-card-body">
+          <div class="info-line">
+            <div class="skeleton-avatar"></div>
+            <span class="skeleton-text" style="width: 40%"></span>
+          </div>
+          <div class="info-line">
+            <span class="skeleton-text" style="width: 50%"></span>
+          </div>
+          <div style="display: flex">
+            <div class="skeleton-tag" style="width: 80px"></div>
+            <div class="skeleton-tag" style="width: 90px; margin-left: 8px"></div>
+          </div>
+        </div>
+        <div class="room-card-footer">
+          <div class="skeleton-button"></div>
+        </div>
+      </mdui-card>
+      <mdui-card class="room-card skeleton">
+        <div class="room-card-header">
+          <p class="skeleton-text" style="width: 70%"></p>
+        </div>
+        <div class="room-card-body">
+          <div class="info-line">
+            <div class="skeleton-avatar"></div>
+            <span class="skeleton-text" style="width: 40%"></span>
+          </div>
+          <div class="info-line">
+            <span class="skeleton-text" style="width: 50%"></span>
+          </div>
+          <div style="display: flex">
+            <div class="skeleton-tag" style="width: 80px"></div>
+            <div class="skeleton-tag" style="width: 90px; margin-left: 8px"></div>
+          </div>
+        </div>
+        <div class="room-card-footer">
+          <div class="skeleton-button"></div>
+        </div>
+      </mdui-card>
+    </div>
 
     <!--  -->
 
@@ -143,7 +284,7 @@
       </div>
     </mdui-dialog>
 
-    <mdui-dialog id="dialog-cardui-choose" headline="房间卡片样式选择">
+    <!-- <mdui-dialog id="dialog-cardui-choose" headline="房间卡片样式选择">
       <p>我们最近上线了新的房间卡片UI，请选择您喜欢的样式<br />您也可以在设置界面选择UI样式</p>
 
       <div>
@@ -239,7 +380,7 @@
         </mdui-radio-group>
       </div>
       <mdui-button slot="action" variant="filled" id="btn-save-ui" icon="check">确定并保存</mdui-button>
-    </mdui-dialog>
+    </mdui-dialog> -->
 
     <mdui-dialog close-on-overlay-click headline="其他选项" id="dialog-chat">
       <div id="other-btn-group">
@@ -264,7 +405,7 @@
       </div>
       <!-- <p>您也可以在<a href="https://chat.qqaq.top/" target="_blank">此处</a>与其他人讨论</p> -->
       <!-- <p>性价比稳定云服务器</p>
-      <a href="https://www.rainyun.com/wzy_?s=hsb"><img src="src/rainyun.png" width="30%" /></a>
+      <a href="https://www.rainyun.com/wzy_?s=hsb"><  src="src/rainyun.png" width="30%" /></a>
       <p style="color: red">点击注册可享专属首月5折优惠</p> -->
       <mdui-button slot="action" variant="filled" id="dialog-done" icon="check">完成</mdui-button>
     </mdui-dialog>
@@ -317,25 +458,10 @@
       </mdui-tooltip>
     </div>
 
-    <script>
-      toastr.options = {
-        // toastr配置
-        closeButton: true,
-        debug: false,
-        progressBar: true,
-        positionClass: 'toast-top-center',
-        showDuration: '400',
-        hideDuration: '1000',
-        timeOut: '3000',
-        extendedTimeOut: '1000',
-        showEasing: 'swing',
-        hideEasing: 'linear',
-        showMethod: 'fadeIn',
-        hideMethod: 'fadeOut',
-      }
-    </script>
-
-    <script src="src/s.js"></script>
+    <script src="src/jquery.min.js" defer></script>
+    <script src="src/toastr.min.js" defer></script>
+    <script src="src/mdui.global.js" defer></script>
+    <script src="src/s.js" defer></script>
     <script>
       console.log("> I knew we'd meet here")
       console.log('> Minecraft!!!!')

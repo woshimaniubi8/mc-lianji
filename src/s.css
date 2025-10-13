@@ -372,6 +372,55 @@ a:hover {
   }
 }
 
+/* 骨架 */
+
+/* s.css */
+.skeleton {
+  cursor: progress;
+  user-select: none;
+}
+
+.skeleton .skeleton-text,
+.skeleton .skeleton-avatar,
+.skeleton .skeleton-tag,
+.skeleton .skeleton-button {
+  background: linear-gradient(
+    90deg,
+    rgba(var(--mdui-color-surface-container-highest-rgb), 0.8) 25%,
+    rgba(var(--mdui-color-surface-container-high-rgb), 0.5) 50%,
+    rgba(var(--mdui-color-surface-container-highest-rgb), 0.8) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite linear;
+  border-radius: 4px;
+  color: transparent !important;
+}
+
+.skeleton-text {
+  height: 1em;
+}
+.skeleton-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+.skeleton-tag {
+  height: 28px;
+}
+.skeleton-button {
+  height: 40px;
+  width: 100%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 @media (max-width: 600px) {
   #lj_title {
     display: none; /* 在非常小的屏幕上隐藏标题 */

@@ -549,7 +549,9 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
 
         <div class="room-card-body">
           <div class="info-line">
-            <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${room.xuid}/image/head" class="host-avatar" alt="Host Avatar"/>
+            <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${
+              room.xuid
+            }/image/head" class="host-avatar" alt="Host Avatar" loading="lazy" style="image-rendering: pixelated;"/>
             <span><a href="https://www.xbox.com/play/user/${room.host}" target="_blank" title="查看 ${room.host} 的Xbox主页"><strong>${room.host}</strong></span></a>
           </div>
           <div class="info-line">
@@ -558,11 +560,11 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
           </div>
           <div style="display:flex" id="room-list-icongroup${enableTwoFr ? '-twofr' : ''}">
           <div class="info-line tags" style="margin-left:0px;" title="单击以搜索标签" id="btn-mode-${room.id}">
-            <img src="src/${gamemode[0]}.png" class="room-tag-img"style="image-rendering: pixelated;margin-left:1px;margin-right:2px"/>
+            <img src="src/${gamemode[0]}.png" class="room-tag-img"style="image-rendering: pixelated;margin-left:1px;margin-right:2px" loading="lazy"/>
             <span style="color:rgb(var(--mdui-color-on-primary))">${gamemode[1]}</span>
            </div>
             <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-version-${room.id}">
-            <img src="${verIcon}"class="room-tag-img" style="image-rendering: pixelated;margin-left:2px;"/>
+            <img src="${verIcon}"class="room-tag-img" style="image-rendering: pixelated;margin-left:2px;" loading="lazy"/>
             <span style="color:rgb(var(--mdui-color-on-primary))">${room.version}</span>
            </div>
            </div>
@@ -589,7 +591,8 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
               height="18"
               class="room-icon"
               id=${room.host}
-              style="vertical-align: -10%; margin-right: 6px"
+              style="vertical-align: -10%; margin-right: 6px;image-rendering: pixelated;"
+              loading="lazy"
             />${room.host}
           </p>
           <p id="room-people">
@@ -607,6 +610,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
                 image-rendering: pixelated;
                 vertical-align: -18%;
               "
+              loading="lazy"
             />${gamemode[1]}<mdui-icon name="videogame_asset" class="room-icon" style="margin-left: 20px"></mdui-icon>${room.version}
           </p>
         </div>
@@ -910,20 +914,20 @@ document.getElementById('dialog-feedback-submit').addEventListener('click', asyn
   }
 })
 
-document.getElementById('demo-card1').addEventListener('click', (e) => {
-  document.getElementById('ui-choose-old').value = 'false'
-})
-document.getElementById('demo-card2').addEventListener('click', (e) => {
-  document.getElementById('ui-choose-old').value = 'true'
-})
-document.getElementById('btn-save-ui').addEventListener('click', (e) => {
-  const uic = document.getElementById('ui-choose-old').value === 'true' ? true : false
-  enableOldUI = uic
-  localStorage.setItem('enable_old_ui', enableOldUI)
-  displayRoomList(allRoomList)
-  document.getElementById('dialog-cardui-choose').open = false
-  toastr.success('成功保存配置')
-})
+// document.getElementById('demo-card1').addEventListener('click', (e) => {
+//   document.getElementById('ui-choose-old').value = 'false'
+// })
+// document.getElementById('demo-card2').addEventListener('click', (e) => {
+//   document.getElementById('ui-choose-old').value = 'true'
+// })
+// document.getElementById('btn-save-ui').addEventListener('click', (e) => {
+//   const uic = document.getElementById('ui-choose-old').value === 'true' ? true : false
+//   enableOldUI = uic
+//   localStorage.setItem('enable_old_ui', enableOldUI)
+//   displayRoomList(allRoomList)
+//   document.getElementById('dialog-cardui-choose').open = false
+//   toastr.success('成功保存配置')
+// })
 // [公告] 近期，有不法分子频繁通过短信、电话等方式，
 // 以“甘权联机”、“MiniWorld联机”等理由诱导用户点击诈骗链接。
 // 据悉，在点击链接后，用户30秒内自动跑路，同时手机自动下载《迷你世界》，造成用户的巨大损失。
@@ -938,6 +942,21 @@ document.getElementById('btn-save-ui').addEventListener('click', (e) => {
 ///
 
 mdui.setTheme(mdui_theme[LDtheme][0])
+toastr.options = {
+  // toastr配置
+  closeButton: true,
+  debug: false,
+  progressBar: true,
+  positionClass: 'toast-top-center',
+  showDuration: '400',
+  hideDuration: '1000',
+  timeOut: '3000',
+  extendedTimeOut: '1000',
+  showEasing: 'swing',
+  hideEasing: 'linear',
+  showMethod: 'fadeIn',
+  hideMethod: 'fadeOut',
+}
 document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
 fetchAccount()
 //fetchMarkdown()
