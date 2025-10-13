@@ -377,7 +377,6 @@ a:hover {
 /* s.css */
 .skeleton {
   cursor: progress;
-  user-select: none;
 }
 
 .skeleton .skeleton-text,
