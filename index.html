@@ -9,7 +9,7 @@
     />
     <meta
       name="keywords"
-      content="Minecraft,MinecraftBE,Minecraft联机,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,Multi,我的世界, 国际版, 基岩版, 联机, 联机平台, 基岩版联机平台, 路人局, 联机盒子, 没好友, 找人联机, 房间列表, 在线游戏, 在线房间, Minecraft, Bedrock, Multiplay"
+      content="Minecraft,MinecraftBE,Minecraft联机,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,Multi, 国际版, 基岩版, 联机, 联机平台, 基岩版联机平台, 路人局, 联机盒子, 没好友, 找人联机, 房间列表, 跑友,张大树,在线游戏, 在线房间, Minecraft, Bedrock, Multiplay"
     />
     <title>Minecraft基岩版联机平台-我的世界联机 - 在线多人游戏，支持我的世界国际基岩版</title>
     <!-- 预加载关键CSS，但异步加载 -->
@@ -443,7 +443,9 @@
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="Develop" id="dialog-dev">
-      <mdui-button onclick="vConsole.show() " icon="open_in_new">vConsole</mdui-button>
+      <mdui-button onclick="Debug.clearLocalStorage() " icon="functions">Debug.clearLocalStorage()</mdui-button>
+      <mdui-button onclick="Debug.testToastr() " icon="functions">Debug.testToastr()</mdui-button>
+      <mdui-button onclick="Debug.logCookies() " icon="functionss">Debug.logCookies()</mdui-button>
       <mdui-button icon="close" slot="action" variant="filled" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
     </mdui-dialog>
 

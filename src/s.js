@@ -14,7 +14,7 @@ const LOCAL_TEST = 0
 const mdui_theme = {
   1: ['light', 'light_mode', '浅色主题'],
   2: ['dark', 'dark_mode', '深色主题'],
-  3: ['auto', 'hdr_auto', '主题跟随系统'],
+  3: ['auto', 'brightness_auto', '主题跟随系统'],
 }
 const gameMode = {
   Survival: ['shengcun', '生存'],
@@ -914,6 +914,14 @@ document.getElementById('dialog-feedback-submit').addEventListener('click', asyn
   }
 })
 
+let debug_click_count = 0
+document.getElementById('span-userid').addEventListener('click', (e) => {
+  debug_click_count++
+  if (debug_click_count > 10) {
+    debug_click_count = 0
+    document.getElementById('dialog-dev').open = true
+  }
+})
 // document.getElementById('demo-card1').addEventListener('click', (e) => {
 //   document.getElementById('ui-choose-old').value = 'false'
 // })
@@ -1002,14 +1010,14 @@ class Debug {
   static clearLocalStorage() {
     try {
       localStorage.clear()
-      console.log('✅ Local storage has been cleared. Current item count:', localStorage.length)
+      console.log('Local storage has been cleared. Current item count:', localStorage.length)
     } catch (e) {
-      console.error('❌ Failed to clear local storage:', e)
+      console.error('Failed to clear local storage:', e)
     }
   }
 
   static logCookies() {
-    console.log('🍪 Cookies:', document.cookie)
+    console.log('Cookies:', document.cookie)
   }
 
   static testToastr() {
