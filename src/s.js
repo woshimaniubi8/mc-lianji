@@ -579,8 +579,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
         </div>
       `
       } else {
-        document.querySelector('.room-list').style =
-          'padding: 10px 0; display: grid ; grid-template-columns: repeat(auto-fill, minmax(35vh, 1fr)); gap: 10px; width: 98%; max-height: calc(100vh - 100px); margin: 0 auto;'
+        document.querySelector('.room-list').style = 'padding: 10px 0; display: grid ; grid-template-columns: repeat(auto-fill, minmax(35vh, 1fr)); gap: 10px; width: 98%; margin: 0 auto;'
         roomCard.className = 'room-items'
         roomCard.innerHTML = ` <p id="room-name2" title="${room.name}">${formatMinecraftText(room.name)}</p>
         <div class="room-info">
@@ -917,7 +916,7 @@ document.getElementById('dialog-feedback-submit').addEventListener('click', asyn
 let debug_click_count = 0
 document.getElementById('span-userid').addEventListener('click', (e) => {
   debug_click_count++
-  if (debug_click_count > 10) {
+  if (debug_click_count >= 10) {
     debug_click_count = 0
     document.getElementById('dialog-dev').open = true
   }
@@ -1011,13 +1010,16 @@ class Debug {
     try {
       localStorage.clear()
       console.log('Local storage has been cleared. Current item count:', localStorage.length)
+      toastr.info('Local storage has been cleared. Current item count:' + localStorage.length)
     } catch (e) {
       console.error('Failed to clear local storage:', e)
+      toastr.error('Failed to clear local storage:' + e)
     }
   }
 
   static logCookies() {
     console.log('Cookies:', document.cookie)
+    toastr.info('Cookies:' + document.cookie)
   }
 
   static testToastr() {

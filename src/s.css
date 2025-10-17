@@ -1,7 +1,7 @@
 /* 
 // 文件: s.css
 // 描述: 前端样式
-// 时间: 2025-10-13
+// 时间: 2025-10-18
 // 作者: wohenaighs@163.com 
 */
 
@@ -13,8 +13,13 @@ body {
   font-family: 'MiSans Normal', 'Segoe UI', 'Microsoft YaHei', sans-serif;
   overflow-x: hidden;
   padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-
+main {
+  flex: 1; /* 这会让 main 区域自动伸展，占据所有可用空间，从而将页脚推到底部 */
+}
 /* 头部样式 */
 header {
   background-color: rgb(var(--mdui-color-primary-container));
@@ -106,7 +111,8 @@ a:hover {
   grid-template-columns: repeat(auto-fill, minmax(35vh, 2fr));
   gap: 15px;
   width: 98%;
-  max-height: calc(100vh - 10px);
+  /* max-height: calc(100vh - 10px); */
+
   margin: 0 auto;
 }
 
@@ -410,7 +416,11 @@ a:hover {
   height: 40px;
   width: 100%;
 }
-
+.footer {
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto; /* 这是Flexbox布局中将元素推到底部的关键 */
+}
 @keyframes skeleton-loading {
   0% {
     background-position: 200% 0;
@@ -426,6 +436,7 @@ a:hover {
   }
 
   .room-list {
+    height: max-content;
     grid-template-columns: 1fr;
     width: 100%; /* 在移动端稍微加宽以利用空间 */
     gap: 8px; /* 移动端减小间距 */
