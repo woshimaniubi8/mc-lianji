@@ -1009,7 +1009,7 @@ fetchRoomlist().then(() => {
   loadingScreen.open = false
 })
 
-if (!document.getElementById('enable_vconsole').checked) {
+if (!enbaleVconsole) {
   vConsole.destroy()
 }
 class Debug {
