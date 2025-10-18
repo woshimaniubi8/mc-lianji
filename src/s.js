@@ -1009,9 +1009,7 @@ fetchRoomlist().then(() => {
   loadingScreen.open = false
 })
 
-if (!enbaleVconsole) {
-  vConsole.destroy()
-}
+
 class Debug {
   /**
    * 清除浏览器的 localStorage 并打印结果
