@@ -13,9 +13,9 @@
     />
     <title>Minecraft基岩版联机平台-我的世界联机 - 在线多人游戏，支持我的世界国际基岩版</title>
     <!-- 预加载关键CSS，但异步加载 -->
+    <link rel="stylesheet" href="src/s.css" as="style" />
     <link rel="preload" href="src/mdui.css" as="style" onload="this.rel='stylesheet'" />
     <link rel="preload" href="src/toastr.min.css" as="style" onload="this.rel='stylesheet'" />
-    <link rel="preload" href="src/s.css" as="style" onload="this.rel='stylesheet'" />
     <link rel="preload" href="src/mdui_icon.css" as="style" onload="this.rel='stylesheet'" />
 
     <link href="src/mdui_icon.css" rel="stylesheet" />
@@ -36,7 +36,9 @@
   </head>
   <body>
     <header class="mdui-appbar mdui-appbar-fixed">
-      <h2 id="lj_title"><mdui-icon class="material-icons" style="padding-right: 15px; font-size: 30px; margin: 0 10px 0 0; vertical-align: -20%">cloud</mdui-icon>MCBE联机平台</h2>
+      <h2 id="lj_title">
+        <img title="联机平台" src="/favicon.ico" class="material-icons" style="padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%" />我的世界联机平台
+      </h2>
       <div class="user-info">
         <p class="username" id="user-id">
           <mdui-avatar style="margin-right: 1px; font-size: 24px; vertical-align: -45%" icon="account_circle" id="avatar-view"></mdui-avatar>
@@ -48,9 +50,11 @@
       </div>
     </header>
     <div class="search-bar">
-      <mdui-text-field label="输入房间名，房主，游戏模式或游戏版本搜索..." id="search-input" type="search" inputmode="search">
-        <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
-      </mdui-text-field>
+      <mdui-tooltip content="输入房间名、房主、游戏模式、版本号进行搜索">
+        <mdui-text-field label="搜索房间" id="search-input" type="search" inputmode="search" variant="outlined">
+          <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
+        </mdui-text-field>
+      </mdui-tooltip>
     </div>
 
     <div class="room-list">
@@ -407,7 +411,7 @@
       <!-- <p>性价比稳定云服务器</p>
       <a href="https://www.rainyun.com/wzy_?s=hsb"><  src="src/rainyun.png" width="30%" /></a>
       <p style="color: red">点击注册可享专属首月5折优惠</p> -->
-      <mdui-button slot="action" variant="filled" id="dialog-done" icon="check">完成</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-done" icon="check">完成</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="在线反馈" id="dialog-efeedback">

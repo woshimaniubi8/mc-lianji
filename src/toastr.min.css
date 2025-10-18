@@ -93,6 +93,7 @@ button.toast-close-button {
 }
 #toast-container {
   /* display: flex; */
+  margin-top: 25px;
   position: fixed;
   z-index: 999999;
   pointer-events: none;

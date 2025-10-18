@@ -91,6 +91,7 @@ a:hover {
   margin: 20px auto; /* 增加上下间距 */
   padding: 10px 0;
   max-width: 1000px;
+  width: 100%;
 }
 .search-bar mdui-text-field {
   margin: 0 auto;
