@@ -33,6 +33,7 @@
         y.parentNode.insertBefore(t, y)
       })(window, document, 'clarity', 'script', 'sy1yhmgd2s')
     </script>
+    <script src="https://unpkg.com/vconsole@3.15.1/dist/vconsole.min.js" defer onload=" const vConsole = new VConsole()"></script>
   </head>
   <body>
     <header class="mdui-appbar mdui-appbar-fixed">
@@ -449,6 +450,7 @@
       <mdui-button onclick="Debug.clearLocalStorage() " icon="functions">Debug.clearLocalStorage()</mdui-button>
       <mdui-button onclick="Debug.testToastr() " icon="functions">Debug.testToastr()</mdui-button>
       <mdui-button onclick="Debug.logCookies() " icon="functionss">Debug.logCookies()</mdui-button>
+      <div class="other-settings"><mdui-checkbox id="enable_vconsole"></mdui-checkbox><span>Enable vConsole</span></div>
       <mdui-button icon="close" slot="action" variant="filled" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
     </mdui-dialog>
 
@@ -467,6 +469,7 @@
     <script src="src/jquery.min.js" defer></script>
     <script src="src/toastr.min.js" defer></script>
     <script src="src/mdui.global.js" defer></script>
+
     <script src="src/s.js" defer></script>
     <script>
       console.log("> I knew we'd meet here")

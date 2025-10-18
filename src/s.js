@@ -42,6 +42,7 @@ let LDtheme = localStorage.getItem('themes') || 1
 LDtheme = Number(LDtheme)
 let xuid = localStorage.getItem('user_xuid') || ''
 let user_avatar = localStorage.getItem('user_avatar') || ''
+let enbaleVconsole = localStorage.getItem('enable_vconsole') === 'true' ? true : false
 let headimg = ''
 let newerMarkdown
 let accountInfo = []
@@ -49,7 +50,7 @@ let roomList = []
 
 const roomListElement = document.querySelector(`.room-list`)
 roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
-
+document.getElementById('enable_vconsole').checked = enbaleVconsole
 function escapeHtml(unsafe) {
   if (!unsafe) return ''
   return unsafe.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;')
@@ -921,6 +922,11 @@ document.getElementById('span-userid').addEventListener('click', (e) => {
     document.getElementById('dialog-dev').open = true
   }
 })
+const CheckVconsole = document.getElementById('enable_vconsole')
+CheckVconsole.addEventListener('click', (e) => {
+  enbaleVconsole = !CheckVconsole.checked
+  localStorage.setItem('enable_vconsole', enbaleVconsole)
+})
 // document.getElementById('demo-card1').addEventListener('click', (e) => {
 //   document.getElementById('ui-choose-old').value = 'false'
 // })
@@ -1002,6 +1008,10 @@ fetchRoomlist().then(() => {
   displayRoomList(allRoomList)
   loadingScreen.open = false
 })
+
+if (!document.getElementById('enable_vconsole').checked) {
+  vConsole.destroy()
+}
 class Debug {
   /**
    * 清除浏览器的 localStorage 并打印结果
