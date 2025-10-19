@@ -1,6 +1,6 @@
 //文件:s.js
 //描述:前端逻辑
-//时间:2025-10-13
+//时间:2025-10-19
 //作者:wohenaighs@163.com
 
 // 这怎么一半敖丙一半哪吒呀😱这敖丙混起来是怎么回事啊出去出去😡不要了不要了😱😱😱不要了😭不要我要[发怒]
@@ -461,6 +461,98 @@ async function fetchRoomlist() {
     return []
   }
 }
+
+async function fetchRoomInfo(sessionName, roomFrom) {
+  const url = `https://api.miaaoo.com/roominfo?session=${sessionName}&roomfrom=${roomFrom}`
+  try {
+    let data
+    if (!LOCAL_TEST) {
+      const res = await fetch(url)
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+      data = await res.json()
+    } else {
+      // Create mock data for local testing
+      data = {
+        properties: {
+          custom: {
+            hostName: 'Madefake114514',
+            version: '1.21.113',
+            worldType: 'Survival',
+            isHardcore: false,
+          },
+        },
+        members: {
+          0: { gamertag: 'Madefake114514', constants: { system: { xuid: '2535446053481762' } } },
+          1: { gamertag: 'Gouza ya', constants: { system: { xuid: '2535446053481762' } } },
+          2: { gamertag: 'HeeloMC25b', constants: { system: { xuid: '2535446053481762' } } },
+        },
+      }
+      toastr.info('使用本地数据.')
+    }
+    return data
+  } catch (error) {
+    console.error('获取房间信息失败:', error)
+    throw error // Re-throw to be caught by the caller
+  }
+}
+
+function renderRoomInfoDialog(data) {
+  const dialog = document.getElementById('dialog-room-info')
+  const membersList = document.getElementById('room-info-members-list')
+  const nameSpan = document.getElementById('room-info-name')
+  const hostSpan = document.getElementById('room-info-host')
+  const gamemodeSpan = document.getElementById('room-info-gamemode')
+  const versionSpan = document.getElementById('room-info-version')
+  const customProps = data.properties.custom
+  const isFull = customProps.MemberCount >= customProps.MaxMemberCount
+  const peopleNumClass = isFull ? 'people-num full' : 'people-num non-full'
+  // Clear previous content
+  membersList.innerHTML = `          <div class="info-line">
+          
+            <span class="${peopleNumClass}" style="margin:0 auto">${customProps.MemberCount} / ${customProps.MaxMemberCount}</span>
+          </div>`
+
+  // Populate members
+  if (data.members) {
+    const memberCount = Object.keys(data.members).length
+    if (memberCount === 0) {
+      membersList.innerHTML = '<mdui-list-item>没有找到成员信息</mdui-list-item>'
+    } else {
+      Object.values(data.members).forEach((member) => {
+        if (member && member.gamertag) {
+          // Check if the member object is valid
+          const listItem = document.createElement('mdui-list-item')
+          const xuid = member.constants.system.xuid
+          listItem.innerHTML = `
+                      <span>${member.gamertag}</span>
+                      <mdui-avatar slot="icon" src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${xuid}/image/head"></mdui-avatar>
+                  `
+          membersList.appendChild(listItem)
+        }
+      })
+    }
+  }
+
+  // Populate other info
+
+  const verIcon = Number(customProps.version.slice(0, 4)) >= 1.2 ? './src/new_mc.png' : './src/old_mc.png'
+  nameSpan.innerHTML = formatMinecraftText(customProps.worldName)
+  hostSpan.innerHTML =
+    `<mdui-avatar slot="icon" src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${customProps.ownerId}/image/head" style="height:18px;width:auto;vertical-align:-14%"></mdui-avatar> ${customProps.hostName}` ||
+    'N/A'
+  gamemodeSpan.innerHTML =
+    `<img src='src/${
+      (customProps.isHardcore ? 'jixian' : gameMode[customProps.worldType]?.[0]) || 'unknow'
+    }.png' class="room-tag-img" style="image-rendering: pixelated;margin-left:1px;margin-right:5px;vertical-align:-11%;" loading="lazy">` +
+    (customProps.isHardcore ? '极限' : gameMode[customProps.worldType]?.[1] || customProps.worldType || 'N/A')
+  versionSpan.innerHTML =
+    `<img src="${verIcon}"class="room-tag-img" style="image-rendering: pixelated;margin-left:2px;margin-right:5px;vertical-align:-11%;" loading="lazy"/>` + customProps.version || 'N/A'
+
+  dialog.open = true
+}
+
 async function saveUserConfig() {
   loadingScreen.open = true
   activeAccount = document.getElementById('radio-g').value
@@ -498,8 +590,6 @@ async function saveUserConfig() {
   loadingScreen.open = false
   document.getElementById('dialog-cancel').style.display = 'block'
   document.getElementById('dialog-user-settings').open = false
-  localStorage.setItem('is_first_times', 'false')
-  first_go = false
   toastr.success('更新配置成功')
 }
 async function displayRoomList(roomsToDisplay = filteredRoomList) {
@@ -540,6 +630,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
       const verIcon = Number(room.version.slice(0, 4)) >= 1.2 ? './src/new_mc.png' : './src/old_mc.png'
       const roomCard = document.createElement('mdui-card')
       roomCard.className = 'room-card' // 使用新的 class
+      roomCard.style.cursor = 'pointer'
 
       // 使用模板字符串构建 HTML，更清晰且无内联样式
       if (!enableOldUI) {
@@ -561,7 +652,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
           </div>
           <div style="display:flex" id="room-list-icongroup${enableTwoFr ? '-twofr' : ''}">
           <div class="info-line tags" style="margin-left:0px;" title="单击以搜索标签" id="btn-mode-${room.id}">
-            <img src="src/${gamemode[0]}.png" class="room-tag-img"style="image-rendering: pixelated;margin-left:1px;margin-right:2px" loading="lazy"/>
+            <img src="src/${gamemode[0]}.png" class="room-tag-img" style="image-rendering: pixelated;margin-left:1px;margin-right:2px" loading="lazy"/>
             <span style="color:rgb(var(--mdui-color-on-primary))">${gamemode[1]}</span>
            </div>
             <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-version-${room.id}">
@@ -625,6 +716,26 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
 
       roomListElement.appendChild(roomCard)
 
+      // Add listener for room info dialog
+      roomCard.addEventListener('click', async (event) => {
+        // Prevent dialog from opening if a button, icon button, or link was clicked
+        if (event.target.closest('mdui-button, mdui-button-icon, a')) {
+          return
+        }
+        loadingScreen.open = true
+        try {
+          const roomInfo = await fetchRoomInfo(room.sessionName, room.roomFrom)
+          if (roomInfo) {
+            renderRoomInfoDialog(roomInfo)
+          }
+        } catch (error) {
+          console.error('Failed to show room info:', error)
+          toastr.error('获取房间信息失败: ' + error.message)
+        } finally {
+          loadingScreen.open = false
+        }
+      })
+
       // 绑定事件监听器
       // 注意：为防止ID冲突，使用room.id作为唯一标识
       if (!isDisabled) {
@@ -634,10 +745,12 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
       }
       if (!enableOldUI) {
         document.getElementById(`btn-mode-${room.id}`).addEventListener('click', (e) => {
+          toastr.info('按游戏模式搜索:' + gamemode[1])
           document.getElementById('search-input').value = gamemode[1]
           searchRooms(gamemode[1])
         })
         document.getElementById(`btn-version-${room.id}`).addEventListener('click', (e) => {
+          toastr.info('按游戏版本搜索:' + room.version)
           document.getElementById('search-input').value = room.version
           searchRooms(room.version)
         })
@@ -716,9 +829,6 @@ async function fetchMarkdown() {
 }
 
 function openConfigDialog() {
-  if (first_go) {
-    document.getElementById('dialog-cancel').style.display = 'none'
-  }
   document.getElementById('dialog-user-settings').open = true
   const userInput = document.getElementById('input-userid')
   document.getElementById('enable-old-ui').checked = enableOldUI
@@ -750,6 +860,10 @@ if (first_go) {
   localStorage.setItem('decode_color_string', true)
 }
 //event listen
+document.getElementById('dialog-close-room-info').addEventListener('click', (e) => {
+  document.getElementById('dialog-room-info').open = false
+})
+
 document.getElementById('settings-btn').addEventListener('click', (e) => {
   openConfigDialog()
 })
@@ -770,7 +884,9 @@ document.getElementById('search-input').addEventListener('keyup', (e) => {
 })
 
 document.getElementById('dialog-next').addEventListener('click', (e) => {
-  openConfigDialog()
+  // openConfigDialog()
+  localStorage.setItem('is_first_times', 'false')
+  first_go = false
   document.getElementById('dialog-new-user').open = false
 })
 
@@ -879,6 +995,24 @@ document.getElementById('dialog-feedback').addEventListener('click', (e) => {
   }
   if (mail) document.getElementById('dialog-feedback-mail').value = mail
 })
+
+document.getElementById('fab-menu').addEventListener('click', (e) => {
+  const fabContainer = document.getElementById('fab-container')
+  const fabMenuButton = e.currentTarget
+
+  // Toggle the open state class on the container
+  const isOpen = fabContainer.classList.toggle('fab-menu-open')
+
+  // Change the icon and tooltip based on the state
+  if (isOpen) {
+    fabMenuButton.icon = 'close'
+    fabMenuButton.parentElement.content = '关闭' // Update tooltip text
+  } else {
+    fabMenuButton.icon = 'menu'
+    fabMenuButton.parentElement.content = '菜单' // Restore original tooltip text
+  }
+})
+
 document.getElementById('dialog-fdone').addEventListener('click', (e) => {
   document.getElementById('dialog-efeedback').open = false
 })
@@ -1008,7 +1142,6 @@ fetchRoomlist().then(() => {
   displayRoomList(allRoomList)
   loadingScreen.open = false
 })
-
 
 class Debug {
   /**

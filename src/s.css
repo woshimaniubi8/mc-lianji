@@ -1,7 +1,7 @@
 /* 
 // 文件: s.css
 // 描述: 前端样式
-// 时间: 2025-10-18
+// 时间: 2025-10-19
 // 作者: wohenaighs@163.com 
 */
 
@@ -401,6 +401,9 @@ a:hover {
   border-radius: 4px;
   color: transparent !important;
 }
+#dialog-next {
+  width: 130px;
+}
 
 .skeleton-text {
   height: 1em;
@@ -422,6 +425,45 @@ a:hover {
   padding: 1rem;
   margin-top: auto; /* 这是Flexbox布局中将元素推到底部的关键 */
 }
+
+/* --- FAB Speed Dial Menu --- */
+#fab-container mdui-fab:not(#fab-menu) {
+  /* Default (hidden) state for action buttons */
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s linear;
+  transform-origin: bottom center;
+}
+
+#fab-container.fab-menu-open mdui-fab:not(#fab-menu) {
+  /* Open state for action buttons */
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Optional: Staggered animation delay for a nicer effect */
+#fab-container.fab-menu-open #fab-chat {
+  transition-delay: 0.05s;
+}
+#fab-container.fab-menu-open #fab-theme {
+  transition-delay: 0.1s;
+}
+#fab-container.fab-menu-open #fab-reload {
+  transition-delay: 0.15s;
+}
+
+#fab-menu {
+  /* Ensure the menu button has a smooth icon transition */
+  transition: transform 0.3s ease;
+}
+
+#fab-container.fab-menu-open #fab-menu {
+  /* Rotate the menu button when open */
+  transform: rotate(135deg);
+}
+
 @keyframes skeleton-loading {
   0% {
     background-position: 200% 0;

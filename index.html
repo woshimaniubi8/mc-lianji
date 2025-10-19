@@ -61,7 +61,7 @@
         </mdui-text-field>
       </mdui-tooltip>
     </div>
-
+    <p style="text-align: center">单击房间卡片以查看详细信息!</p>
     <div class="room-list">
       <!-- 添加 6-8 个骨架屏卡片作为占位符 -->
       <mdui-card class="room-card skeleton">
@@ -216,7 +216,11 @@
     <!--  -->
 
     <mdui-dialog headline="👋欢迎" id="dialog-new-user">
-      <p>欢迎来到Minecraft基岩版联机平台，本站适用于游戏《Minecraft》基岩版进行多人联机。<br />赶快点击<span style="color: blueviolet">"下一步"</span>开始联机吧</p>
+      <p>
+        欢迎来到Minecraft基岩版联机平台，本站适用于游戏《Minecraft》基岩版进行多人联机。<br />赶快点击<span style="color: blueviolet">
+          <mdui-icon name="arrow_outward" style="font-size: 18px; vertical-align: -16%"></mdui-icon>开始 </span
+        >开始联机吧
+      </p>
       <div id="newer-video">
         <!-- <iframe
           src="https://player.bilibili.com/player.html?isOutside=true&aid=115026656497077&bvid=BV1VCbzztE1g&cid=31691440462&p=1&autoplay=0"
@@ -229,6 +233,7 @@
         ></iframe> -->
         <!-- 仅新用户回加载这个iframe -->
       </div>
+
       <mdui-button slot="action" variant="outlined" id="dialog-next-help" icon="help">教程</mdui-button>
       <mdui-button slot="action" variant="filled" id="dialog-next" icon="arrow_outward">开始</mdui-button>
     </mdui-dialog>
@@ -450,6 +455,33 @@
       <mdui-button icon="close" slot="action" variant="outlined" id="dialog-exit1">关闭新手教程</mdui-button>
     </mdui-dialog>
 
+    <mdui-dialog close-on-overlay-click headline="房间信息" id="dialog-room-info">
+      <!-- 1. Moved the title outside the scrollable area -->
+      <p>房间成员:</p>
+
+      <!-- 2. This div is now the dedicated scrollable container for the list -->
+      <!--    - Increased max-height to a more reasonable 30vh -->
+      <!--    - Added overflow-y: auto to enable vertical scrolling ONLY when needed -->
+      <!--    - Added some minor styling for better looks (border, margin) -->
+      <div style="max-height: 30vh; overflow-y: auto; border: 1px solid rgb(var(--mdui-color-outline-variant)); border-radius: 8px; margin-bottom: 16px">
+        <!-- 3. Removed the problematic inline styles from mdui-list -->
+        <mdui-list id="room-info-members-list">
+          <!-- Example items to show scrolling. These would be added dynamically. -->
+          <mdui-list-item>
+            Madefake114514
+            <mdui-avatar slot="icon" src="favicon.ico"></mdui-avatar>
+          </mdui-list-item>
+        </mdui-list>
+      </div>
+
+      <!-- 4. Corrected the duplicate IDs to be unique -->
+      <p style="padding-right: 3px">名称: <span id="room-info-name"></span></p>
+      <p style="padding-right: 3px">房主: <span id="room-info-host"></span></p>
+      <p style="padding-right: 3px">游戏模式: <span id="room-info-gamemode"></span></p>
+      <p style="padding-right: 3px">游戏版本: <span id="room-info-version"></span></p>
+
+      <mdui-button icon="close" slot="action" variant="outlined" id="dialog-close-room-info">关闭</mdui-button>
+    </mdui-dialog>
     <mdui-dialog headline="Develop" id="dialog-dev">
       <mdui-button onclick="Debug.clearLocalStorage() " icon="functions">Debug.clearLocalStorage()</mdui-button>
       <mdui-button onclick="Debug.testToastr() " icon="functions">Debug.testToastr()</mdui-button>
@@ -458,7 +490,7 @@
       <mdui-button icon="close" slot="action" variant="filled" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
     </mdui-dialog>
 
-    <div style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">
+    <div id="fab-container" style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">
       <mdui-tooltip placement="left" content="刷新房间列表">
         <mdui-fab variant="primary" icon="refresh" id="fab-reload" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
@@ -467,6 +499,10 @@
       </mdui-tooltip>
       <mdui-tooltip placement="left" content="更多">
         <mdui-fab variant="primary" icon="more_horiz" id="fab-chat" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+      </mdui-tooltip>
+
+      <mdui-tooltip placement="left" content="菜单">
+        <mdui-fab variant="primary" icon="menu" id="fab-menu" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
     </div>
 

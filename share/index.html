@@ -25,7 +25,6 @@
       })(window, document, 'clarity', 'script', 'sy1yhmgd2s')
     </script>
     <link rel="stylesheet" href="../src/toastr.min.css" />
-    <link rel="stylesheet" href="../src/mi-sans.css" />
     <link rel="stylesheet" href="../src/s.css" />
     <link href="../src/mdui_icon.css" rel="stylesheet" />
     <style>
@@ -72,6 +71,9 @@
         margin-bottom: 15px;
         width: 95%;
         max-width: 400px;
+      }
+      .user-name{
+        color: rgb(234, 0, 255);
       }
     </style>
   </head>
@@ -164,7 +166,7 @@
       const avatar = getQueryParam('avatar')
       let shareText = getQueryParam('user') || '有人'
       if (getQueryParam('user')) shareText += '<br>'
-      document.getElementById('share-text').innerHTML = `${shareText}给你分享了一个房间`
+      document.getElementById('share-text').innerHTML = `<span class='user-name'>${shareText}</span>给你分享了一个房间`
       if (avatar) {
         document.getElementById('avatar-view').src = avatar
       } else {
