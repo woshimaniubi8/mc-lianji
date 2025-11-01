@@ -91,6 +91,7 @@ a:hover {
   margin: 20px auto; /* 增加上下间距 */
   padding: 10px 0;
   max-width: 1000px;
+  align-items: center;
   width: 100%;
 }
 .search-bar mdui-text-field {
@@ -509,6 +510,11 @@ a:hover {
 }
 @media (max-width: 520px) {
   #room-list-icongroup-twofr {
+    flex-direction: column;
+  }
+}
+@media (max-width: 330px) {
+  #room-list-icongroup {
     flex-direction: column;
   }
 }

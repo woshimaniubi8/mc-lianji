@@ -47,7 +47,10 @@ let headimg = ''
 let newerMarkdown
 let accountInfo = []
 let roomList = []
+let currentSortMethod = localStorage.getItem('sort') || 'time' // 默认排序方式为时间
+let languageCode = []
 
+document.getElementById('icon-sort-by-' + currentSortMethod).style.display = 'inline-block'
 const roomListElement = document.querySelector(`.room-list`)
 roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
 document.getElementById('enable_vconsole').checked = enbaleVconsole
@@ -205,6 +208,32 @@ function formatMinecraftText(str) {
   return result
 }
 
+// 新增：排序函数
+function sortRooms(rooms) {
+  let roomsToSort = [...rooms]
+  const stripColorCodes = (str) => (str ? str.replace(/§./g, '') : '')
+
+  switch (currentSortMethod) {
+    case 'time':
+      // 最新创建的在前
+      roomsToSort.sort((a, b) => new Date(b.createTime) - new Date(a.createTime))
+      break
+    case 'name':
+      // 按房间名称字母顺序 (A-Z)
+      roomsToSort.sort((a, b) => stripColorCodes(a.name).localeCompare(stripColorCodes(b.name)))
+      break
+    case 'host':
+      // 按房主名称字母顺序 (A-Z)
+      roomsToSort.sort((a, b) => a.host.localeCompare(b.host))
+      break
+    case 'none':
+    default:
+      // 不排序，保持API返回或搜索后的顺序
+      break
+  }
+  return roomsToSort
+}
+
 async function fetchAccount() {
   try {
     const res = await fetch('https://api.miaaoo.com/account')
@@ -322,6 +351,7 @@ async function fetchPlayerInfo(playerID, retries = 2) {
 }
 
 async function fetchRoomlist() {
+  //Example room data:
   // {
   //   "sessionRef": {
   //     "name": "5722A48C-F038-4060-939F-D93F2FD99090"
@@ -449,6 +479,7 @@ async function fetchRoomlist() {
         maxMemberCount: room.customProperties.MaxMemberCount,
         isHardcore: room.customProperties.isHardcore,
         broadcastSetting: room.customProperties.BroadcastSetting,
+        worldNameLang: room.customProperties.worldNameLang,
         roomFrom: room.roomfrom,
       })
       // console.log('Room: ' + JSON.stringify(room))
@@ -496,6 +527,34 @@ async function fetchRoomInfo(sessionName, roomFrom) {
     console.error('获取房间信息失败:', error)
     throw error // Re-throw to be caught by the caller
   }
+}
+
+function getTimeText(timeString) {
+  const times = new Date(timeString)
+  const now = new Date()
+  const diff = now - times
+
+  if (diff >= 86400000) {
+    // >= 1d
+    return Math.ceil(diff / 86400000) + '天前'
+  }
+  if (diff >= 3600000) {
+    // >= 1h
+    return Math.ceil(diff / 3600000) + '小时前'
+  }
+  if (diff >= 60000) {
+    // >= 1min
+    return Math.ceil(diff / 60000) + '分钟前'
+  }
+  if (diff >= 1000) {
+    // >= 1s
+    return Math.ceil(diff / 1000) + '秒前'
+  }
+  if (diff >= 0) {
+    // >= 0ms
+    return diff + '毫秒前'
+  }
+  console.log('diff:', now - times)
 }
 
 function renderRoomInfoDialog(data) {
@@ -586,26 +645,27 @@ async function saveUserConfig() {
   localStorage.setItem('decode_color_string', decodeColorstring)
   localStorage.setItem('enable_old_ui', enableOldUI)
   localStorage.setItem('enable_TwoFr', enableTwoFr)
-  await displayRoomList(allRoomList)
+  await displayRoomList(filteredRoomList) // 修改：使用 filteredRoomList 保留搜索结果
   loadingScreen.open = false
   document.getElementById('dialog-cancel').style.display = 'block'
   document.getElementById('dialog-user-settings').open = false
   toastr.success('更新配置成功')
 }
 async function displayRoomList(roomsToDisplay = filteredRoomList) {
-  // const roomListElement = document.querySelector(`.room-list${enableTwoFr ? '.TwoFr' : ''}`)
   roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
   roomListElement.innerHTML = ''
-  const uniqueRooms = [...new Map(roomsToDisplay.map((room) => [room.id, room])).values()]
+
+  const sortedRooms = sortRooms(roomsToDisplay) // 修改：在渲染前排序
+  const uniqueRooms = [...new Map(sortedRooms.map((room) => [room.id, room])).values()]
 
   if (uniqueRooms.length === 0) {
-    // 您可以在这里添加一个 "没有找到房间" 的提示信息
     roomListElement.innerHTML = '<p style="text-align: center; color: grey;">当前没有可显示的房间。</p>'
-    // await fetchRoomlist(); // 如果希望没房间时自动刷新，可以保留这句
     return
   }
 
   uniqueRooms.forEach((room) => {
+    console.log(getTimeText(room.createTime))
+    // console.log(room)
     if (room.roomFrom === activeAccount || !hideOtherroom) {
       const isFull = room.memberCount >= room.maxMemberCount
       if (isFull && hideInvalidroom) {
@@ -629,6 +689,11 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
       const gamemode = room.isHardcore ? ['jixian', '极限'] : gameMode[room.type] || ['unknown', '未知']
       const verIcon = Number(room.version.slice(0, 4)) >= 1.2 ? './src/new_mc.png' : './src/old_mc.png'
       const roomCard = document.createElement('mdui-card')
+      console.log(room.worldNameLang)
+      const langText_1 = languageCode.find((item) => item.code === room.worldNameLang)
+
+      // 如果找到了对象，返回它的 name_zh 属性；否则返回 null 或其他默认值
+      const langText = langText_1 ? langText_1.name_zh : '未知'
       roomCard.className = 'room-card' // 使用新的 class
       roomCard.style.cursor = 'pointer'
 
@@ -644,11 +709,15 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
             <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${
               room.xuid
             }/image/head" class="host-avatar" alt="Host Avatar" loading="lazy" style="image-rendering: pixelated;"/>
-            <span><a href="https://www.xbox.com/play/user/${room.host}" target="_blank" title="查看 ${room.host} 的Xbox主页"><strong>${room.host}</strong></span></a>
+            <span><a href="https://www.xbox.com/play/user/${room.host}" target="_blank" title="查看 ${room.host} 的Xbox档案"><strong>${room.host}</strong></span></a>
           </div>
           <div class="info-line">
             <mdui-icon name="people"></mdui-icon>
-            <span>人数: <span class="${peopleNumClass}">${room.memberCount} / ${room.maxMemberCount}</span></span>
+            <span><span class="${peopleNumClass}">${room.memberCount} / ${room.maxMemberCount}</span></span>
+          </div>
+          <div class="info-line">
+            <mdui-icon name="access_time"></mdui-icon>
+            <span>${getTimeText(room.createTime)}</span>
           </div>
           <div style="display:flex" id="room-list-icongroup${enableTwoFr ? '-twofr' : ''}">
           <div class="info-line tags" style="margin-left:0px;" title="单击以搜索标签" id="btn-mode-${room.id}">
@@ -658,6 +727,10 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
             <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-version-${room.id}">
             <img src="${verIcon}"class="room-tag-img" style="image-rendering: pixelated;margin-left:2px;" loading="lazy"/>
             <span style="color:rgb(var(--mdui-color-on-primary))">${room.version}</span>
+           </div>
+             <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-lang-${room.id}">
+            <mdui-icon name="translate" class="room-tag-img" style="font-size:16px;margin-left:2px;color:rgb(var(--mdui-color-surface-container-lowest))" ></mdui-icon>
+            <span style="color:rgb(var(--mdui-color-on-primary))">${langText}</span>
            </div>
            </div>
           </div>
@@ -754,6 +827,11 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
           document.getElementById('search-input').value = room.version
           searchRooms(room.version)
         })
+        document.getElementById(`btn-lang-${room.id}`).addEventListener('click', (e) => {
+          toastr.info('按语言搜索:' + langText)
+          document.getElementById('search-input').value = 'lang::' + room.worldNameLang
+          searchRooms('lang::' + room.worldNameLang)
+        })
       }
       roomCard.querySelector('#btn-share-' + room.sessionName).addEventListener('click', () => {
         const shareUrl = `${clients ? 'https://lianji.qqaq.top' : window.location.origin}/share?id=${room.sessionName}&user=${userID === '未设置id' ? '' : userID}` //&avatar=${user_avatar}`
@@ -782,7 +860,8 @@ function searchRooms(keyword) {
       room.version.toLowerCase().includes(searchTerm) ||
       room.type.toLowerCase().includes(searchTerm) ||
       (gameMode[room.type] && (!room.isHardcore ? gameMode[room.type][1] : '极限').toLowerCase().includes(searchTerm)) ||
-      room.sessionName.toLowerCase().includes(searchTerm)
+      room.sessionName.toLowerCase().includes(searchTerm) ||
+      'lang::' + room.worldNameLang.toLowerCase() == searchTerm
     )
   })
   displayRoomList(filteredRoomList)
@@ -812,6 +891,12 @@ async function catchNewVersion() {
     toastr.error('获取更新信息失败：<br>' + error)
     console.error('获取更新信息失败：', error)
   }
+}
+
+async function fetchLanguageCode() {
+  const r = await fetch('src/fasttext-language-code.json')
+  languageCode = await r.json()
+  console.log(languageCode)
 }
 
 async function fetchMarkdown() {
@@ -847,7 +932,7 @@ function openConfigDialog() {
   accountInfo.forEach((act) => {
     const acconutItem = document.createElement('mdui-radio')
     acconutItem.value = act.id
-    acconutItem.innerHTML = `<span >${act.name}<span class="people-num ${act.isadd === true ? 'non-full' : 'full'}">(${act.isadd === true ? '可添加好友' : '好友已满'})</span></span>`
+    acconutItem.innerHTML = `<span >${act.name}<span class="people-num ${act.isadd === true ? 'non-full' : 'full'}">(${act.isadd === true ? '可加好友' : '好友已满'})</span></span>`
     radio_group.appendChild(acconutItem)
   })
   accountList.appendChild(radio_group)
@@ -874,6 +959,51 @@ document.getElementById('dialog-save').addEventListener('click', saveUserConfig)
 document.getElementById('search-btn').addEventListener('click', () => {
   const searchInput = document.getElementById('search-input')
   searchRooms(searchInput.value)
+})
+
+// 新增：排序按钮事件监听
+document.getElementById('sort-by-time').addEventListener('click', () => {
+  currentSortMethod = 'time'
+  document.getElementById('icon-sort-by-' + currentSortMethod).style.display = 'inline-block'
+  document.getElementById('icon-sort-by-name').style.display = 'none'
+  document.getElementById('icon-sort-by-host').style.display = 'none'
+  document.getElementById('icon-sort-by-none').style.display = 'none'
+  localStorage.setItem('sort', currentSortMethod)
+  toastr.info('已按时间排序')
+  displayRoomList(filteredRoomList)
+})
+
+document.getElementById('sort-by-name').addEventListener('click', () => {
+  currentSortMethod = 'name'
+  document.getElementById('icon-sort-by-' + currentSortMethod).style.display = 'inline-block'
+  document.getElementById('icon-sort-by-time').style.display = 'none'
+  document.getElementById('icon-sort-by-host').style.display = 'none'
+  document.getElementById('icon-sort-by-none').style.display = 'none'
+  localStorage.setItem('sort', currentSortMethod)
+  toastr.info('已按房间名称排序')
+  displayRoomList(filteredRoomList)
+})
+
+document.getElementById('sort-by-host').addEventListener('click', () => {
+  currentSortMethod = 'host'
+  document.getElementById('icon-sort-by-' + currentSortMethod).style.display = 'inline-block'
+  document.getElementById('icon-sort-by-name').style.display = 'none'
+  document.getElementById('icon-sort-by-time').style.display = 'none'
+  document.getElementById('icon-sort-by-none').style.display = 'none'
+  localStorage.setItem('sort', currentSortMethod)
+  toastr.info('已按房主名称排序')
+  displayRoomList(filteredRoomList)
+})
+
+document.getElementById('sort-by-none').addEventListener('click', () => {
+  currentSortMethod = 'none'
+  document.getElementById('icon-sort-by-' + currentSortMethod).style.display = 'inline-block'
+  document.getElementById('icon-sort-by-name').style.display = 'none'
+  document.getElementById('icon-sort-by-host').style.display = 'none'
+  document.getElementById('icon-sort-by-time').style.display = 'none'
+  localStorage.setItem('sort', currentSortMethod)
+  toastr.info('已取消排序')
+  displayRoomList(filteredRoomList)
 })
 
 // 回车搜索
@@ -1005,7 +1135,7 @@ document.getElementById('fab-menu').addEventListener('click', (e) => {
 
   // Change the icon and tooltip based on the state
   if (isOpen) {
-    fabMenuButton.icon = 'close'
+    fabMenuButton.icon = 'add'
     fabMenuButton.parentElement.content = '关闭' // Update tooltip text
   } else {
     fabMenuButton.icon = 'menu'
@@ -1046,6 +1176,30 @@ document.getElementById('dialog-feedback-submit').addEventListener('click', asyn
     localStorage.setItem('f-mail', b)
     toastr.error('提交反馈失败：' + e)
   }
+})
+
+document.getElementById('sort-by-time').addEventListener('click', () => {
+  currentSortMethod = 'time'
+  toastr.info('已按时间排序')
+  displayRoomList(filteredRoomList)
+})
+
+document.getElementById('sort-by-name').addEventListener('click', () => {
+  currentSortMethod = 'name'
+  toastr.info('已按房间名称排序')
+  displayRoomList(filteredRoomList)
+})
+
+document.getElementById('sort-by-host').addEventListener('click', () => {
+  currentSortMethod = 'host'
+  toastr.info('已按房主名称排序')
+  displayRoomList(filteredRoomList)
+})
+
+document.getElementById('sort-by-none').addEventListener('click', () => {
+  currentSortMethod = 'none'
+  toastr.info('已取消排序')
+  displayRoomList(filteredRoomList)
 })
 
 let debug_click_count = 0
@@ -1137,7 +1291,7 @@ if (clients) {
 } else {
   console.log('type:浏览器')
 }
-
+fetchLanguageCode()
 fetchRoomlist().then(() => {
   displayRoomList(allRoomList)
   loadingScreen.open = false
