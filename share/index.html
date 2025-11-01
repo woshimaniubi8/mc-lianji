@@ -10,6 +10,7 @@
     <script src="../src/mdui.global.js"></script>
     <script src="../src/jquery.min.js"></script>
     <script src="../src/toastr.min.js"></script>
+    <script src="../src/awesome-qr.min.js"></script>
     <script type="text/javascript">
       ;(function (c, l, a, r, i, t, y) {
         c[a] =
@@ -29,7 +30,8 @@
     <link href="../src/mdui_icon.css" rel="stylesheet" />
     <style>
       .share-container {
-        max-width: 600px;
+        width: 95%;
+        max-width: 430px;
         margin: 30px auto 30px;
         padding: 20px;
       }
@@ -37,7 +39,7 @@
         height: auto;
         display: block;
         margin: 0 auto;
-        width: 98%;
+        width: 95%;
         padding-right: 10px;
         margin-bottom: 5px;
       }
@@ -72,7 +74,7 @@
         width: 95%;
         max-width: 400px;
       }
-      .user-name{
+      .user-name {
         color: rgb(234, 0, 255);
       }
     </style>
@@ -82,7 +84,9 @@
       <div style="height: 80px">
         <mdui-button class="back-button" variant="text" icon="arrow_back" onclick="window.location.href='../'" style="padding-right: 15px; font-size: 16px"><p>返回</p></mdui-button>
       </div>
-      <h2 id="lj_title"><mdui-icon class="material-icons" style="padding-right: 15px; font-size: 30px; margin: 0 10px 0 0; vertical-align: -20%">cloud</mdui-icon>MCBE联机平台</h2>
+      <h2 id="lj_title">
+        <img title="联机大厅" src="/favicon.ico" class="material-icons" style="padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%" />我的世界联机大厅
+      </h2>
     </header>
     <mdui-dialog id="dialog-loading">
       <div class="dialog-loading-div">
@@ -90,6 +94,28 @@
         <h3 style="margin: 0">加载中</h3>
         <!-- 移除默认边距 -->
       </div>
+    </mdui-dialog>
+    <mdui-dialog close-on-overlay-click headline="ℹ房间信息" id="dialog-room-info">
+      <!-- 1. Moved the title outside the scrollable area -->
+      <p>房间成员:</p>
+      <div style="max-height: 30vh; overflow-y: auto; border: 1px solid rgb(var(--mdui-color-outline-variant)); border-radius: 8px; margin-bottom: 16px; width: 40vh; max-width: 98%">
+        <!-- 3. Removed the problematic inline styles from mdui-list -->
+        <mdui-list id="room-info-members-list">
+          <!-- Example items to show scrolling. These would be added dynamically. -->
+          <mdui-list-item>
+            Madefake114514
+            <mdui-avatar slot="icon" src="/favicon.ico"></mdui-avatar>
+          </mdui-list-item>
+        </mdui-list>
+      </div>
+
+      <!-- 4. Corrected the duplicate IDs to be unique -->
+      <p style="padding-right: 3px">名称: <span id="room-info-name"></span></p>
+      <p style="padding-right: 3px">房主: <span id="room-info-host"></span></p>
+      <p style="padding-right: 3px">游戏模式: <span id="room-info-gamemode"></span></p>
+      <p style="padding-right: 3px">游戏版本: <span id="room-info-version"></span></p>
+
+      <mdui-button icon="close" slot="action" variant="outlined" id="dialog-close-room-info">关闭</mdui-button>
     </mdui-dialog>
     <div style="display: flex; flex-direction: row; margin-top: 40px; justify-content: center; align-items: center">
       <mdui-avatar style="margin-right: 16px; font-size: 30px; vertical-align: -5%; width: 64px; height: 64px" icon="account_circle" id="avatar-view"></mdui-avatar>
@@ -104,13 +130,14 @@
       </mdui-card>
 
       <div class="share-link">
-        <mdui-text-field id="share-url" readonly value="加载中...">
+        <mdui-text-field id="share-url" readonly variant="outlined" value="加载中...">
           <mdui-button-icon slot="end-icon" icon="content_copy" id="copy-link"></mdui-button-icon>
         </mdui-text-field>
       </div>
 
       <div class="share-actions">
-        <mdui-button variant="outlined" icon="share" id="share-qq">分享到QQ</mdui-button>
+        <mdui-button variant="outlined" icon="share" id="share-qq">分享</mdui-button>
+        <mdui-button variant="outlined" icon="qr_code" id="share-qrcode">分享二维码</mdui-button>
       </div>
     </div>
     <div style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">
@@ -118,6 +145,24 @@
         <mdui-fab variant="primary" icon="light_mode" id="fab-theme" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
     </div>
+    <mdui-dialog close-on-overlay-click headline="分享房间" id="dialog-room-share">
+      <p class="newver-p"><mdui-icon name="link" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享链接:</span></p>
+      <div class="share-link">
+        <mdui-text-field id="t-share-url" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
+          <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-link"></mdui-button-icon>
+        </mdui-text-field>
+      </div>
+      <mdui-divider></mdui-divider>
+      <div>
+        <p class="newver-p"><mdui-icon name="qr_code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享二维码:</span></p>
+        <div style="text-align: center">
+          <img id="share-qrcodes" title="分享二维码" style="max-width: 300px; width: 98%" />
+        </div>
+      </div>
+      <p><mdui-icon name="info" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>赶快将上面的链接或二维码发送给其他人吧!</span></p>
+      <!-- <p>赶快将上面的链接或二维码发送给其他人吧!</p> -->
+      <mdui-button slot="action" variant="filled" id="dialog-share-done" icon="check">完成</mdui-button>
+    </mdui-dialog>
     <script>
       toastr.options = {
         // toastr配置
@@ -136,6 +181,7 @@
       }
     </script>
     <script>
+      const LOCAL_TEST = 0
       const mdui_theme = {
         1: ['light', 'light_mode', '浅色主题'],
         2: ['dark', 'dark_mode', '深色主题'],
@@ -145,6 +191,7 @@
       let enableOldUI = localStorage.getItem('enable_old_ui') === 'false' ? false : true
       let LDtheme = localStorage.getItem('themes') || 1
       LDtheme = Number(LDtheme)
+      let languageCode = []
       let xuid = localStorage.getItem('user_xuid') || ''
       const loadingScreen = document.getElementById('dialog-loading')
       let decodeColorstring = localStorage.getItem('decode_color_string') === 'true' ? true : false
@@ -162,7 +209,7 @@
         Creative: ['chuangzao', '创造'],
         Spectator: ['pangguan', '旁观'],
       }
-      const sessionId = getQueryParam('id')
+      const sessionId = getQueryParam('id') ? getQueryParam('id') : getQueryParam('host')
       const avatar = getQueryParam('avatar')
       let shareText = getQueryParam('user') || '有人'
       if (getQueryParam('user')) shareText += '<br>'
@@ -174,17 +221,19 @@
       }
       if (!sessionId) {
         document.getElementById('room-card').innerHTML = `
-                <div style="padding: 20px; text-align: center;">
-                  <mdui-icon style="font-size: 48px; color: var(--mdui-color-error);">error</mdui-icon>
-                  <h3>房间ID无效</h3>
-                  <p>请检查分享链接是否正确</p>
-                  <mdui-button onclick="window.location.href='../'">返回首页</mdui-button>
-                </div>
-              `
+                            <div style="padding: 20px; text-align: center;">
+                              <mdui-icon style="font-size: 48px; color: var(--mdui-color-error);">error</mdui-icon>
+                              <h3>房间ID无效</h3>
+                              <p>请检查分享链接是否正确</p>
+                              <mdui-button onclick="window.location.href='../'">返回首页</mdui-button>
+                            </div>
+                          `
         document.getElementById('share-url').value = '无效的房间ID'
       } else {
         // 获取房间信息
+
         fetchRoomInfo(sessionId)
+
         document.getElementById('share-url').value = window.location.href
       }
 
@@ -333,6 +382,42 @@
         return result
       }
 
+      async function fetchRoominfo(sessionName, roomFrom) {
+        const url = `https://api.miaaoo.com/roominfo?session=${sessionName}&roomfrom=${roomFrom}`
+        try {
+          let data
+          if (!LOCAL_TEST) {
+            const res = await fetch(url)
+            if (!res.ok) {
+              throw new Error(`HTTP error! status: ${res.status}`)
+            }
+            data = await res.json()
+          } else {
+            // Create mock data for local testing
+            data = {
+              properties: {
+                custom: {
+                  hostName: 'Madefake114514',
+                  version: '1.21.113',
+                  worldType: 'Survival',
+                  isHardcore: false,
+                },
+              },
+              members: {
+                0: { gamertag: 'Madefake114514', constants: { system: { xuid: '2535446053481762' } } },
+                1: { gamertag: 'Gouza ya', constants: { system: { xuid: '2535446053481762' } } },
+                2: { gamertag: 'HeeloMC25b', constants: { system: { xuid: '2535446053481762' } } },
+              },
+            }
+            toastr.info('使用本地数据.')
+          }
+          return data
+        } catch (error) {
+          console.error('获取房间信息失败:', error)
+          throw error // Re-throw to be caught by the caller
+        }
+      }
+
       async function fetchRoomInfo(sessionId) {
         console.log(sessionId)
         try {
@@ -342,27 +427,70 @@
           }
 
           const data = await response.json()
-          const room = data.results.find((r) => r.sessionRef.name === sessionId)
+          let room = data.results.find((r) => r.sessionRef.name === sessionId)
+          if (!room) room = data.results.find((r) => r.customProperties.hostName === sessionId)
 
           if (!room) {
             throw new Error('未找到该房间')
           }
-
+          await fetchLanguageCode()
           displayRoomInfo(room)
         } catch (error) {
           console.error('Error:', error)
           document.getElementById('room-card').innerHTML = `
-                  <div style="padding: 20px; text-align: center;">
-                    <mdui-icon style="font-size: 48px; color: var(--mdui-color-error);">error</mdui-icon>
-                    <h3>加载失败</h3>
-                    <p>${error.message}</p>
-                    <mdui-button onclick="window.location.reload()">重新加载</mdui-button>
-                  </div>
-                `
+                              <div style="padding: 20px; text-align: center;">
+                                <mdui-icon style="font-size: 48px; color: var(--mdui-color-error);">error</mdui-icon>
+                                <h3>加载失败</h3>
+                                <p>${error.message}</p>
+                                <mdui-button onclick="window.location.reload()">重新加载</mdui-button>
+                              </div>
+                            `
+        }
+      }
+
+      function getTimeText(timeString) {
+        const times = new Date(timeString)
+        const now = new Date()
+        const diff = now - times
+
+        if (diff >= 86400000) {
+          // >= 1d
+          return Math.ceil(diff / 86400000) + '天前'
+        }
+        if (diff >= 3600000) {
+          // >= 1h
+          return Math.ceil(diff / 3600000) + '小时前'
+        }
+        if (diff >= 60000) {
+          // >= 1min
+          return Math.ceil(diff / 60000) + '分钟前'
+        }
+        if (diff >= 1000) {
+          // >= 1s
+          return Math.ceil(diff / 1000) + '秒前'
+        }
+        if (diff >= 0) {
+          // >= 0ms
+          return diff + '毫秒前'
+        }
+        // console.log('diff:', now - times)
+      }
+
+      async function fetchLanguageCode() {
+        try {
+          const r = await fetch('/src/fasttext-language-code.json')
+          languageCode = await r.json()
+        } catch (e) {
+          console.error('error-get-languageCode:', e)
+          toastr.error('error-get-languageCode:' + e)
         }
       }
 
       function displayRoomInfo(room) {
+        const langText_1 = languageCode.find((item) => item.code === room.customProperties.worldNameLang)
+
+        // 如果找到了对象，返回它的 name_zh 属性；否则返回 null 或其他默认值
+        const langText = langText_1 ? langText_1.name_zh : '未知'
         const isFull = room.customProperties.MemberCount >= room.customProperties.MaxMemberCount
         const peopleNumClass = isFull ? 'people-num full' : 'people-num non-full'
         let buttonStatus = isFull ? 'disabled' : ''
@@ -381,81 +509,92 @@
         if (room.customProperties.isHardcore) {
           roomMode = ['jixian', '极限']
         } else {
-          // 假设 gameMode 对象在全局可用，否则需要重新定义或引入
           roomMode = (gameMode && gameMode[room.customProperties.worldType]) || ['unknown', '未知']
         }
         if (!enableOldUI) {
           document.getElementById('room-card').innerHTML = `
-        <div class="room-card-header">
-          <p id="room-name2" title="${room.customProperties.worldName.replace(/§./g, '')}">${formatMinecraftText(room.customProperties.worldName)}</p>
-        </div>
+                    <div class="room-card-header">
+                      <p id="room-name2" title="${room.customProperties.worldName.replace(/§./g, '')}">${formatMinecraftText(room.customProperties.worldName)}</p>
+                    </div>
 
-        <div class="room-card-body">
-          <div class="info-line">
-            <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${room.customProperties.ownerId}/image/head" class="host-avatar" alt="Host Avatar"/>
-            <span><a href="https://www.xbox.com/play/user/${room.customProperties.hostName}" target="_blank" title="查看 ${room.customProperties.hostName} 的Xbox主页"><strong>${
+                    <div class="room-card-body">
+                      <div class="info-line">
+                        <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${
+                          room.customProperties.ownerId
+                        }/image/head" class="host-avatar" alt="Host Avatar"/>
+                        <span><a href="https://www.xbox.com/play/user/${room.customProperties.hostName}" target="_blank" title="查看 ${room.customProperties.hostName} 的Xbox主页"><strong>${
             room.customProperties.hostName
           }</strong></span></a>
-          </div>
-          <div class="info-line">
-            <mdui-icon name="people"></mdui-icon>
-            <span>人数: <span class="${peopleNumClass}">${room.customProperties.MemberCount} / ${room.customProperties.MaxMemberCount}</span></span>
-          </div>
-          <div style="display:flex">
-          <div class="info-line tags" style="margin-left:0px;" title="单击以搜索标签" id="btn-mode-${room.id}">
-            <img src="/src/${roomMode[0]}.png" width="18" height="18" style="image-rendering: pixelated;margin-left:1px;margin-right:2px"/>
-            <span style="color:rgb(var(--mdui-color-on-primary))">${roomMode[1]}模式</span>
-           </div>
-            <div class="info-line tags" style="margin-left:5px;" title="单击以搜索标签" id="btn-version-${room.id}">
-            <img src="${verIcon}" width="18" height="18" style="image-rendering: pixelated;margin-left:2px;"/>
-            <span style="color:rgb(var(--mdui-color-on-primary))">${room.customProperties.version}</span>
-           </div>
-           </div>
-          </div>
-        </div>
+                      </div>
+                      <div class="info-line">
+                        <mdui-icon name="people"></mdui-icon>
+                        <span><span class="${peopleNumClass}">${room.customProperties.MemberCount} / ${room.customProperties.MaxMemberCount}</span></span>
+                      </div>
+                      <div class="info-line">
+                        <mdui-icon name="access_time"></mdui-icon>
+                        <span>${getTimeText(room.createTime)}</span>
+                      </div>
+                      <div style="display:flex">
+                      <div class="info-line tags" style="margin-left:0px;" title="单击以搜索标签" id="btn-mode-${room.id}">
+                        <img src="/src/${roomMode[0]}.png" width="18" height="18" style="image-rendering: pixelated;margin-left:1px;margin-right:2px"/>
+                        <span style="color:rgb(var(--mdui-color-on-primary))">${roomMode[1]}</span>
+                       </div>
+                        <div class="info-line tags" style="margin-left:5px;" title="单击以搜索标签" id="btn-version-${room.id}">
+                        <img src="${verIcon}" width="18" height="18" style="image-rendering: pixelated;margin-left:2px;"/>
+                        <span style="color:rgb(var(--mdui-color-on-primary))">${room.customProperties.version}</span>
+                       </div>
+                        <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-lang-${room.id}">
+                        <mdui-icon name="translate" class="room-tag-img" style="font-size:16px;margin-left:2px;color:rgb(var(--mdui-color-surface-container-lowest))" ></mdui-icon>
+                        <span style="color:rgb(var(--mdui-color-on-primary))">${langText}</span>
+                       </div>
+                       </div>
+                      </div>
+                    </div>
 
-        <div class="room-card-footer" style="justify-content: center;">
-         <mdui-button ${buttonStatus} end-icon="${buttonIcon}" id="btn-joinroom" style="flex: 1;">${buttonText}</mdui-button>
-        </div>
-      `
+                    <div class="room-card-footer" style="justify-content: center;">
+                     <mdui-button ${buttonStatus} end-icon="${buttonIcon}" id="btn-joinroom" style="flex: 1;">${buttonText}</mdui-button>
+                    </div>
+                  `
         } else {
           document.getElementById('room-card').className = 'room-items'
           document.getElementById('room-card').innerHTML = ` <p id="room-name2" title="${room.customProperties.worldName.replace(/§./g, '')}">${formatMinecraftText(
             room.customProperties.worldName
           )}</p>
-        <div class="room-info">
-          <p id="room-host">
-            <img
-              src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${room.customProperties.ownerId}/image/head"
-              width="18"
-              height="18"
-              class="room-icon"
-              id=${room.customProperties.hostName}
-              style="vertical-align: -10%; margin-right: 6px"
-            />${room.customProperties.hostName}
-          </p>
-          <p id="room-people">
-            <mdui-icon name="people" class="room-icon"></mdui-icon><span class="${peopleNumClass}">${room.customProperties.MemberCount}/${room.customProperties.MaxMemberCount}</span
-            ><img
-              alt="GameMode"
-              src="/src/${roomMode[0]}.png"
-              decoding="async"
-              loading="lazy"
-              width="18"
-              height="18"
-              class="room-icon"
-              style="
-                margin-left: 20px;
-                image-rendering: pixelated;
-                vertical-align: -18%;
-              "
-            />${roomMode[1]}<mdui-icon name="videogame_asset" class="room-icon" style="margin-left: 20px"></mdui-icon> ${room.customProperties.version}
-          </p>
-        </div>
+                    <div class="room-info">
+                      <p id="room-host">
+                        <img
+                          src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${room.customProperties.ownerId}/image/head"
+                          width="18"
+                          height="18"
+                          class="room-icon"
+                          id=${room.customProperties.hostName}
+                          style="vertical-align: -10%; margin-right: 6px"
+                        />${room.customProperties.hostName}
+                      </p>
+                      <p id="room-people">
+                        <mdui-icon name="people" class="room-icon"></mdui-icon><span class="${peopleNumClass}">${room.customProperties.MemberCount}/${
+            room.customProperties.MaxMemberCount
+          }</span
+                        ><img
+                          alt="GameMode"
+                          src="/src/${roomMode[0]}.png"
+                          decoding="async"
+                          loading="lazy"
+                          width="18"
+                          height="18"
+                          class="room-icon"
+                          style="
+                            margin-left: 20px;
+                            image-rendering: pixelated;
+                            vertical-align: -18%;
+                          "
+                        />${roomMode[1]}<mdui-icon name="videogame_asset" class="room-icon" style="margin-left: 20px"></mdui-icon> ${room.customProperties.version}
+                      </p>
+                    </div>
 
-  <div style="display: flex;  margin-bottom: 0px; justify-content: center;">
-    <mdui-button ${buttonStatus} end-icon="${buttonIcon}" id="btn-joinroom" >${buttonText}</mdui-button>
-</div>`
+              <div style="display: flex;  margin-bottom: 0px; justify-content: center;">
+                <mdui-button ${buttonStatus} end-icon="${buttonIcon}" id="btn-joinroom" >${buttonText}</mdui-button>
+            </div>`
         }
         // document.getElementById('room-card').innerHTML = `
         //         <p id="room-name">${formatMinecraftText(room.customProperties.worldName)}</p>
@@ -507,6 +646,101 @@
             joinRoom(room)
           })
         }
+
+        document.getElementById('room-card').addEventListener('click', async (event) => {
+          // Prevent dialog from opening if a button, icon button, or link was clicked
+          if (event.target.closest('mdui-button, mdui-button-icon, a')) {
+            return
+          }
+          loadingScreen.open = true
+          try {
+            const roomInfo = await fetchRoominfo(room.sessionRef.name, room.roomfrom)
+            if (roomInfo) {
+              renderRoomInfoDialog(roomInfo)
+            } else {
+              throw new Error('roomInfo is empty')
+            }
+          } catch (error) {
+            console.error('Failed to show room info:', error)
+            toastr.error('获取房间信息失败: ' + error.message)
+          } finally {
+            loadingScreen.open = false
+          }
+        })
+      }
+
+      function renderRoomInfoDialog(data) {
+        const dialog = document.getElementById('dialog-room-info')
+        const membersList = document.getElementById('room-info-members-list')
+        const nameSpan = document.getElementById('room-info-name')
+        const hostSpan = document.getElementById('room-info-host')
+        const gamemodeSpan = document.getElementById('room-info-gamemode')
+        const versionSpan = document.getElementById('room-info-version')
+        const customProps = data.properties.custom
+        const isFull = customProps.MemberCount >= customProps.MaxMemberCount
+        let online_people = []
+        let offline_people = []
+        const peopleNumClass = isFull ? 'people-num full' : 'people-num non-full'
+        // Clear previous content
+        membersList.innerHTML = `          <div class="info-line">
+
+                  <span class="${peopleNumClass}" style="margin:0 auto">${customProps.MemberCount} / ${customProps.MaxMemberCount}</span>
+                </div>`
+
+        // Populate members
+        if (data.members) {
+          const memberCount = Object.keys(data.members).length
+          if (memberCount === 0) {
+            membersList.innerHTML = '<mdui-list-item>没有找到成员信息</mdui-list-item>'
+          } else {
+            Object.values(data.members).forEach((member) => {
+              if (member && member.gamertag) {
+                const listItem = document.createElement('mdui-list-item')
+
+                listItem.disabled = !member.properties.system.active
+                const xuid = member.constants.system.xuid
+                listItem.innerHTML = `
+                            <span>${member.gamertag}</span>
+                            <mdui-avatar slot="icon" src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${xuid}/image/head"></mdui-avatar>
+
+                        `
+                if (!member.properties.system.active) {
+                  listItem.innerHTML += `<p slot="end-icon"><span>离线</span></p>`
+                }
+                if (member.properties.system.active) {
+                  online_people.push(listItem)
+                } else {
+                  offline_people.push(listItem)
+                }
+              }
+            })
+            if (online_people) {
+              online_people.forEach((l) => {
+                membersList.appendChild(l)
+              })
+            }
+            if (offline_people) {
+              offline_people.forEach((l) => {
+                membersList.appendChild(l)
+              })
+            }
+          }
+        }
+
+        const verIcon = Number(customProps.version.slice(0, 4)) >= 1.2 ? '/src/new_mc.png' : '/src/old_mc.png'
+        nameSpan.innerHTML = formatMinecraftText(customProps.worldName)
+        hostSpan.innerHTML =
+          `<mdui-avatar slot="icon" src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${customProps.ownerId}/image/head" style="height:18px;width:auto;vertical-align:-14%"></mdui-avatar> ${customProps.hostName}` ||
+          'N/A'
+        gamemodeSpan.innerHTML =
+          `<img src='/src/${
+            (customProps.isHardcore ? 'jixian' : gameMode[customProps.worldType]?.[0]) || 'unknow'
+          }.png' class="room-tag-img" style="image-rendering: pixelated;margin-left:1px;margin-right:5px;vertical-align:-11%;" loading="lazy">` +
+          (customProps.isHardcore ? '极限' : gameMode[customProps.worldType]?.[1] || customProps.worldType || 'N/A')
+        versionSpan.innerHTML =
+          `<img src="${verIcon}"class="room-tag-img" style="image-rendering: pixelated;margin-left:2px;margin-right:5px;vertical-align:-11%;" loading="lazy"/>` + customProps.version || 'N/A'
+
+        dialog.open = true
       }
 
       async function joinroom(addid, roomfrom, roomid, sessionid, xuids) {
@@ -579,7 +813,9 @@
           toastr.error('加入房间失败，请尝试回到首页进行配置后重试: ' + error.message)
         }
       }
-
+      document.getElementById('dialog-close-room-info').addEventListener('click', (e) => {
+        document.getElementById('dialog-room-info').open = false
+      })
       // 复制链接功能
       document.getElementById('copy-link').addEventListener('click', () => {
         const shareUrl = document.getElementById('share-url')
@@ -592,8 +828,53 @@
       document.getElementById('share-qq').addEventListener('click', () => {
         const url = encodeURIComponent(window.location.href)
         const title = encodeURIComponent('Minecraft联机房间分享')
-        window.open(`https://connect.qq.com/widget/shareqq/index.html?url=${url}&title=${title}`, '_blank')
+
+        if (!navigator.share) {
+          toastr.error('您的浏览器不支持此功能')
+        } else {
+          navigator.share({
+            //要共享的标题
+            title: window.location.title,
+            //要共享的 URL
+            url: window.location.href,
+            //要共享的文本
+            text: 'Minecraft联机房间分享',
+          })
+        }
       })
+
+      document.getElementById('share-qrcode').addEventListener('click', (e) => {
+        const shareUrl = window.location.href
+        document.getElementById('dialog-room-share').open = true
+        document.getElementById('t-share-url').value = shareUrl
+        new AwesomeQR.AwesomeQR({
+          text: shareUrl,
+          size: 350,
+          logoImage: '/favicon.ico', // 中间的 Logo 图片
+          logoScale: 0.2, // Logo 大小比例
+        })
+          .draw()
+          .then((dataURL) => {
+            document.getElementById('share-qrcodes').src = dataURL
+          })
+      })
+
+      document.getElementById('btn-copy-link').addEventListener('click', (e) => {
+        navigator.clipboard
+          .writeText(document.getElementById('t-share-url').value)
+          .then(() => {
+            toastr.success('分享链接已复制到剪贴板')
+          })
+          .catch((err) => {
+            console.error('复制失败:', err)
+            toastr.error('复制失败')
+          })
+      })
+
+      document.getElementById('dialog-share-done').addEventListener('click', (e) => {
+        document.getElementById('dialog-room-share').open = false
+      })
+
       document.getElementById('fab-theme').addEventListener('click', (e) => {
         if (!LDtheme) LDtheme = 1
         LDtheme++

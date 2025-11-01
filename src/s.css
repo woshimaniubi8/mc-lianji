@@ -1,7 +1,7 @@
 /* 
 // 文件: s.css
 // 描述: 前端样式
-// 时间: 2025-10-19
+// 时间: 2025-11-01
 // 作者: wohenaighs@163.com 
 */
 
@@ -428,43 +428,63 @@ a:hover {
 }
 
 /* --- FAB Speed Dial Menu --- */
+#fab-container {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  z-index: 1000;
+  /* Set explicit dimensions to contain the absolutely positioned buttons */
+  width: 56px; /* Standard FAB size */
+  height: auto;
+}
+
+/* The main menu button stays in the layout flow to define the container's base position. */
+#fab-menu {
+  position: relative; /* To ensure it has a stacking context */
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+/* Position all action buttons absolutely, stacked at the same spot */
 #fab-container mdui-fab:not(#fab-menu) {
-  /* Default (hidden) state for action buttons */
-  transform: scale(0);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* Default (hidden) state */
+  transform: scale(0.5) translateY(0);
   opacity: 0;
   pointer-events: none;
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s linear;
-  transform-origin: bottom center;
 }
 
+/* --- OPEN STATE --- */
+
+/* Rotate the main menu button when the menu is open */
+#fab-container.fab-menu-open #fab-menu {
+  transform: rotate(135deg);
+}
+
+/* When the menu is open, move the action buttons up to their final positions */
 #fab-container.fab-menu-open mdui-fab:not(#fab-menu) {
-  /* Open state for action buttons */
-  transform: scale(1);
+  transform: scale(1) translateY(var(--fab-translate-y));
   opacity: 1;
   pointer-events: auto;
 }
 
-/* Optional: Staggered animation delay for a nicer effect */
-#fab-container.fab-menu-open #fab-chat {
+/* Define the specific upward translation for each button using a CSS variable */
+/* Assuming a FAB height of 56px and a desired gap of 10px = 66px per step */
+#fab-chat {
+  --fab-translate-y: -66px;
   transition-delay: 0.05s;
 }
-#fab-container.fab-menu-open #fab-theme {
+#fab-theme {
+  --fab-translate-y: -132px;
   transition-delay: 0.1s;
 }
-#fab-container.fab-menu-open #fab-reload {
+#fab-reload {
+  --fab-translate-y: -198px;
   transition-delay: 0.15s;
 }
-
-#fab-menu {
-  /* Ensure the menu button has a smooth icon transition */
-  transition: transform 0.3s ease;
-}
-
-#fab-container.fab-menu-open #fab-menu {
-  /* Rotate the menu button when open */
-  transform: rotate(135deg);
-}
-
 @keyframes skeleton-loading {
   0% {
     background-position: 200% 0;

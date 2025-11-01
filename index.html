@@ -64,20 +64,20 @@
         <mdui-dropdown>
           <mdui-button-icon icon="sort" variant="tonal" slot="trigger" title="房间排序"></mdui-button-icon>
 
-          <mdui-menu>
-            <mdui-menu-item id="sort-by-time"
+          <mdui-menu selects="single" value="time" id="sort-list">
+            <mdui-menu-item id="sort-by-time" value="time"
               ><mdui-icon name="access_time" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按时间排序</span>
               <mdui-icon id="icon-sort-by-time" name="check" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon>
             </mdui-menu-item>
-            <mdui-menu-item id="sort-by-name"
+            <mdui-menu-item id="sort-by-name" value="name"
               ><mdui-icon name="sort_by_alpha" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按房间名称排序</span
               ><mdui-icon id="icon-sort-by-name" name="check" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
             ></mdui-menu-item>
-            <mdui-menu-item id="sort-by-host"
+            <mdui-menu-item id="sort-by-host" value="host"
               ><mdui-icon name="sort_by_alpha" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按房主名字排序</span
               ><mdui-icon id="icon-sort-by-host" name="check" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
             ></mdui-menu-item>
-            <mdui-menu-item id="sort-by-none"
+            <mdui-menu-item id="sort-by-none" value="none"
               ><mdui-icon name="block" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">不要啊♥</span
               ><mdui-icon id="icon-sort-by-none" name="check" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
             ></mdui-menu-item>
@@ -263,7 +263,7 @@
       <mdui-button slot="action" variant="filled" id="dialog-next" icon="arrow_outward">开始</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="用户配置" id="dialog-user-settings">
+    <mdui-dialog close-on-overlay-click headline="⚙用户配置" id="dialog-user-settings">
       <p>游戏ID</p>
       <mdui-text-field label="输入你的游戏id" icon="person" id="input-userid" class="input-config userid"></mdui-text-field>
       <div id="accounts-list" class="accounts-list">
@@ -297,21 +297,29 @@
       <mdui-button slot="action" variant="filled" id="dialog-save" icon="save">保存</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="有新版本" id="dialog-app-update">
+    <mdui-dialog close-on-overlay-click headline="📄有新版本" id="dialog-app-update">
       <p class="newver-p">版本号：1.0.1</p>
       <p class="newver-p">修复了一些bug</p>
       <mdui-button slot="action" variant="outlined" id="dialog-ca" icon="close">取消</mdui-button>
       <mdui-button slot="action" variant="filled" id="dialog-update" icon="download">下载更新</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="分享房间" id="dialog-room-share">
-      <p class="newver-p">分享链接</p>
+    <mdui-dialog close-on-overlay-click headline="✈分享房间" id="dialog-room-share">
+      <p class="newver-p"><mdui-icon name="link" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享链接:</span></p>
       <div class="share-link">
-        <mdui-text-field id="t-share-url" readonly style="width: 50vh; max-width: 100%" value="加载中...">
+        <mdui-text-field id="t-share-url" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
           <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-link"></mdui-button-icon>
         </mdui-text-field>
       </div>
-      <p>将上面的链接复制并发送给其他人即完成分享</p>
+      <mdui-divider></mdui-divider>
+      <div class="share-link">
+        <p class="newver-p"><mdui-icon name="qr_code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享二维码:</span></p>
+        <div style="text-align: center">
+          <img id="share-qrcode" title="分享二维码" style="max-width: 300px; width: 98%" />
+        </div>
+      </div>
+      <p><mdui-icon name="info" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>赶快将上面的链接或二维码发送给其他人吧!</span></p>
+      <!-- <p>赶快将上面的链接或二维码发送给其他人吧!</p> -->
       <mdui-button slot="action" variant="filled" id="dialog-share-done" icon="check">完成</mdui-button>
     </mdui-dialog>
 
@@ -421,7 +429,7 @@
       <mdui-button slot="action" variant="filled" id="btn-save-ui" icon="check">确定并保存</mdui-button>
     </mdui-dialog> -->
 
-    <mdui-dialog close-on-overlay-click headline="其他选项" id="dialog-chat">
+    <mdui-dialog close-on-overlay-click headline="#️⃣其他选项" id="dialog-chat">
       <div id="other-btn-group">
         <mdui-button id="dialog-newer" icon="menu_book" style="margin-right: 0px">新手教程</mdui-button>
 
@@ -449,7 +457,7 @@
       <mdui-button slot="action" variant="outlined" id="dialog-done" icon="check">完成</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="在线反馈" id="dialog-efeedback">
+    <mdui-dialog close-on-overlay-click headline="🖊在线反馈" id="dialog-efeedback">
       <p>您的每一个反馈与建议都在促使我们的网站变得更好，我们十分重视您的每一个建议。如果您有任何意见，可以发送邮件到下方的邮箱或是填写下方的表单并提交。我们收到您的反馈后会及时给您回复</p>
       <p><mdui-icon name="emails" style="vertical-align: -23%; margin-right: 5px"></mdui-icon>反馈邮箱：<a href="mailto:wzy@qqaq.top">wzy@qqaq.top</a></p>
       <div>
@@ -468,7 +476,7 @@
       <mdui-button slot="action" variant="outlined" id="dialog-fdone" icon="arrow_back">返回</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click fullscreen headline="新手教程" id="dialog-help">
+    <mdui-dialog close-on-overlay-click fullscreen headline="❔新手教程" id="dialog-help">
       <mdui-button id="dialog-exit" icon="close" style="display: none">关闭新手教程</mdui-button>
       <mdui-button onclick="window.open('./newer_help.html')" icon="open_in_new">新页面打开</mdui-button>
       <p>为了提升阅读体验,建议在新页面打开新手教程</p>
@@ -480,15 +488,10 @@
       <mdui-button icon="close" slot="action" variant="outlined" id="dialog-exit1">关闭新手教程</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="房间信息" id="dialog-room-info">
+    <mdui-dialog close-on-overlay-click headline="ℹ房间信息" id="dialog-room-info">
       <!-- 1. Moved the title outside the scrollable area -->
       <p>房间成员:</p>
-
-      <!-- 2. This div is now the dedicated scrollable container for the list -->
-      <!--    - Increased max-height to a more reasonable 30vh -->
-      <!--    - Added overflow-y: auto to enable vertical scrolling ONLY when needed -->
-      <!--    - Added some minor styling for better looks (border, margin) -->
-      <div style="max-height: 30vh; overflow-y: auto; border: 1px solid rgb(var(--mdui-color-outline-variant)); border-radius: 8px; margin-bottom: 16px">
+      <div style="max-height: 30vh; overflow-y: auto; border: 1px solid rgb(var(--mdui-color-outline-variant)); border-radius: 8px; margin-bottom: 16px; width: 40vh; max-width: 98%">
         <!-- 3. Removed the problematic inline styles from mdui-list -->
         <mdui-list id="room-info-members-list">
           <!-- Example items to show scrolling. These would be added dynamically. -->
@@ -515,7 +518,7 @@
       <mdui-button icon="close" slot="action" variant="filled" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
     </mdui-dialog>
 
-    <div id="fab-container" style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">
+   <div id="fab-container">
       <mdui-tooltip placement="left" content="刷新房间列表">
         <mdui-fab variant="primary" icon="refresh" id="fab-reload" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
@@ -534,7 +537,7 @@
     <script src="src/jquery.min.js" defer></script>
     <script src="src/toastr.min.js" defer></script>
     <script src="src/mdui.global.js" defer></script>
-
+    <script src="src/awesome-qr.min.js" defer></script>
     <script src="src/s.js" defer></script>
     <script>
       console.log("> I knew we'd meet here")
