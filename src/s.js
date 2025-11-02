@@ -52,7 +52,7 @@ let languageCode = [] //src/fasttext-language-code.json
 const nowDate = new Date()
 const lastOpenDate = new Date(localStorage.getItem('last_open_date'))
 
-if (lastOpenDate) {
+if (localStorage.getItem('last_open_date')) {
   const diffs = nowDate - lastOpenDate
   if (diffs >= 604800000) {
     console.log(diffs)
