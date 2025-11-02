@@ -48,8 +48,43 @@ let newerMarkdown
 let accountInfo = []
 let roomList = []
 let currentSortMethod = localStorage.getItem('sort') || 'time' // 默认排序方式为时间
-let languageCode = []
+let languageCode = [] //src/fasttext-language-code.json
+const nowDate = new Date()
+const lastOpenDate = new Date(localStorage.getItem('last_open_date'))
 
+if (lastOpenDate) {
+  const diffs = nowDate - lastOpenDate
+  if (diffs >= 604800000) {
+    console.log(diffs)
+    const years = Math.floor(diffs / 31536000000)
+    const months = Math.floor((diffs % 31536000000) / 2628000000)
+    const days = Math.floor((diffs % 2628000000) / 86400000)
+    const hours = Math.floor((diffs % 86400000) / 3600000)
+    const minutes = Math.floor((diffs % 3600000) / 60000)
+    const seconds = Math.floor((diffs % 60000) / 1000)
+
+    const year = years >= 1 ? years + '年' : ''
+    const month = months >= 1 ? months + '月' : ''
+    const day = days >= 1 ? days + '天' : ''
+    const hour = hours >= 1 ? hours + '小时' : ''
+    const minute = minutes >= 1 ? minutes + '分钟' : ''
+    const sec = seconds + '秒'
+
+    mdui.dialog({
+      headline: '欢迎回来!',
+      description: `您已经${year}${month}${day}${hour}${minute}${sec}没来过了 记得常回来看看!`,
+      actions: [
+        {
+          text: '好的',
+          onClick: () => {
+            return true
+          },
+        },
+      ],
+    })
+  }
+}
+localStorage.setItem('last_open_date', new Date())
 document.getElementById('sort-list').value = currentSortMethod
 const roomListElement = document.querySelector(`.room-list`)
 roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
