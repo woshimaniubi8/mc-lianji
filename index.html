@@ -311,6 +311,12 @@
           <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-link"></mdui-button-icon>
         </mdui-text-field>
       </div>
+      <p class="newver-p"><mdui-icon name="code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>或在QQ群发送以下指令</span></p>
+      <div class="share-link">
+        <mdui-text-field id="t-share-code" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
+          <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-code"></mdui-button-icon>
+        </mdui-text-field>
+      </div>
       <mdui-divider></mdui-divider>
       <div class="share-link">
         <p class="newver-p"><mdui-icon name="qr_code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享二维码:</span></p>
@@ -518,7 +524,7 @@
       <mdui-button icon="close" slot="action" variant="filled" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
     </mdui-dialog>
 
-   <div id="fab-container">
+    <div id="fab-container">
       <mdui-tooltip placement="left" content="刷新房间列表">
         <mdui-fab variant="primary" icon="refresh" id="fab-reload" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>

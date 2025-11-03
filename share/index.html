@@ -152,6 +152,12 @@
           <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-link"></mdui-button-icon>
         </mdui-text-field>
       </div>
+      <p class="newver-p"><mdui-icon name="code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>或在QQ群发送以下指令</span></p>
+      <div class="share-link">
+        <mdui-text-field id="t-share-code" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
+          <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-code"></mdui-button-icon>
+        </mdui-text-field>
+      </div>
       <mdui-divider></mdui-divider>
       <div>
         <p class="newver-p"><mdui-icon name="qr_code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享二维码:</span></p>
@@ -847,6 +853,7 @@
         const shareUrl = window.location.href
         document.getElementById('dialog-room-share').open = true
         document.getElementById('t-share-url').value = shareUrl
+        document.getElementById('t-share-code').value = '/mcroom join ' + sessionId
         new AwesomeQR.AwesomeQR({
           text: shareUrl,
           size: 350,
@@ -870,7 +877,17 @@
             toastr.error('复制失败')
           })
       })
-
+      document.getElementById('btn-copy-code').addEventListener('click', (e) => {
+        navigator.clipboard
+          .writeText(document.getElementById('t-share-code').value)
+          .then(() => {
+            toastr.success('加入指令已复制到剪贴板')
+          })
+          .catch((err) => {
+            console.error('复制失败:', err)
+            toastr.error('复制失败')
+          })
+      })
       document.getElementById('dialog-share-done').addEventListener('click', (e) => {
         document.getElementById('dialog-room-share').open = false
       })

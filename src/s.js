@@ -906,6 +906,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
         const shareUrl = `${clients ? 'https://lianji.qqaq.top' : window.location.origin}/share/?host=${room.host}&user=${userID === '未设置id' ? '' : userID}` //&avatar=${user_avatar}`
         document.getElementById('dialog-room-share').open = true
         document.getElementById('t-share-url').value = shareUrl
+        document.getElementById('t-share-code').value = '/mcroom join ' + room.host
         navigator.clipboard
           .writeText(document.getElementById('t-share-url').value)
           .then(() => {
@@ -1173,6 +1174,18 @@ document.getElementById('btn-copy-link').addEventListener('click', (e) => {
     .writeText(document.getElementById('t-share-url').value)
     .then(() => {
       toastr.success('分享链接已复制到剪贴板')
+    })
+    .catch((err) => {
+      console.error('复制失败:', err)
+      toastr.error('复制失败')
+    })
+})
+
+document.getElementById('btn-copy-code').addEventListener('click', (e) => {
+  navigator.clipboard
+    .writeText(document.getElementById('t-share-code').value)
+    .then(() => {
+      toastr.success('加入指令已复制到剪贴板')
     })
     .catch((err) => {
       console.error('复制失败:', err)
