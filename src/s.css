@@ -456,9 +456,6 @@ a:hover {
   pointer-events: none;
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s linear;
 }
-
-/* --- OPEN STATE --- */
-
 /* Rotate the main menu button when the menu is open */
 #fab-container.fab-menu-open #fab-menu {
   transform: rotate(135deg);
@@ -485,6 +482,7 @@ a:hover {
   --fab-translate-y: -198px;
   transition-delay: 0.15s;
 }
+
 @keyframes skeleton-loading {
   0% {
     background-position: 200% 0;

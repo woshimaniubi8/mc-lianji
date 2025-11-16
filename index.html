@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Minecraft基岩版免费在线联机大厅，支持我的世界国际版多人游戏。无需下载APP，简单几步即可与好友联机，完全免费使用。我们帮助解决好友少找不到人联机的问题，主打路人局。"
+      content="Minecraft基岩版免费在线联机大厅，支持我的世界国际版多人游戏。无需下载APP，简单几步即可与好友联机，完全免费使用。我们帮助解决好友少找不到人联机的问题，主打路人局。可是我的自卑胜过了一切爱我的，于是我把爱人们都。Ciallo!!!!!。592778"
     />
     <meta
       name="keywords"
-      content="Minecraft,MinecraftBE,Minecraft联机,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,Multi, 国际版, 基岩版, 联机, 联机大厅, 基岩版联机大厅, 路人局, 联机盒子, 没好友, 找人联机, 房间列表, 跑友,张大树,在线游戏, 在线房间, Minecraft, Bedrock, Multiplay"
+      content="Minecraft,MinecraftBE,Minecraft联机,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,国际版,基岩版,联机,联机大厅,基岩版联机大厅,路人局,联机盒子,没好友,找人联机房间列表,跑友,张大树,在线游戏在线房间,Multiplay,Ciallo,2778,迪克"
     />
-    <title>Minecraft基岩版联机大厅-我的世界联机 - 在线多人游戏，支持我的世界国际基岩版</title>
+    <title>Minecraft联机大厅-基岩版联机大厅-我的世界联机 - 在线多人游戏，支持我的世界国际基岩版</title>
     <!-- 预加载关键CSS，但异步加载 -->
     <link rel="stylesheet" href="src/s.css" as="style" />
     <link rel="preload" href="src/mdui.css" as="style" onload="this.rel='stylesheet'" />
@@ -435,6 +435,36 @@
       <mdui-button slot="action" variant="filled" id="btn-save-ui" icon="check">确定并保存</mdui-button>
     </mdui-dialog> -->
 
+    <mdui-dialog close-on-overlay-click id="dialog-toastr">
+      <div style="position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center">
+        <mdui-avatar style="width: 70px; height: 70px" id="dialog-toastr-icon-background">
+          <mdui-icon style="font-size: 60px; color: white">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path id="dialog-toastr-icon" d="" />
+            </svg>
+          </mdui-icon>
+        </mdui-avatar>
+        <p style="font-size: 20px" id="dialog-toastr-tip">{msg}</p>
+     
+        <mdui-divider></mdui-divider>
+        <div style="flex-direction: row; width: 100%">
+          <!-- <p>
+            <mdui-icon style="vertical-align: -29%">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+                />
+              </svg>
+            </mdui-icon>
+            <span id="dialog-toastr-message">我是一条信息</span>
+          </p> -->
+          <mdui-text-field variant="outlined" id="dialog-toastr-message" autosize readonly max-rows="5" value="我是一条信息"
+            ><mdui-button-icon slot="end-icon" icon="content_copy" id="dialog-toastr-message-copy"></mdui-button-icon
+          ></mdui-text-field>
+        </div>
+      </div>
+    </mdui-dialog>
+
     <mdui-dialog close-on-overlay-click headline="#️⃣其他选项" id="dialog-chat">
       <div id="other-btn-group">
         <mdui-button id="dialog-newer" icon="menu_book" style="margin-right: 0px">新手教程</mdui-button>
@@ -542,6 +572,8 @@
 
     <script src="src/jquery.min.js" defer></script>
     <script src="src/toastr.min.js" defer></script>
+    <script src="src/my-toastr.js" defer></script>
+
     <script src="src/mdui.global.js" defer></script>
     <script src="src/awesome-qr.min.js" defer></script>
     <script src="src/s.js" defer></script>

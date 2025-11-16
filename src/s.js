@@ -287,7 +287,7 @@ async function fetchAccount() {
     }
   } catch (error) {
     console.error('Fetch dick failed: ', error)
-    toastr.error('获取账号列表失败 :' + error)
+    toastrs.error(error, '获取账号列表失败')
   }
 }
 async function joinroom(addid, roomfrom, roomid, sessionid, xuids) {
@@ -342,14 +342,14 @@ async function joinroom(addid, roomfrom, roomid, sessionid, xuids) {
     }
     loadingScreen.open = false
     if (res_data.code === '1') {
-      toastr.warning(res_data.message_zh_CN)
+      toastrs.warning(res_data.message_zh_CN, '加入成功')
     } else {
-      toastr.success(res_data.message_zh_CN)
+      toastrs.success(res_data.message_zh_CN, '加入成功')
     }
     loadingScreen.open = false
   } catch (error) {
     console.error('join failed :', error)
-    toastr.error('广播房间失败 :' + error)
+    toastrs.error(error, '广播房间失败')
     loadingScreen.open = false
   }
 }
@@ -379,7 +379,7 @@ async function fetchPlayerInfo(playerID, retries = 2) {
       }
     } catch (error) {
       console.error(`Error fetching player info (attempt ${i + 1}/${retries}):`, error)
-      toastr.error('获取玩家信息失败：' + error)
+      toastrs.error(error, '获取玩家信息失败')
       loadingScreen.open = false
     }
   }
@@ -523,7 +523,7 @@ async function fetchRoomlist() {
     })
   } catch (error) {
     console.error('Error fetching room list:', error)
-    toastr.error('获取房间列表失败：<br>' + error)
+    toastrs.error(error, '获取房间列表失败')
     return []
   }
 }
@@ -559,7 +559,7 @@ async function fetchRoomInfo(sessionName, roomFrom) {
     }
     return data
   } catch (error) {
-    console.error('获取房间信息失败:', error)
+    console.error(error, '获取房间信息失败')
     throw error // Re-throw to be caught by the caller
   }
 }
@@ -704,7 +704,7 @@ async function saveUserConfig() {
   loadingScreen.open = false
   document.getElementById('dialog-cancel').style.display = 'block'
   document.getElementById('dialog-user-settings').open = false
-  toastr.success('更新配置成功')
+  toastrs.success('更新配置成功')
 }
 async function displayRoomList(roomsToDisplay = filteredRoomList) {
   roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
@@ -872,7 +872,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
           }
         } catch (error) {
           console.error('Failed to show room info:', error)
-          toastr.error('获取房间信息失败: ' + error.message)
+          toastrs.error(error, '获取房间信息失败')
         } finally {
           loadingScreen.open = false
         }
@@ -956,7 +956,7 @@ function searchRooms(keyword) {
   })
   displayRoomList(filteredRoomList)
   if (filteredRoomList.length < 1) {
-    toastr.warning('没有匹配到房间 QaQ')
+    toastrs.warning('QaQ~', '没有匹配到房间')
   }
   loadingScreen.open = false
 }
@@ -989,7 +989,7 @@ async function fetchLanguageCode() {
     languageCode = await r.json()
   } catch (e) {
     console.error('error-get-languageCode:', e)
-    toastr.error('error-get-languageCode:' + e)
+    toastrs.error('error-get-languageCode:' + e, '获取语言代码失败')
   }
 }
 
@@ -1256,7 +1256,7 @@ document.getElementById('dialog-feedback-submit').addEventListener('click', asyn
     if (!a.ok) throw new Error('feedback-HTTP-err:' + a.status)
     localStorage.setItem('f-name', aa)
     localStorage.setItem('f-mail', b)
-    toastr.success('成功提交反馈')
+    toastrs.success('感谢 Thanks!', '成功提交反馈')
     document.getElementById('dialog-efeedback').open = false
     loadingScreen.open = false
   } catch (e) {
@@ -1264,7 +1264,7 @@ document.getElementById('dialog-feedback-submit').addEventListener('click', asyn
     loadingScreen.open = false
     localStorage.setItem('f-name', aa)
     localStorage.setItem('f-mail', b)
-    toastr.error('提交反馈失败：' + e)
+    toastrs.error(e, '提交反馈失败')
   }
 })
 
