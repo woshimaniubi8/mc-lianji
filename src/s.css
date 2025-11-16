@@ -491,9 +491,14 @@ a:hover {
     background-position: -200% 0;
   }
 }
+@media (max-width: 340px) {
+  .lj_title.b {
+    display: none; /* 在非常小的屏幕上隐藏标题 */
+  }
+}
 
-@media (max-width: 600px) {
-  #lj_title {
+@media (max-width: 400px) {
+  .lj_title.a {
     display: none; /* 在非常小的屏幕上隐藏标题 */
   }
 
@@ -518,9 +523,6 @@ a:hover {
   #room-list-icongroup-twofr .info-line.tags .room-tag-img {
     width: 14px;
     height: auto;
-  }
-  .room-card {
-    border-radius: 12px; /* 移动端减小圆角 */
   }
   #room-list-icongroup-twofr .info-line.tags {
     font-size: 14px;

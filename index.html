@@ -40,20 +40,33 @@
     ></script>
   </head>
   <body>
-    <header class="mdui-appbar mdui-appbar-fixed">
+    <!-- <header class="mdui-appbar mdui-appbar-fixed">
       <h2 id="lj_title">
-        <img title="联机大厅" src="favicon.ico" class="material-icons" style="padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%" />我的世界联机大厅
-      </h2>
+        
       <div class="user-info">
-        <p class="username" id="user-id">
-          <mdui-avatar style="margin-right: 1px; font-size: 24px; vertical-align: -45%" icon="account_circle" id="avatar-view"></mdui-avatar>
-          <span id="span-userid">未设置id</span>
-          <mdui-tooltip variant="rich" headline="设置按钮" content="单击打开用户配置界面,可进行自定义设置">
-            <mdui-button-icon icon="settings" style="vertical-align: -39%" id="settings-btn"></mdui-button-icon>
-          </mdui-tooltip>
-        </p>
+
       </div>
-    </header>
+    </header> -->
+    <mdui-top-app-bar scroll-behavior="hide" style="background: rgb(var(--mdui-color-primary-container)); --shape-corner: 20px">
+      <img
+        class="lj_title b"
+        title="联机大厅"
+        src="favicon.ico"
+        class="material-icons"
+        style="padding-left: 10px; padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%"
+      />
+      <mdui-top-app-bar-title class="lj_title a">联机大厅</mdui-top-app-bar-title>
+
+      <div style="flex-grow: 1"></div>
+      <span>
+        <mdui-avatar style="margin-right: 1px; font-size: 24px; vertical-align: -41%" icon="account_circle" id="avatar-view"></mdui-avatar>
+        <span class="username" id="span-userid">未设置id</span>
+      </span>
+      <mdui-tooltip variant="rich" headline="设置按钮" content="单击打开用户配置界面,可进行自定义设置">
+        <mdui-button-icon icon="settings" style="vertical-align: -39%" id="settings-btn"></mdui-button-icon>
+      </mdui-tooltip>
+    </mdui-top-app-bar>
+
     <div class="search-bar">
       <mdui-tooltip content="输入房间名、房主、游戏模式、版本号进行搜索">
         <mdui-text-field label="搜索房间" id="search-input" type="search" inputmode="search" variant="outlined">
@@ -445,7 +458,7 @@
           </mdui-icon>
         </mdui-avatar>
         <p style="font-size: 20px" id="dialog-toastr-tip">{msg}</p>
-     
+
         <mdui-divider></mdui-divider>
         <div style="flex-direction: row; width: 100%">
           <!-- <p>
