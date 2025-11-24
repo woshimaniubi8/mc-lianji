@@ -61,7 +61,6 @@ header {
   justify-content: center;
 }
 
-
 .username {
   font-size: 20px;
   font-weight: normal;
@@ -103,7 +102,6 @@ a:hover {
   display: inline;
 }
 
-<<<<<<< HEAD
 .search-bar {
   background: rgba(var(--mdui-color-inverse-primary), 0.1); /* 确保背景不透明 */
   border-radius: 28px;
@@ -118,19 +116,10 @@ a:hover {
   gap: 8px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(var(--mdui-color-outline), 0.1);
-=======
-/* --- 搜索栏修复 --- */
-.search-bar {
->>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
 }
 
 .search-bar:focus-within {
   box-shadow: 0 8px 24px rgba(var(--mdui-color-primary), 0.2);
-<<<<<<< HEAD
-
-=======
-  transform: translateY(-1px);
->>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
   border-color: rgba(var(--mdui-color-primary), 0.5);
 }
 
@@ -153,7 +142,6 @@ a:hover {
 }
 
 /* --- 核心优化：房间列表与卡片 --- */
-<<<<<<< HEAD
 /* --- 顶部栏美化 (毛玻璃) --- */
 mdui-top-app-bar {
   background-color: rgba(var(--mdui-color-primary-container), 0.8) !important;
@@ -163,10 +151,6 @@ mdui-top-app-bar {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 /* 1. 优化房间列表的网格布局 */
-=======
-
-/* --- 核心：房间列表 Grid 布局修复 --- */
->>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
 .room-list {
   padding: 10px 2%; /* 增加左右内边距防止贴边 */
   display: grid;
@@ -195,13 +179,6 @@ mdui-top-app-bar {
   /* 修复动画闪烁：默认透明 */
   opacity: 0;
   /* 动画定义在 s.js 动态添加 class 时生效，或者这里定义默认状态 */
-<<<<<<< HEAD
-=======
-}
-
-.card-animate {
-  animation: fadeInUp 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
->>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
 }
 
 .room-card:hover {
@@ -525,16 +502,7 @@ mdui-dialog {
 .skeleton .skeleton-avatar,
 .skeleton .skeleton-tag,
 .skeleton .skeleton-button {
-<<<<<<< HEAD
   background: linear-gradient(90deg, rgb(var(--mdui-color-inverse-primary)) 25%, rgb(var(--mdui-color-primary)) 65%, rgb(var(--mdui-color-inverse-primary)) 75%);
-=======
-  background: linear-gradient(
-    90deg,
-    rgb(var(--mdui-color-surface-container-highest)) 25%,
-    rgb(var(--mdui-color-surface-container)) 50%,
-    rgb(var(--mdui-color-surface-container-highest)) 75%
-  );
->>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite linear;
   border-radius: 4px;
@@ -666,6 +634,7 @@ mdui-dialog {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   backdrop-filter: blur(10px); /* 毛玻璃 */
+  -webkit-backdrop-filter: blur(10px); /* 毛玻璃 */
 }
 
 /* 隐藏状态（缩放+透明） */
@@ -861,7 +830,7 @@ mdui-dialog {
 /* --- s.css 末尾追加 --- */
 
 /* --- 列表样式 --- */
-.ai-message ul, 
+.ai-message ul,
 .ai-message ol {
   margin: 8px 0;
   padding-left: 24px; /* 给圆点/数字留空间 */
@@ -967,12 +936,7 @@ mdui-dialog {
 .ai-hr {
   border: 0;
   height: 1px;
-  background-image: linear-gradient(
-    to right, 
-    rgba(var(--mdui-color-outline), 0), 
-    rgba(var(--mdui-color-outline), 0.5), 
-    rgba(var(--mdui-color-outline), 0)
-  ); /* 渐变线条，两头淡中间深 */
+  background-image: linear-gradient(to right, rgba(var(--mdui-color-outline), 0), rgba(var(--mdui-color-outline), 0.5), rgba(var(--mdui-color-outline), 0)); /* 渐变线条，两头淡中间深 */
   margin: 16px 0;
 }
 /* --- s.css 末尾追加 --- */

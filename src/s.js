@@ -752,24 +752,8 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
       
       const langText_1 = languageCode.find((item) => item.code === room.worldNameLang);
       const langText = langText_1 ? langText_1.name_zh : '未知';
-
-<<<<<<< HEAD
-      // 如果找到了对象，返回它的 name_zh 属性；否则返回 null 或其他默认值
-      const langText = langText_1 ? langText_1.name_zh : '未知'
       roomCard.className = 'room-card card-animate' // 使用新的 class
       roomCard.style.cursor = 'pointer'
-=======
-      const roomCard = document.createElement('div'); // 使用 div 避免自定义组件样式的 shadow dom 干扰
-      
-      // 添加必要的 class 和动画
-      roomCard.className = 'room-card card-animate';
-      
-      // 设置动画延迟，最多延迟 20 个元素，避免过长等待
-      const delay = Math.min(index * 0.05, 1.0);
-      roomCard.style.animationDelay = `${delay}s`;
-      
-      // 新UI HTML 结构 - 使用 Flexbox 对齐
->>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
       if (!enableOldUI) {
         roomCard.innerHTML = `
         <div class="room-card-header">
@@ -1042,10 +1026,6 @@ document.getElementById('search-btn').addEventListener('click', () => {
   searchRooms(searchInput.value)
 })
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
 // 回车搜索
 document.getElementById('search-input').addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
