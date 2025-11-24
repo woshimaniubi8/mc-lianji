@@ -539,6 +539,10 @@ mdui-top-app-bar {
   transition-delay: 0.15s;
 }
 
+#dialog-toastr {
+  z-index: 9999;
+}
+
 /* AI 聊天窗口容器 */
 #ai-chat-window {
   position: fixed;
