@@ -915,7 +915,7 @@ mdui-top-app-bar {
   }
 }
 @media (max-width: 340px) {
-  .lj_title.b {11
+  .lj_title.b {
     display: none; /* 在非常小的屏幕上隐藏标题 */
   }
 }
