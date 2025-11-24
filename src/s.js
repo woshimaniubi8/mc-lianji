@@ -54,7 +54,7 @@ const lastOpenDate = new Date(localStorage.getItem('last_open_date'))
 const AI_CONFIG = {
   apiKey: 'ab592778WocANima_mcLiAnji114514shaoyUbiub', //Key
   apiUrl: 'https://glm-netlify.netlify.app/api/paas/v4/chat/completions',
-  model: 'glm-4-flash',
+  model: 'glm-4.5-flash',
 }
 
 const aiChatWindow = document.getElementById('ai-chat-window')
