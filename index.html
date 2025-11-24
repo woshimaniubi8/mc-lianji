@@ -67,12 +67,15 @@
       </mdui-tooltip>
     </mdui-top-app-bar>
 
-    <div class="search-bar">
-      <mdui-tooltip content="输入房间名、房主、游戏模式、版本号进行搜索">
-        <mdui-text-field label="搜索房间" id="search-input" type="search" inputmode="search" variant="outlined">
-          <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
-        </mdui-text-field>
-      </mdui-tooltip>
+    <div class="search-bar" style="display: flex; align-items: center; gap: 8px">
+      <div style="flex-grow: 1">
+        <mdui-tooltip content="输入房间名、房主、游戏模式、版本号进行搜索">
+          <!-- 移除 variant="outlined" 使用纯净风格，CSS 会加阴影 -->
+          <mdui-text-field label="搜索房间..." id="search-input" type="search" inputmode="search"  style="width: 100%">
+            <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
+          </mdui-text-field>
+        </mdui-tooltip>
+      </div>
       <div style="padding-left: 10px">
         <mdui-dropdown>
           <mdui-button-icon icon="sort" variant="tonal" slot="trigger" title="房间排序"></mdui-button-icon>
@@ -99,9 +102,8 @@
       </div>
     </div>
 
-    <p style="text-align: center">单击房间卡片以查看详细信息!</p>
     <div class="room-list">
-      <!-- 添加 6-8 个骨架屏卡片作为占位符 -->
+      <!--  骨架屏卡片作为占位符 -->
       <mdui-card class="room-card skeleton">
         <div class="room-card-header">
           <p class="skeleton-text" style="width: 70%"></p>
@@ -276,7 +278,7 @@
       <mdui-button slot="action" variant="filled" id="dialog-next" icon="arrow_outward">开始</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="⚙用户配置" id="dialog-user-settings">
+    <mdui-dialog close-on-overlay-click headline="🔧用户配置" id="dialog-user-settings">
       <p>游戏ID</p>
       <mdui-text-field label="输入你的游戏id" icon="person" id="input-userid" class="input-config userid"></mdui-text-field>
       <div id="accounts-list" class="accounts-list">

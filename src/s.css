@@ -6,8 +6,12 @@
 */
 
 html {
-  background-color: rgb(var(--mdui-color-surface-container)); /* 使用柔和的背景色提升质感 */
-  transition: background-color 0.3s ease; /* 主题切换动画 */
+  background-attachment: fixed;
+  transition: background-color 0.3s ease;
+  /* 修复背景：使用更柔和的渐变，并确保不遮挡内容 */
+  background: radial-gradient(circle at 50% 0%, rgba(var(--mdui-color-primary), 0.3) 10%, rgba(var(--mdui-color-surface), 1) 80%);
+  background-attachment: fixed;
+  color: rgb(var(--mdui-color-on-surface));
 }
 body {
   font-family: 'MiSans Normal', 'Segoe UI', 'Microsoft YaHei', sans-serif;
@@ -17,6 +21,19 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
+/* --- 顶部栏美化 (毛玻璃) --- */
+mdui-top-app-bar {
+  background-color: rgba(var(--mdui-color-primary-container), 0.8) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(var(--mdui-color-outline), 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+
 main {
   flex: 1; /* 这会让 main 区域自动伸展，占据所有可用空间，从而将页脚推到底部 */
 }
@@ -43,6 +60,7 @@ header {
   align-items: center;
   justify-content: center;
 }
+
 
 .username {
   font-size: 20px;
@@ -85,19 +103,28 @@ a:hover {
   display: inline;
 }
 
-/* --- 搜索栏 --- */
+/* --- 搜索栏修复 --- */
 .search-bar {
-  display: flex;
-  margin: 20px auto; /* 增加上下间距 */
-  padding: 10px 0;
-  max-width: 1000px;
-  align-items: center;
-  width: 100%;
 }
+
+.search-bar:focus-within {
+  box-shadow: 0 8px 24px rgba(var(--mdui-color-primary), 0.2);
+  transform: translateY(-1px);
+  border-color: rgba(var(--mdui-color-primary), 0.5);
+}
+
+/* 强制去掉 mdui-text-field 自带的边框和背景，让外层 div 负责样式 */
 .search-bar mdui-text-field {
-  margin: 0 auto;
-  max-width: 1000px;
-  width: 95%;
+  margin: 0;
+  width: 100%;
+  background: transparent;
+  --shape-corner: 28px;
+}
+/* 隐藏 MDUI 输入框自带的底部指示条或边框，避免双重边框 */
+.search-bar mdui-text-field::part(container) {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 #search-input .container.has-icon {
@@ -106,42 +133,74 @@ a:hover {
 
 /* --- 核心优化：房间列表与卡片 --- */
 
-/* 1. 优化房间列表的网格布局 */
+/* --- 核心：房间列表 Grid 布局修复 --- */
 .room-list {
-  padding: 10px 0;
+  padding: 10px 2%; /* 增加左右内边距防止贴边 */
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(35vh, 2fr));
-  gap: 15px;
-  width: 98%;
-  /* max-height: calc(100vh - 10px); */
-
+  /* 优化列宽，避免卡片太窄 */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box; /* 关键：防止宽度溢出 */
   margin: 0 auto;
+  /* max-width: 1400px; */
 }
 
 /* 2. 全新的卡片设计 */
+/* --- 房间卡片 (核心优化) --- */
 .room-card {
-  background-color: rgb(var(--mdui-color-surface-container-highest));
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid transparent;
+  background-color: rgb(var(--mdui-color-primary-container)); /* 使用更亮的背景 */
+  border: 1px solid rgba(var(--mdui-color-outline), 0.08);
+  border-radius: 24px; /* 更大的圆角 */
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  min-height: 180px;
+  /* 修复动画闪烁：默认透明 */
+  opacity: 0;
+  /* 动画定义在 s.js 动态添加 class 时生效，或者这里定义默认状态 */
+}
+
+.card-animate {
+  animation: fadeInUp 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
 }
 
 .room-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  border-color: rgb(var(--mdui-color-primary));
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  border-color: rgba(var(--mdui-color-primary), 0.2);
 }
 
-/* 3. 卡片头部 */
+/* 卡片标题 */
 .room-card-header {
-  padding-left: 10px;
-  background-color: rgba(var(--mdui-color-primary-container), 0.9);
-  border-bottom: 1px solid rgba(var(--mdui-color-primary), 0.7);
+  padding: 16px 20px 8px 20px;
+}
+
+.room-card-header {
+  padding: 12px 16px 8px;
+  background: transparent;
+  border-bottom: none;
+}
+
+#room-name2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgb(var(--mdui-color-on-surface));
+}
+
+.room-card-body {
+  padding: 8px 20px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
 }
 
 #room-name {
@@ -154,48 +213,59 @@ a:hover {
   margin: 0; /* 移除旧的 margin */
 }
 
-/* 4. 卡片主体信息 */
-.room-card-body {
-  background-color: rgba(var(--mdui-color-primary-container), 0.9);
-  padding: 16px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
+/* --- 标签美化 (Chip 风格) --- */
 .info-line {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.95rem;
   color: rgb(var(--mdui-color-on-surface-variant));
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .info-line.tags {
-  display: flex; /* 使标签内部元素可以并排显示 */
-  font-size: 14px;
-  padding: 4px 7px; /* 容器边界与元素之间的空隙 */
-  width: max-content;
-  background-color: rgb(var(--mdui-color-primary));
-  border-radius: 7px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 3px;
+  background-color: rgba(var(--mdui-color-secondary-container), 0.4);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgb(var(--mdui-color-on-secondary-container));
+  transition: all 0.2s;
   cursor: pointer;
+  display: inline-flex; /* 防止换行断裂 */
+  align-items: center;
 }
 
 .info-line.tags:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  background-color: rgb(var(--mdui-color-secondary-container));
+  transform: scale(1.02);
 }
 
+.info-line.tags img,
+.info-line.tags mdui-icon {
+  margin-right: 4px;
+  width: 14px;
+  height: 14px;
+  font-size: 14px; /* 修复 Icon 大小 */
+}
+
+.info-line.tags span {
+  color: rgb(var(--mdui-color-on-secondary-container)) !important; /* 确保文字颜色对比度 */
+}
+
+/* 版本号标签颜色区分 */
 .info-line.tags.ver {
-  margin-left: 5px;
+  background-color: rgba(var(--mdui-color-tertiary-container), 0.5);
+  border-color: rgba(var(--mdui-color-tertiary), 0.2);
+}
+.info-line.tags.ver span {
+  color: rgb(var(--mdui-color-on-tertiary-container)) !important;
 }
 
-.info-line mdui-icon,
-.info-line img {
-  flex-shrink: 0;
+/* --- 玩家头像与名字 --- */
+.info-line .host-avatar {
+  border: 2px solid rgb(var(--mdui-color-primary-container));
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .host-avatar {
@@ -212,7 +282,12 @@ a:hover {
   flex-wrap: wrap;
   margin-top: 8px;
 }
-
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
 .tag {
   padding: 4px 10px;
   border-radius: 20px;
@@ -238,17 +313,36 @@ a:hover {
   color: rgb(var(--mdui-color-error));
 }
 
-/* 6. 卡片底部操作区 */
+/* --- 卡片底部按钮区 --- */
 .room-card-footer {
-  padding: 8px 12px 8px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(var(--mdui-color-outline-variant), 0.4);
+  background-color: rgba(var(--mdui-color-surface-container), 0.3);
   display: flex;
-  gap: 4px;
-  border-top: 1px solid rgb(var(--mdui-color-outline-variant));
-  background-color: rgba(var(--mdui-color-primary-container), 0.9);
+  align-items: center;
+  gap: 8px;
+}
+/* --- 列表进入动画 (关键 CSS) --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Dialog 优化 --- */
+mdui-dialog {
+  --shape-corner: 28px; /* 更圆的对话框 */
+  /* backdrop-filter: blur(5px); */
 }
 
 .join-button {
   flex-grow: 1;
+  height: 40px;
 }
 
 /* 人数颜色 */
@@ -300,6 +394,9 @@ a:hover {
 }
 #dialog-loading {
   z-index: 999999;
+}
+#dialog-toastr {
+  z-index: 999990;
 }
 .dialog-loading-div {
   z-index: 99999;
@@ -383,24 +480,33 @@ a:hover {
 /* 骨架 */
 
 /* s.css */
+/* 骨架屏修复 */
 .skeleton {
-  cursor: progress;
+  cursor: wait;
+  opacity: 1 !important; /* 骨架屏不应该透明 */
 }
-
 .skeleton .skeleton-text,
 .skeleton .skeleton-avatar,
 .skeleton .skeleton-tag,
 .skeleton .skeleton-button {
   background: linear-gradient(
     90deg,
-    rgba(var(--mdui-color-surface-container-highest-rgb), 0.8) 25%,
-    rgba(var(--mdui-color-surface-container-high-rgb), 0.5) 50%,
-    rgba(var(--mdui-color-surface-container-highest-rgb), 0.8) 75%
+    rgb(var(--mdui-color-surface-container-highest)) 25%,
+    rgb(var(--mdui-color-surface-container)) 50%,
+    rgb(var(--mdui-color-surface-container-highest)) 75%
   );
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite linear;
   border-radius: 4px;
-  color: transparent !important;
+  height: 1rem; /* 默认高度 */
+}
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 #dialog-next {
   width: 130px;
