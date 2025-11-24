@@ -500,6 +500,7 @@ async function fetchRoomlist() {
     // console.log('Room list fetched successfully:')
 
     allroomList = []
+    roomList
     data.results.forEach((room) => {
       allRoomList.push({
         sessionName: room.sessionRef.name,
@@ -557,6 +558,7 @@ async function fetchRoomInfo(sessionName, roomFrom) {
       }
       toastr.info('使用本地数据.')
     }
+
     return data
   } catch (error) {
     console.error(error, '获取房间信息失败')
@@ -763,7 +765,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
 
       // 如果找到了对象，返回它的 name_zh 属性；否则返回 null 或其他默认值
       const langText = langText_1 ? langText_1.name_zh : '未知'
-      roomCard.className = 'room-card' // 使用新的 class
+      roomCard.className = 'room-card card-animate' // 使用新的 class
       roomCard.style.cursor = 'pointer'
       if (!enableOldUI) {
         roomCard.innerHTML = `
@@ -1055,35 +1057,6 @@ document.getElementById('search-btn').addEventListener('click', () => {
   searchRooms(searchInput.value)
 })
 
-// 新增：排序按钮事件监听
-document.getElementById('sort-by-time').addEventListener('click', () => {
-  currentSortMethod = 'time'
-  localStorage.setItem('sort', currentSortMethod)
-  toastr.info('已按时间排序')
-  displayRoomList(filteredRoomList)
-})
-
-document.getElementById('sort-by-name').addEventListener('click', () => {
-  currentSortMethod = 'name'
-  localStorage.setItem('sort', currentSortMethod)
-  toastr.info('已按房间名称排序')
-  displayRoomList(filteredRoomList)
-})
-
-document.getElementById('sort-by-host').addEventListener('click', () => {
-  currentSortMethod = 'host'
-  localStorage.setItem('sort', currentSortMethod)
-  toastr.info('已按房主名称排序')
-  displayRoomList(filteredRoomList)
-})
-
-document.getElementById('sort-by-none').addEventListener('click', () => {
-  currentSortMethod = 'none'
-  localStorage.setItem('sort', currentSortMethod)
-  toastr.info('已取消排序')
-  displayRoomList(filteredRoomList)
-})
-
 // 回车搜索
 document.getElementById('search-input').addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
@@ -1331,7 +1304,448 @@ CheckVconsole.addEventListener('click', (e) => {
 ///
 
 ///
+/* --- s.js 末尾添加 --- */
 
+// AI 聊天配置
+// ⚠️ 安全警告：强烈建议将 API Key 放在后端，这里仅作演示 ⚠️
+const AI_CONFIG = {
+  apiKey: 'ab592778WoCaNima_mcliAnji114514', // 你的 Key
+  apiUrl: 'https://glm-netlify.netlify.app/api/paas/v4/chat/completions',
+  model: 'glm-4-flash', // 或 glm-4-plus
+}
+
+const aiChatWindow = document.getElementById('ai-chat-window')
+const aiMessagesArea = document.getElementById('ai-messages-area')
+const aiInput = document.getElementById('ai-input')
+const aiSendBtn = document.getElementById('ai-send-btn')
+const aiReasoningBox = document.getElementById('ai-reasoning-container')
+const aiReasoningContent = document.getElementById('ai-reasoning-content')
+
+let isGenerating = false
+let messageHistory = [] // 存储上下文
+
+// 1. 打开/关闭 AI 窗口
+document.getElementById('fab-ai').addEventListener('click', () => {
+  const isOpen = !aiChatWindow.classList.contains('ai-chat-closed')
+  if (isOpen) {
+    closeAIChat()
+  } else {
+    openAIChat()
+  }
+
+  // 关闭 FAB 菜单以便更好地展示聊天窗
+  const fabContainer = document.getElementById('fab-container')
+  if (fabContainer.classList.contains('fab-menu-open')) {
+    document.getElementById('fab-menu').click()
+  }
+})
+
+document.getElementById('ai-close-btn').addEventListener('click', closeAIChat)
+
+function openAIChat() {
+  aiChatWindow.classList.remove('ai-chat-closed')
+  aiInput.focus()
+}
+
+function closeAIChat() {
+  aiChatWindow.classList.add('ai-chat-closed')
+}
+
+// 2. 清空历史
+document.getElementById('ai-clear-btn').addEventListener('click', () => {
+  aiMessagesArea.innerHTML = `
+    <div class="ai-message ai-welcome">
+      ✨ 对话已重置。
+    </div>`
+  messageHistory = []
+  aiReasoningBox.style.display = 'none'
+  toastr.info('对话记录已清空')
+})
+/**
+ * 解析并执行 AI 返回的指令
+ * 格式: %!COMMAND:ACTION:PARAM%
+ * 例如: %!COMMAND:RELOAD_ROOMLIST%
+ *       %!COMMAND:SEARCH:生存%
+ * @param {string} text AI 返回的原始文本
+ * @returns {string} 去除指令后的纯文本
+ */
+function executeAICommands(text) {
+  // 正则匹配 %!COMMAND:动作:参数%
+  // 组1: ACTION (例如 RELOAD_ROOMLIST)
+  // 组2: PARAM (可选，例如 搜索关键字)
+  const commandRegex = /%!COMMAND:([A-Z_]+)(?::(.*?)?)?%/g
+
+  let cleanText = text
+  let match
+
+  // 循环查找所有指令
+  while ((match = commandRegex.exec(text)) !== null) {
+    const fullCommandStr = match[0]
+    const action = match[1]
+    const param = match[2] ? match[2].trim() : ''
+
+    console.log(`[AI Command] 检测到指令: ${action}, 参数: ${param}`)
+
+    try {
+      switch (action) {
+        case 'RELOAD_ROOMLIST':
+          toastr.info('AI 正在刷新房间列表...')
+          // 调用现有的刷新逻辑
+          document.getElementById('fab-reload').click()
+          cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试刷新房间列表 \n')
+          break
+
+        case 'SEARCH':
+          if (param) {
+            toastr.info(`AI 正在搜索: ${param}`)
+            document.getElementById('search-input').value = param
+            cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试搜索房间 \n')
+            searchRooms(param) // 调用 s.js 里现有的搜索函数
+          }
+          break
+
+        case 'JOIN_ROOM':
+          // 注意：加入房间通常需要复杂的 ID (session, roomid 等)
+          // AI 很难直接凭空生成正确的 ID。
+          // 这里的逻辑是：先搜索该房主，提示用户点击
+          if (param) {
+            try {
+              const params = JSON.parse(param)
+              toastr.info(`正在加入房间: ${params.name}`)
+              joinroom(activeAccount, params.roomfrom, params.id, params.session, xuid)
+              cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试加入房间 \n')
+            } catch (e) {
+              toastrs.error('加入房间失败', e)
+            }
+          }
+          break
+
+        case 'TOAST':
+          // 允许 AI 弹出提示框
+          if (param) toastr.success(param)
+          break
+
+        default:
+          console.warn('未知指令:', action)
+          cleanText = cleanText.replace(fullCommandStr, '')
+      }
+    } catch (e) {
+      console.error('指令执行失败:', e)
+      cleanText = cleanText.replace(fullCommandStr, '')
+    }
+
+    // 从显示的文本中删除指令字符串，以免用户看到乱码
+  }
+
+  return cleanText
+}
+// 3. 发送消息逻辑
+async function sendAIMessage() {
+  const text = aiInput.value.trim()
+  if (!text || isGenerating) return
+
+  // UI 更新：添加用户消息
+  appendMessage(text, 'user')
+  aiInput.value = ''
+  isGenerating = true
+  aiSendBtn.disabled = true
+  let times = new Date()
+  const messages = [
+    {
+      role: 'system',
+      content: `当前时间${times.toLocaleString()},用户的游戏名称为${userID},xuid为${xuid},头像URL:${user_avatar}，用户选择的共享账号(-1为未选择)id:${activeAccount} 。当前房间列表：${JSON.stringify(allRoomList)} 共${allRoomList.length}房间 当前共享账号：${JSON.stringify(accountInfo)} 共${accountInfo.lenth}账号`,
+    },
+    ...messageHistory,
+    { role: 'user', content: text },
+  ]
+
+  // UI 更新：准备 AI 消息气泡
+  const aiMessageBubble = appendMessage('...', 'assistant')
+  aiReasoningBox.style.display = 'none' // 隐藏旧的思考
+  aiReasoningContent.innerText = ''
+
+  try {
+    const response = await fetch(AI_CONFIG.apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${AI_CONFIG.apiKey}`,
+      },
+      body: JSON.stringify({
+        model: AI_CONFIG.model,
+        messages: messages,
+        stream: true,
+      }),
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      throw new Error(`API Error: ${response.status} - ${errText}`)
+    }
+
+    // 流式读取
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder('utf-8')
+    let buffer = ''
+    let fullContent = ''
+    let fullReasoning = ''
+
+    // 清空 "..." 占位符
+    aiMessageBubble.innerHTML = ''
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop()
+
+      for (const line of lines) {
+        // ... (中间的流式解析逻辑不变) ...
+        const trimmed = line.trim()
+        if (!trimmed.startsWith('data: ')) continue
+        const jsonStr = trimmed.replace('data: ', '')
+        if (jsonStr === '[DONE]') break
+
+        try {
+          const json = JSON.parse(jsonStr)
+          const delta = json.choices[0]?.delta
+          if (!delta) continue
+
+          // 处理思考过程 (reasoning_content)
+          if (delta.reasoning_content) {
+            fullReasoning += delta.reasoning_content
+            if (aiReasoningBox.style.display === 'none') {
+              aiReasoningBox.style.display = 'block'
+              // 将思考框移动到最新的 AI 消息上方
+              aiMessagesArea.insertBefore(aiReasoningBox, aiMessageBubble)
+            }
+            aiReasoningContent.innerText = fullReasoning
+            scrollToBottom()
+          }
+
+          // 处理正文内容
+          if (delta.content) {
+            fullContent += delta.content
+            // 简单的换行处理，如果想支持 Markdown，可以在这里引入 marked.js
+            aiMessageBubble.innerHTML = formatAIResponse(fullContent)
+            scrollToBottom()
+          }
+        } catch (e) {
+          console.warn('JSON Parse error', e)
+        }
+
+        // ...
+      }
+    }
+
+    // ==========================================
+    // 【新增/修改】流传输结束后，执行指令并清洗文本
+    // ==========================================
+
+    // 1. 执行指令，并获取清洗后的文本
+    const finalCleanContent = executeAICommands(fullContent)
+
+    // 2. 更新 UI，移除指令字符串
+    aiMessageBubble.innerHTML = formatAIResponse(finalCleanContent)
+    console.log(formatAIResponse(finalCleanContent))
+
+    // 3. 保存到历史 (保存清洗后的，还是原始的？建议保存原始的以便上下文连贯，或者清洗后的)
+    // 这里我们保存清洗后的，避免 AI 下次对话产生幻觉重复执行
+    messageHistory.push({ role: 'user', content: text })
+    messageHistory.push({ role: 'assistant', content: finalCleanContent })
+
+    // 限制历史长度防止 Token 溢出
+    if (messageHistory.length > 10) messageHistory = messageHistory.slice(-10)
+  } catch (error) {
+    console.error(error)
+    aiMessageBubble.innerHTML += `<br><span style="color:rgb(var(--mdui-color-error))">[出错]: ${error.message}</span>`
+    toastr.error('AI 请求失败，请稍后重试')
+  } finally {
+    isGenerating = false
+    aiSendBtn.disabled = false
+    aiInput.focus()
+  }
+}
+
+// 辅助函数：添加消息到界面
+function appendMessage(content, role) {
+  const div = document.createElement('div')
+  div.className = `ai-message ${role}`
+  // 用户消息直接显示文本（防止XSS），AI消息稍后处理
+  if (role === 'user') div.textContent = content
+  else div.innerHTML = content
+
+  aiMessagesArea.appendChild(div)
+  scrollToBottom()
+  return div
+}
+
+function formatAIResponse(text) {
+  if (!text) return ''
+
+  // 1. 基础工具
+  function escapeHtml(str) {
+    return str.replace(
+      /[&<>"']/g,
+      (m) =>
+        ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;',
+        }[m])
+    )
+  }
+
+  // 行内解析（递归使用）
+  function parseInline(str) {
+    if (!str) return ''
+    return str
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="ai-image" loading="lazy" referrerpolicy="no-referrer" onclick="window.open(this.src)" title="点击查看大图"/>')
+      .replace(/~~(.*?)~~/g, '<del>$1</del>')
+      .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+  }
+
+  const placeholders = []
+
+  function createPlaceholder(htmlContent) {
+    const id = `__PH_${placeholders.length}__`
+    placeholders.push(htmlContent)
+    return id
+  }
+
+  let processed = text
+
+  // --- 步骤 A: 提取代码块 (最优先) ---
+  processed = processed.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, content) => {
+    const html = `<pre><div class="code-header">${lang || 'text'}</div><code class="language-${lang}">${escapeHtml(content)}</code></pre>`
+    return createPlaceholder(html)
+  })
+
+  // --- 步骤 B: 提取表格 (全新逻辑) ---
+  // 策略：先捕获所有连续的“管道符行”，不管内部结构，然后在回调中验证
+  // 正则：匹配 (行首或换行) + (连续的 [空格|内容|空格换行] 块)
+  const tableRegex = /(?:^|\n)((?:[ \t]*\|.*\|[ \t]*(?:\n|$))+)/g
+
+  processed = processed.replace(tableRegex, (match, tableBlock) => {
+    const rows = tableBlock.trim().split('\n')
+
+    // 验证：至少要有两行，且第二行必须是分割线 (|---|)
+    if (rows.length < 2) return match
+
+    // 检查第二行是否只包含 | - : 空格
+    const separatorLine = rows[1].trim()
+    // 移除头尾的 | 后，中间必须只包含 - : 和空格
+    const cleanSeparator = separatorLine.replace(/^\||\|$/g, '')
+    if (!/^[-:| ]+$/.test(cleanSeparator)) {
+      return match // 不是表格，退回普通文本
+    }
+
+    // 开始构建 HTML
+    let html = '<div class="md-table-wrapper"><table>'
+
+    // 1. 表头 (Row 0)
+    const headerCells = rows[0].trim().split('|')
+    // 过滤掉因为行首行尾 | 而产生的空字符串
+    const validHeaders = headerCells.filter((c, i, arr) => i > 0 && i < arr.length - 1)
+
+    html += '<thead><tr>'
+    validHeaders.forEach((h) => {
+      html += `<th>${parseInline(escapeHtml(h.trim()))}</th>`
+    })
+    html += '</tr></thead>'
+
+    // 2. 表体 (从 Row 2 开始，跳过分割线)
+    html += '<tbody>'
+    for (let i = 2; i < rows.length; i++) {
+      const rowStr = rows[i].trim()
+      if (!rowStr) continue
+
+      const cells = rowStr.split('|')
+      // 同样的过滤逻辑
+      const validCells = cells.filter((c, i, arr) => i > 0 && i < arr.length - 1)
+
+      html += '<tr>'
+      validCells.forEach((c) => {
+        html += `<td>${parseInline(escapeHtml(c.trim()))}</td>`
+      })
+      html += '</tr>'
+    }
+    html += '</tbody></table></div>'
+
+    return createPlaceholder(html)
+  })
+
+  // --- 步骤 C: 提取引用 ---
+  processed = processed.replace(/(?:^|\n)((?:[ \t]*> .+(?:\n|$))+)/g, (match, quoteBlock) => {
+    const lines = quoteBlock.trim().split('\n')
+    const content = lines
+      .map((line) => {
+        const text = line.replace(/^[ \t]*> ?/, '')
+        return parseInline(escapeHtml(text))
+      })
+      .join('<br>')
+    return createPlaceholder(`<blockquote>${content}</blockquote>`)
+  })
+
+  // --- 步骤 D: 提取列表 ---
+  processed = processed.replace(/(?:^|\n)((?:[ \t]*[-*] [^\n]+(?:\n|$))+)/g, (match, listBlock) => {
+    const items = listBlock.trim().split('\n')
+    const listHtml = items.map((item) => `<li>${parseInline(escapeHtml(item.replace(/^[ \t]*[-*] /, '')))}</li>`).join('')
+    return createPlaceholder(`<ul>${listHtml}</ul>`)
+  })
+
+  processed = processed.replace(/(?:^|\n)((?:[ \t]*\d+\. [^\n]+(?:\n|$))+)/g, (match, listBlock) => {
+    const items = listBlock.trim().split('\n')
+    const listHtml = items.map((item) => `<li>${parseInline(escapeHtml(item.replace(/^[ \t]*\d+\. /, '')))}</li>`).join('')
+    return createPlaceholder(`<ol>${listHtml}</ol>`)
+  })
+
+  // --- 步骤 E: 分割线 ---
+  processed = processed.replace(/(?:^|\n)(?:[-*_] ?){3,}(?:\n|$)/g, (match) => {
+    return createPlaceholder('<hr class="ai-hr">')
+  })
+
+  // --- 步骤 F: 处理剩余文本 ---
+
+  processed = escapeHtml(processed) // 全局转义
+
+  // 标题处理 (修复字号问题)
+  processed = processed.replace(/^(#{1,6})\s+(.*$)/gm, (match, hashes, content) => {
+    const level = hashes.length
+    return `<h${level}>${parseInline(content.trim())}</h${level}>`
+  })
+
+  // 剩余行内解析
+  processed = parseInline(processed)
+
+  // 换行
+  processed = processed.replace(/\n/g, '<br>')
+
+  // --- 步骤 G: 还原占位符 ---
+  processed = processed.replace(/__PH_(\d+)__/g, (match, index) => {
+    return placeholders[index]
+  })
+
+  return processed
+}
+
+// 辅助函数：滚动到底部
+function scrollToBottom() {
+  aiMessagesArea.scrollTop = aiMessagesArea.scrollHeight
+}
+
+// 绑定发送事件
+aiSendBtn.addEventListener('click', sendAIMessage)
+aiInput.addEventListener('keyup', (e) => {
+  if (e.key === 'Enter') sendAIMessage()
+})
 mdui.setTheme(mdui_theme[LDtheme][0])
 toastr.options = {
   // toastr配置

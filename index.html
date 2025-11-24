@@ -34,19 +34,12 @@
       })(window, document, 'clarity', 'script', 'sy1yhmgd2s')
     </script>
     <script
-      src="https://unpkg.com/vconsole@3.15.1/dist/vconsole.min.js"
+      src="src/vconsole.min.js"
       defer
       onload="const vConsole = new VConsole(); if (localStorage.getItem('enable_vconsole') !== 'true') { console.log('1'); vConsole.setOption('onReady',vConsole.destroy())} "
     ></script>
   </head>
   <body>
-    <!-- <header class="mdui-appbar mdui-appbar-fixed">
-      <h2 id="lj_title">
-        
-      <div class="user-info">
-
-      </div>
-    </header> -->
     <mdui-top-app-bar scroll-behavior="hide" style="background: rgb(var(--mdui-color-primary-container)); --shape-corner: 20px">
       <img
         class="lj_title b"
@@ -67,12 +60,15 @@
       </mdui-tooltip>
     </mdui-top-app-bar>
 
-    <div class="search-bar">
-      <mdui-tooltip content="输入房间名、房主、游戏模式、版本号进行搜索">
-        <mdui-text-field label="搜索房间" id="search-input" type="search" inputmode="search" variant="outlined">
-          <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
-        </mdui-text-field>
-      </mdui-tooltip>
+    <div class="search-bar" style="display: flex; align-items: center; gap: 8px">
+      <div style="flex-grow: 1">
+        <mdui-tooltip content="输入房间名、房主、游戏模式、版本号进行搜索">
+          <!-- 移除 variant="outlined" 使用纯净风格，CSS 会加阴影 -->
+          <mdui-text-field label="搜索房间..." id="search-input" type="search" inputmode="search" style="width: 100%">
+            <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
+          </mdui-text-field>
+        </mdui-tooltip>
+      </div>
       <div style="padding-left: 10px">
         <mdui-dropdown>
           <mdui-button-icon icon="sort" variant="tonal" slot="trigger" title="房间排序"></mdui-button-icon>
@@ -99,7 +95,6 @@
       </div>
     </div>
 
-    <p style="text-align: center">单击房间卡片以查看详细信息!</p>
     <div class="room-list">
       <!-- 添加 6-8 个骨架屏卡片作为占位符 -->
       <mdui-card class="room-card skeleton">
@@ -276,7 +271,7 @@
       <mdui-button slot="action" variant="filled" id="dialog-next" icon="arrow_outward">开始</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="⚙用户配置" id="dialog-user-settings">
+    <mdui-dialog close-on-overlay-click headline="🔧用户配置" id="dialog-user-settings">
       <p>游戏ID</p>
       <mdui-text-field label="输入你的游戏id" icon="person" id="input-userid" class="input-config userid"></mdui-text-field>
       <div id="accounts-list" class="accounts-list">
@@ -317,7 +312,7 @@
       <mdui-button slot="action" variant="filled" id="dialog-update" icon="download">下载更新</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="✈分享房间" id="dialog-room-share">
+    <mdui-dialog close-on-overlay-click headline="🔗分享房间" id="dialog-room-share">
       <p class="newver-p"><mdui-icon name="link" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享链接:</span></p>
       <div class="share-link">
         <mdui-text-field id="t-share-url" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
@@ -350,104 +345,6 @@
         <!-- 移除默认边距 -->
       </div>
     </mdui-dialog>
-
-    <!-- <mdui-dialog id="dialog-cardui-choose" headline="房间卡片样式选择">
-      <p>我们最近上线了新的房间卡片UI，请选择您喜欢的样式<br />您也可以在设置界面选择UI样式</p>
-
-      <div>
-        <mdui-radio-group value="false" id="ui-choose-old">
-          <div>
-            <div class="room-list" style="display: flex; justify-content: center; width: 100%">
-              <mdui-card class="room-card" variant="elevated" style="width: 100%; cursor: pointer" id="demo-card1">
-                <div class="room-card-header">
-                  <p id="room-name2" title="丧尸来了，快建房！">丧尸来了，快建房！</p>
-
-                <div class="room-card-body">
-                  <div class="info-line">
-                    <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/2535446053481762/image/head" class="host-avatar" alt="Host Avatar" />
-                    <span
-                      ><a href="https://www.xbox.com/play/user/Madefake114514" target="_blank" title="查看 Madefake114514 的Xbox主页"><strong>Madefake114514</strong></a></span
-                    >
-                  </div>
-                  <div class="info-line">
-                    <mdui-icon name="people"></mdui-icon>
-                    <span>人数: <span class="people-num non-full">12 / 31</span></span>
-                  </div>
-                  <div style="display: flex">
-                    <div class="info-line tags" style="margin-left: 0px" title="单击以搜索标签" id="btn-mode-bde5b4c5-e26c-467d-9998-229f0c15c1f4">
-                      <img src="src/jixian.png" width="18" height="18" style="image-rendering: pixelated; margin-left: 1px; margin-right: 2px" />
-                      <span style="color: rgb(var(--mdui-color-on-primary))">极限模式</span>
-                    </div>
-                    <div class="info-line tags" style="margin-left: 5px" title="单击以搜索标签" id="btn-version-bde5b4c5-e26c-467d-9998-229f0c15c1f4">
-                      <img src="./src/new_mc.png" width="18" height="18" style="image-rendering: pixelated; margin-left: 2px" />
-                      <span style="color: rgb(var(--mdui-color-on-primary))">1.21.101</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="room-card-footer">
-                  <mdui-button class="join-button" end-icon="login" id="btn-joinroom-bde5b4c5-e26c-467d-9998-229f0c15c1f4" name="" value="" type="button" variant="filled"
-                    >广播房间</mdui-button
-                  >
-                  <mdui-tooltip content="分享房间" variant="plain" placement="auto" open-delay="150" close-delay="150" trigger="hover focus">
-                    <mdui-button-icon icon="share" id="btn-share-5722A48C-F038-4060-939F-D93F2FD94090" name="" value="" type="button" variant="standard"></mdui-button-icon>
-                  </mdui-tooltip>
-                </div>
-              </mdui-card>
-            </div>
-
-            <div style="text-align: center">
-              <mdui-radio value="false">新UI</mdui-radio>
-            </div>
-            <br />
-            <div class="room-list" style="display: flex; justify-content: center; width: 100%">
-              <mdui-card class="room-items" variant="elevated" style="width: 100%; cursor: pointer" id="demo-card2">
-                <p id="room-name2" title="丧尸来了，快建房！">丧尸来了，快建房！</p>
-                <div class="room-info">
-                  <p id="room-host">
-                    <img
-                      src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/2535446053481762/image/head"
-                      width="18"
-                      height="18"
-                      class="room-icon"
-                      id="Madefake114514_t"
-                      style="vertical-align: -10%; margin-right: 6px"
-                    />Madefake114514
-                  </p>
-                  <p id="room-people">
-                    <mdui-icon name="people" class="room-icon"></mdui-icon><span class="people-num non-full">12/31</span
-                    ><img
-                      alt="GameMode"
-                      src="src/jixian.png"
-                      decoding="async"
-                      loading="lazy"
-                      width="18"
-                      height="18"
-                      class="room-icon"
-                      style="margin-left: 20px; image-rendering: pixelated; vertical-align: -18%"
-                    />极限<mdui-icon name="videogame_asset" class="room-icon" style="margin-left: 20px"></mdui-icon>1.21.101
-                  </p>
-                </div>
-
-                <div style="display: flex; gap: 3px; margin-bottom: 10px">
-                  <mdui-button end-icon="login" id="btn-joinroom-bde5b4c5-e26c-467d-9998-229f0c15c1f4-example" style="flex: 1" name="" value="" type="button" variant="filled"
-                    >广播房间</mdui-button
-                  >
-                  <mdui-tooltip content="分享房间" variant="plain" placement="auto" open-delay="150" close-delay="150" trigger="hover focus">
-                    <mdui-button-icon icon="share" id="btn-share-5722A48C-F038-4060-939F-D93F2FD94090-example" name="" value="" type="button" variant="standard"></mdui-button-icon>
-                  </mdui-tooltip>
-                </div>
-              </mdui-card>
-            </div>
-            <div style="text-align: center">
-              <mdui-radio value="true">旧UI</mdui-radio>
-            </div>
-          </div>
-        </mdui-radio-group>
-      </div>
-      <mdui-button slot="action" variant="filled" id="btn-save-ui" icon="check">确定并保存</mdui-button>
-    </mdui-dialog> -->
-
     <mdui-dialog close-on-overlay-click id="dialog-toastr">
       <div style="position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center">
         <mdui-avatar style="width: 70px; height: 70px" id="dialog-toastr-icon-background">
@@ -490,7 +387,7 @@
         <mdui-button icon="event_note" onclick="window.open('https:\/\/lianji.qqaq.top/update_notice.html')">更新日志</mdui-button>
         <mdui-button onclick="window.open('https:\/\/github.com/woshimaniubi8/mc-lianji')">
           <mdui-icon style="font-size: 18px">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <!--!Font Awesome Free v7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
               <path
                 d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM252.8 8c-138.7 0-244.8 105.3-244.8 244 0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1 100-33.2 167.8-128.1 167.8-239 0-138.7-112.5-244-251.2-244zM105.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
@@ -506,7 +403,7 @@
       <mdui-button slot="action" variant="outlined" id="dialog-done" icon="check">完成</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="🖊在线反馈" id="dialog-efeedback">
+    <mdui-dialog close-on-overlay-click headline="📜在线反馈" id="dialog-efeedback">
       <p>您的每一个反馈与建议都在促使我们的网站变得更好，我们十分重视您的每一个建议。如果您有任何意见，可以发送邮件到下方的邮箱或是填写下方的表单并提交。我们收到您的反馈后会及时给您回复</p>
       <p><mdui-icon name="emails" style="vertical-align: -23%; margin-right: 5px"></mdui-icon>反馈邮箱：<a href="mailto:wzy@qqaq.top">wzy@qqaq.top</a></p>
       <div>
@@ -537,7 +434,7 @@
       <mdui-button icon="close" slot="action" variant="outlined" id="dialog-exit1">关闭新手教程</mdui-button>
     </mdui-dialog>
 
-    <mdui-dialog close-on-overlay-click headline="ℹ房间信息" id="dialog-room-info">
+    <mdui-dialog close-on-overlay-click headline="🚪房间信息" id="dialog-room-info">
       <!-- 1. Moved the title outside the scrollable area -->
       <p>房间成员:</p>
       <div style="max-height: 30vh; overflow-y: auto; border: 1px solid rgb(var(--mdui-color-outline-variant)); border-radius: 8px; margin-bottom: 16px; width: 40vh; max-width: 98%">
@@ -577,12 +474,47 @@
       <mdui-tooltip placement="left" content="更多">
         <mdui-fab variant="primary" icon="more_horiz" id="fab-chat" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
+      <mdui-tooltip placement="left" content="AI">
+        <mdui-fab variant="primary" icon="auto_awesome" id="fab-ai" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"> </mdui-fab>
+      </mdui-tooltip>
 
       <mdui-tooltip placement="left" content="菜单">
         <mdui-fab variant="primary" icon="menu" id="fab-menu" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
     </div>
+    <!-- AI 聊天自定义窗口 (非 mdui-dialog) -->
+    <div id="ai-chat-window" class="ai-chat-closed">
+      <div class="ai-header">
+        <div class="ai-title">
+          <mdui-icon name="auto_awesome" style="margin-right: 8px; color: rgb(var(--mdui-color-primary))"></mdui-icon>
 
+          <span>AI 助手 </span>
+          <img title="status" loading="lazy" src="https://api.netlify.com/api/v1/badges/af1beb50-4eec-4603-9b46-57d274705ef1/deploy-status" style="padding-left: 10px" />
+        </div>
+        <div class="ai-actions">
+          <!-- 清空历史按钮 -->
+          <mdui-button-icon icon="delete_outline" id="ai-clear-btn" variant="standard" title="清空对话"></mdui-button-icon>
+          <!-- 关闭按钮 -->
+          <mdui-button-icon icon="close" id="ai-close-btn" variant="standard"></mdui-button-icon>
+        </div>
+      </div>
+
+      <div id="ai-messages-area">
+        <div class="ai-message ai-welcome">👋 你好！我是你的 AI 助手。<br />有问题请尽管问我，例如：“如何联机？”</div>
+        <!-- 消息将插入到这里 -->
+      </div>
+
+      <!-- 思考过程展示区 (类似 DeepSeek/O1 的思考链) -->
+      <div id="ai-reasoning-container" style="display: none">
+        <div class="reasoning-header"><mdui-icon name="psychology" style="font-size: 16px"></mdui-icon> 深度思考中...</div>
+        <div><p id="ai-reasoning-content"></p></div>
+      </div>
+
+      <div class="ai-input-area">
+        <input type="text" id="ai-input" placeholder="输入问题... (Enter发送)" autocomplete="off" />
+        <mdui-button-icon icon="send" id="ai-send-btn" variant="filled"></mdui-button-icon>
+      </div>
+    </div>
     <script src="src/jquery.min.js" defer></script>
     <script src="src/toastr.min.js" defer></script>
     <script src="src/my-toastr.js" defer></script>

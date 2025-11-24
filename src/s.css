@@ -85,19 +85,40 @@ a:hover {
   display: inline;
 }
 
-/* --- 搜索栏 --- */
 .search-bar {
+  background: rgba(var(--mdui-color-inverse-primary), 0.1); /* 确保背景不透明 */
+  border-radius: 28px;
+  /* 修复阴影显示 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 4px 8px 4px 20px; /* 调整内边距 */
+  margin: 20px auto 30px;
+  width: 92%;
+  max-width: 800px;
   display: flex;
-  margin: 20px auto; /* 增加上下间距 */
-  padding: 10px 0;
-  max-width: 1000px;
   align-items: center;
-  width: 100%;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(var(--mdui-color-outline), 0.1);
 }
+
+.search-bar:focus-within {
+  box-shadow: 0 8px 24px rgba(var(--mdui-color-primary), 0.2);
+
+  border-color: rgba(var(--mdui-color-primary), 0.5);
+}
+
+/* 强制去掉 mdui-text-field 自带的边框和背景，让外层 div 负责样式 */
 .search-bar mdui-text-field {
-  margin: 0 auto;
-  max-width: 1000px;
-  width: 95%;
+  margin: 0;
+  width: 100%;
+  background: transparent;
+  --shape-corner: 28px;
+}
+/* 隐藏 MDUI 输入框自带的底部指示条或边框，避免双重边框 */
+.search-bar mdui-text-field::part(container) {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 #search-input .container.has-icon {
@@ -105,30 +126,42 @@ a:hover {
 }
 
 /* --- 核心优化：房间列表与卡片 --- */
-
+/* --- 顶部栏美化 (毛玻璃) --- */
+mdui-top-app-bar {
+  background-color: rgba(var(--mdui-color-primary-container), 0.8) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(var(--mdui-color-outline), 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
 /* 1. 优化房间列表的网格布局 */
 .room-list {
-  padding: 10px 0;
+  padding: 10px 2%; /* 增加左右内边距防止贴边 */
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(35vh, 2fr));
-  gap: 15px;
-  width: 98%;
-  /* max-height: calc(100vh - 10px); */
-
+  /* 优化列宽，避免卡片太窄 */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box; /* 关键：防止宽度溢出 */
   margin: 0 auto;
+  /* max-width: 1400px; */
 }
 
 /* 2. 全新的卡片设计 */
 .room-card {
-  background-color: rgb(var(--mdui-color-surface-container-highest));
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid transparent;
+  background-color: rgb(var(--mdui-color-primary-container)); /* 使用更亮的背景 */
+  border: 1px solid rgba(var(--mdui-color-outline), 0.08);
+  border-radius: 24px; /* 更大的圆角 */
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  min-height: 180px;
+  /* 修复动画闪烁：默认透明 */
+  opacity: 0;
+  /* 动画定义在 s.js 动态添加 class 时生效，或者这里定义默认状态 */
 }
 
 .room-card:hover {
@@ -383,24 +416,28 @@ a:hover {
 /* 骨架 */
 
 /* s.css */
+/* 骨架屏修复 */
 .skeleton {
-  cursor: progress;
+  cursor: wait;
+  opacity: 1 !important; /* 骨架屏不应该透明 */
 }
-
 .skeleton .skeleton-text,
 .skeleton .skeleton-avatar,
 .skeleton .skeleton-tag,
 .skeleton .skeleton-button {
-  background: linear-gradient(
-    90deg,
-    rgba(var(--mdui-color-surface-container-highest-rgb), 0.8) 25%,
-    rgba(var(--mdui-color-surface-container-high-rgb), 0.5) 50%,
-    rgba(var(--mdui-color-surface-container-highest-rgb), 0.8) 75%
-  );
+  background: linear-gradient(90deg, rgb(var(--mdui-color-inverse-primary)) 25%, rgb(var(--mdui-color-primary)) 65%, rgb(var(--mdui-color-inverse-primary)) 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite linear;
   border-radius: 4px;
-  color: transparent !important;
+  height: 1rem; /* 默认高度 */
+}
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 #dialog-next {
   width: 130px;
@@ -425,6 +462,21 @@ a:hover {
   text-align: center;
   padding: 1rem;
   margin-top: auto; /* 这是Flexbox布局中将元素推到底部的关键 */
+}
+
+.card-animate {
+  animation: fadeInUp 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* --- FAB Speed Dial Menu --- */
@@ -470,17 +522,389 @@ a:hover {
 
 /* Define the specific upward translation for each button using a CSS variable */
 /* Assuming a FAB height of 56px and a desired gap of 10px = 66px per step */
-#fab-chat {
-  --fab-translate-y: -66px;
+#fab-ai {
+  --fab-translate-y: -70px;
   transition-delay: 0.05s;
 }
-#fab-theme {
-  --fab-translate-y: -132px;
+#fab-chat {
+  --fab-translate-y: -136px;
   transition-delay: 0.1s;
 }
-#fab-reload {
-  --fab-translate-y: -198px;
+#fab-theme {
+  --fab-translate-y: -202px;
   transition-delay: 0.15s;
+}
+#fab-reload {
+  --fab-translate-y: -268px;
+  transition-delay: 0.15s;
+}
+
+/* AI 聊天窗口容器 */
+#ai-chat-window {
+  position: fixed;
+  bottom: 90px; /* 位于 FAB 上方 */
+  right: 20px;
+  width: 380px;
+  height: 600px;
+  max-height: 80vh;
+  background-color: rgb(var(--mdui-color-surface-container));
+  border: 1px solid rgba(var(--mdui-color-outline), 0.2);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 2000; /* 保证在 FAB 之上 */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  backdrop-filter: blur(10px); /* 毛玻璃 */
+}
+
+/* 隐藏状态（缩放+透明） */
+#ai-chat-window.ai-chat-closed {
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
+  pointer-events: none;
+}
+
+/* 头部 */
+.ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: rgba(var(--mdui-color-surface-container-high), 0.9);
+  border-bottom: 1px solid rgba(var(--mdui-color-outline), 0.1);
+  -webkit-user-select: none;
+}
+
+.ai-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  color: rgb(var(--mdui-color-on-surface));
+}
+
+/* 消息区域 */
+#ai-messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+}
+
+/* 滚动条美化 */
+#ai-messages-area::-webkit-scrollbar {
+  width: 6px;
+}
+#ai-messages-area::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--mdui-color-outline), 0.2);
+  border-radius: 3px;
+}
+
+/* 消息气泡基类 */
+.ai-message {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+  animation: fadeInUp 0.3s ease;
+  white-space: normal; /* 确保普通文本自动换行 */
+}
+
+/* 用户消息 */
+.ai-message.user {
+  align-self: flex-end;
+  background-color: rgb(var(--mdui-color-primary));
+  color: rgb(var(--mdui-color-on-primary));
+  border-bottom-right-radius: 4px;
+}
+
+/* AI 消息 */
+.ai-message.assistant {
+  align-self: flex-start;
+  background-color: rgb(var(--mdui-color-secondary-container));
+  color: rgb(var(--mdui-color-on-secondary-container));
+  border-bottom-left-radius: 4px;
+}
+
+/* 欢迎消息/系统消息 */
+.ai-message.ai-welcome {
+  align-self: center;
+  background-color: rgba(var(--mdui-color-surface-variant), 0.5);
+  color: rgb(var(--mdui-color-on-surface-variant));
+  text-align: center;
+  font-size: 0.85rem;
+  max-width: 90%;
+}
+
+/* 思考过程区域 */
+#ai-reasoning-container {
+  margin: 0 16px 10px 16px;
+  background-color: rgba(var(--mdui-color-surface-container-highest), 0.5);
+  border-left: 3px solid rgb(var(--mdui-color-tertiary));
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.85rem;
+  color: rgb(var(--mdui-color-on-surface-variant));
+}
+.reasoning-header {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: rgb(var(--mdui-color-tertiary));
+}
+#ai-reasoning-content {
+  white-space: pre-wrap;
+  opacity: 0.8;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* 输入区域 */
+.ai-input-area {
+  padding: 12px;
+  background-color: rgb(var(--mdui-color-surface-container));
+  border-top: 1px solid rgba(var(--mdui-color-outline), 0.1);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* 自定义输入框以匹配 mdui 风格但不使用 mdui 组件(避免 shadow dom 麻烦) */
+#ai-input {
+  flex: 1;
+  border: 1px solid rgba(var(--mdui-color-outline), 0.5);
+  background-color: rgba(var(--mdui-color-surface), 0.5);
+  color: rgb(var(--mdui-color-on-surface));
+  padding: 10px 16px;
+  border-radius: 24px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#ai-input:focus {
+  border-color: rgb(var(--mdui-color-primary));
+  background-color: rgb(var(--mdui-color-surface));
+}
+/* --- s.css 末尾添加 Markdown 样式 --- */
+
+/* 链接样式 */
+.ai-message a {
+  color: rgb(var(--mdui-color-primary));
+  text-decoration: underline;
+}
+
+/* 加粗强调 */
+.ai-message strong {
+  font-weight: 900;
+  color: rgb(var(--mdui-color-primary)); /* 让重点文字带上主题色 */
+}
+
+/* 标题 */
+.ai-message h3 {
+  margin: 10px 0 5px 0;
+  font-size: 1.1em;
+  font-weight: bold;
+  border-bottom: 1px dashed rgba(var(--mdui-color-outline), 0.3);
+  padding-bottom: 4px;
+}
+
+/* 行内代码 (`code`) */
+.ai-message .inline-code {
+  background-color: rgba(var(--mdui-color-on-surface), 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+  color: rgb(var(--mdui-color-tertiary));
+}
+
+/* 代码块容器 (<pre>) */
+.ai-message pre {
+  background-color: #1e1e1e; /* 深色背景 */
+  color: #d4d4d4;
+  border-radius: 8px;
+  margin: 8px 0;
+  overflow: hidden; /* 防止溢出 */
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.85rem;
+  border: 1px solid rgba(var(--mdui-color-outline), 0.2);
+}
+
+/* 代码块头部 (显示语言) */
+.code-header {
+  background-color: #2d2d2d;
+  color: #888;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  -webkit-user-select: none;
+  border-bottom: 1px solid #333;
+}
+
+/* --- s.css 末尾追加 --- */
+
+/* --- 列表样式 --- */
+.ai-message ul, 
+.ai-message ol {
+  margin: 8px 0;
+  padding-left: 24px; /* 给圆点/数字留空间 */
+}
+
+.ai-message li {
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+/* 消除列表内最后一行多余的 br */
+.ai-message li:last-child br {
+  display: none;
+}
+
+/* 表格外部容器 (滚动条) */
+.md-table-wrapper {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  margin: 1em 0;
+  border: 1px solid rgba(var(--mdui-color-outline), 0.2);
+  border-radius: 8px;
+}
+
+/* 表格本体 */
+.ai-message table {
+  width: 100%;
+  border-collapse: collapse; /* 关键：合并边框 */
+  font-size: 0.9em;
+  min-width: 300px; /* 防止在手机上过度挤压 */
+}
+
+/* 表头 */
+.ai-message th {
+  background-color: rgba(var(--mdui-color-primary-container), 0.5);
+  color: rgb(var(--mdui-color-on-primary-container));
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid rgba(var(--mdui-color-outline), 0.1);
+}
+
+.ai-message td {
+  padding: 8px;
+  border-top: 1px solid rgba(var(--mdui-color-outline), 0.1);
+  color: rgb(var(--mdui-color-on-surface));
+  line-height: 1.4;
+  vertical-align: top; /* 顶部对齐 */
+}
+
+/* 偶数行背景 (斑马纹) */
+.ai-message tr:nth-child(even) {
+  background-color: rgba(var(--mdui-color-surface-variant), 0.1);
+}
+
+/* 鼠标悬停 */
+.ai-message tr:hover {
+  background-color: rgba(var(--mdui-color-surface-variant), 0.2);
+}
+
+/* 代码内容 (<code>) */
+.ai-message pre code {
+  display: block;
+  padding: 12px;
+  overflow-x: auto; /* 支持横向滚动 */
+  white-space: pre; /* 保持代码格式 */
+  line-height: 1.4;
+}
+
+/* 滚动条美化 (针对代码块) */
+.ai-message pre code::-webkit-scrollbar {
+  height: 6px;
+}
+.ai-message pre code::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+}
+/* --- s.css 末尾追加 --- */
+
+/* [新] 图片样式 */
+.ai-image {
+  max-width: 100%; /* 防止撑破容器 */
+  border-radius: 8px; /* 圆角 */
+  margin: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: zoom-in; /* 鼠标悬停提示可点击 */
+  transition: transform 0.2s;
+  display: block; /* 独占一行看起来更整洁 */
+}
+
+.ai-image:hover {
+  transform: scale(1.02); /* 悬停微放大 */
+}
+
+/* [新] 删除线样式 */
+.ai-message del {
+  color: rgba(var(--mdui-color-on-surface), 0.6); /* 颜色变淡 */
+  text-decoration-thickness: 2px; /* 线条加粗 */
+}
+
+/* [新] 水平分割线样式 */
+.ai-hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right, 
+    rgba(var(--mdui-color-outline), 0), 
+    rgba(var(--mdui-color-outline), 0.5), 
+    rgba(var(--mdui-color-outline), 0)
+  ); /* 渐变线条，两头淡中间深 */
+  margin: 16px 0;
+}
+/* --- s.css 末尾追加 --- */
+
+/* [新] 引用块样式 */
+.ai-message blockquote {
+  margin: 8px 0;
+  padding: 8px 12px 8px 16px;
+  /* 左侧高亮竖线，使用主题色 */
+  border-left: 4px solid rgb(var(--mdui-color-primary));
+  /* 背景色稍微深一点/亮一点，取决于主题 */
+  background-color: rgba(var(--mdui-color-surface-variant), 0.3);
+  color: rgb(var(--mdui-color-on-surface-variant));
+  border-radius: 0 8px 8px 0; /* 右侧圆角 */
+  font-style: italic; /* 斜体以示区分 */
+  line-height: 1.5;
+}
+
+/* 引用块内部的段落不应有额外边距 */
+.ai-message blockquote p {
+  margin: 0;
+}
+
+/* 之前的样式保持不变... */
+/* 之前的样式保持不变... */
+/* 移动端适配 */
+@media (max-width: 600px) {
+  #ai-chat-window {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+    border: none;
+    z-index: 9999; /* 全屏遮盖 */
+  }
+
+  .ai-header {
+    padding-top: 16px; /* 避开状态栏 */
+  }
 }
 
 @keyframes skeleton-loading {
