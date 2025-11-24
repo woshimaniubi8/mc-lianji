@@ -25,7 +25,7 @@ const gameMode = {
 let allRoomList = [] // 所有房间数据
 let filteredRoomList = []
 const loadingScreen = document.getElementById('dialog-loading')
-let activeAccount = localStorage.getItem('ac_id') || -1
+let activeAccount = localStorage.getItem('ac_id') || 3
 let userID
 if (localStorage.getItem('user_id') != 'null') {
   userID = localStorage.getItem('user_id') || '未设置id'
@@ -709,229 +709,214 @@ async function saveUserConfig() {
   toastrs.success('更新配置成功')
 }
 async function displayRoomList(roomsToDisplay = filteredRoomList) {
-  roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
-  roomListElement.innerHTML = ''
+  const listElement = document.querySelector('.room-list'); // 获取容器
+  
+  // 重新设置 class 以触发布局更新
+  listElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`; 
+  listElement.innerHTML = '';
 
-  const sortedRooms = sortRooms(roomsToDisplay) // 在渲染前排序
-  const uniqueRooms = [...new Map(sortedRooms.map((room) => [room.id, room])).values()] //房间去重
-  // let secondRooms,
-  //   valid_room,
-  //   invalid_room = []
-  // uniqueRooms.forEach((room) => {
-  //   const isFull = room.memberCount >= room.maxMemberCount
-  //   if (isFull) {
-  //     return // 跳过满员且设置了隐藏的房间
-  //   }
-
-  //   if (room.broadcastSetting < 3) {
-  //     return // 跳过不可加入且设置了隐藏的房间
-  //   }
-  //   secondRooms.push(room)
-  // })
+  const sortedRooms = sortRooms(roomsToDisplay);
+  const uniqueRooms = [...new Map(sortedRooms.map((room) => [room.id, room])).values()];
 
   if (uniqueRooms.length === 0) {
-    roomListElement.innerHTML = '<p style="text-align: center; color: grey;">当前没有可显示的房间。</p>'
-    return
+    listElement.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px; opacity: 0.7;">
+        <mdui-icon name="inbox" style="font-size: 48px; color: rgb(var(--mdui-color-outline));"></mdui-icon>
+        <p>当前没有可显示的房间</p>
+      </div>`;
+    return;
   }
 
-  uniqueRooms.forEach((room) => {
-    // console.log(getTimeText(room.createTime))
-    // console.log(room)
+  uniqueRooms.forEach((room, index) => {
+    // 过滤逻辑保持不变
     if (room.roomFrom === activeAccount || !hideOtherroom) {
-      const isFull = room.memberCount >= room.maxMemberCount
-      if (isFull && hideInvalidroom) {
-        return // 跳过满员且设置了隐藏的房间
-      }
+      const isFull = room.memberCount >= room.maxMemberCount;
+      if (isFull && hideInvalidroom) return;
 
-      let isDisabled = isFull
-      let buttonText = isFull ? '房间已满' : '广播房间'
-      let buttonIcon = isFull ? 'close' : 'login'
+      let isDisabled = isFull;
+      let buttonText = isFull ? '房间已满' : '加入房间';
+      let buttonIcon = isFull ? 'close' : 'login';
+      let btnVariant = isFull ? 'outlined' : 'filled'; // 满员用线框按钮
 
       if (room.broadcastSetting < 3) {
-        if (hideInvalidroom) {
-          return // 跳过不可加入且设置了隐藏的房间
-        }
-        isDisabled = true
-        buttonText = '限制加入'
-        buttonIcon = 'block'
+        if (hideInvalidroom) return;
+        isDisabled = true;
+        buttonText = '限制加入';
+        buttonIcon = 'block';
+        btnVariant = 'tonal';
       }
 
-      const peopleNumClass = isFull ? 'people-num full' : 'people-num non-full'
-      const gamemode = room.isHardcore ? ['jixian', '极限'] : gameMode[room.type] || ['unknown', '未知']
-      const verIcon = Number(room.version.slice(0, 4)) >= 1.2 ? './src/new_mc.png' : './src/old_mc.png'
-      const roomCard = document.createElement('mdui-card')
-      // console.log(room.worldNameLang)
-      const langText_1 = languageCode.find((item) => item.code === room.worldNameLang)
+      const peopleNumClass = isFull ? 'people-num full' : 'people-num non-full';
+      const gamemode = room.isHardcore ? ['jixian', '极限'] : gameMode[room.type] || ['unknown', '未知'];
+      const verIcon = Number(room.version.slice(0, 4)) >= 1.2 ? './src/new_mc.png' : './src/old_mc.png';
+      
+      const langText_1 = languageCode.find((item) => item.code === room.worldNameLang);
+      const langText = langText_1 ? langText_1.name_zh : '未知';
 
+<<<<<<< HEAD
       // 如果找到了对象，返回它的 name_zh 属性；否则返回 null 或其他默认值
       const langText = langText_1 ? langText_1.name_zh : '未知'
       roomCard.className = 'room-card card-animate' // 使用新的 class
       roomCard.style.cursor = 'pointer'
+=======
+      const roomCard = document.createElement('div'); // 使用 div 避免自定义组件样式的 shadow dom 干扰
+      
+      // 添加必要的 class 和动画
+      roomCard.className = 'room-card card-animate';
+      
+      // 设置动画延迟，最多延迟 20 个元素，避免过长等待
+      const delay = Math.min(index * 0.05, 1.0);
+      roomCard.style.animationDelay = `${delay}s`;
+      
+      // 新UI HTML 结构 - 使用 Flexbox 对齐
+>>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
       if (!enableOldUI) {
         roomCard.innerHTML = `
         <div class="room-card-header">
-          <p id="room-name2" title="${room.name.replace(/§./g, '')}">${formatMinecraftText(room.name)}</p>
+          <div id="room-name2" title="${room.name.replace(/§./g, '')}">${formatMinecraftText(room.name)}</div>
         </div>
 
         <div class="room-card-body">
+          <!-- 房主信息行 -->
           <div class="info-line">
-            <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${
-              room.xuid
-            }/image/head" class="host-avatar" alt="Host Avatar" loading="lazy" style="image-rendering: pixelated;"/>
-            <span><a href="https://www.xbox.com/play/user/${room.host}" target="_blank" title="查看 ${room.host} 的Xbox档案"><strong>${room.host}</strong></span></a>
+            <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${room.xuid}/image/head" 
+                 class="host-avatar" 
+                 loading="lazy" 
+                 style="width: 24px; height: 24px; margin-right: 8px; image-rendering: pixelated;">
+            <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+              <a href="https://www.xbox.com/play/user/${room.host}" target="_blank" title="查看 ${room.host} 的Xbox档案">${room.host}</a>
+            </div>
           </div>
-          <div class="info-line">
-            <mdui-icon name="people"></mdui-icon>
-            <span><span class="${peopleNumClass}">${room.memberCount} / ${room.maxMemberCount}</span></span>
+
+          <!-- 状态行 (人数 & 时间) -->
+          <div style="display:flex; justify-content: space-between; align-items: center;">
+             <div class="info-line">
+                <mdui-icon name="group" style="font-size: 18px; margin-right: 6px; color: rgb(var(--mdui-color-primary));"></mdui-icon>
+                <span class="${peopleNumClass}">${room.memberCount}</span>
+                <span style="opacity:0.6; margin-left: 2px;">/ ${room.maxMemberCount}</span>
+             </div>
+             <div class="info-line" style="opacity: 0.8;">
+                <mdui-icon name="access_time" style="font-size: 16px; margin-right: 4px;"></mdui-icon>
+                <span style="font-size: 0.85rem;">${getTimeText(room.createTime)}</span>
+             </div>
           </div>
-          <div class="info-line">
-            <mdui-icon name="access_time"></mdui-icon>
-            <span>${getTimeText(room.createTime)}</span>
-          </div>
-          <div style="display:flex" id="room-list-icongroup${enableTwoFr ? '-twofr' : ''}">
-          <div class="info-line tags" style="margin-left:0px;" title="单击以搜索标签" id="btn-mode-${room.id}">
-            <img src="src/${gamemode[0]}.png" class="room-tag-img" style="image-rendering: pixelated;margin-left:1px;margin-right:2px" loading="lazy"/>
-            <span style="color:rgb(var(--mdui-color-on-primary))">${gamemode[1]}</span>
+
+          <!-- 标签行 -->
+          <div class="tags-container" id="room-list-icongroup">
+             <div class="info-line tags" id="btn-mode-${room.id}">
+                <img src="src/${gamemode[0]}.png" style="image-rendering: pixelated;" loading="lazy"/>
+                <span>${gamemode[1]}</span>
+             </div>
+             <div class="info-line tags ver" id="btn-version-${room.id}">
+                <img src="${verIcon}" style="image-rendering: pixelated;" loading="lazy"/>
+                <span>${room.version}</span>
+             </div>
+             <div class="info-line tags ver" id="btn-lang-${room.id}">
+                <mdui-icon name="translate"></mdui-icon>
+                <span>${langText}</span>
+             </div>
            </div>
-            <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-version-${room.id}">
-            <img src="${verIcon}"class="room-tag-img" style="image-rendering: pixelated;margin-left:2px;" loading="lazy"/>
-            <span style="color:rgb(var(--mdui-color-on-primary))">${room.version}</span>
-           </div>
-             <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-lang-${room.id}">
-            <mdui-icon name="translate" class="room-tag-img" style="font-size:16px;margin-left:2px;color:rgb(var(--mdui-color-surface-container-lowest))" ></mdui-icon>
-            <span style="color:rgb(var(--mdui-color-on-primary))">${langText}</span>
-           </div>
-           </div>
-          </div>
         </div>
 
         <div class="room-card-footer">
-          <mdui-button class="join-button" ${isDisabled ? 'disabled' : ''} end-icon="${buttonIcon}" id="btn-joinroom-${room.id}">${buttonText}</mdui-button>
-          <mdui-tooltip content="分享房间">
-            <mdui-button-icon icon="share" id="btn-share-${room.sessionName}"></mdui-button-icon>
+          <mdui-button class="join-button" variant="${btnVariant}" ${isDisabled ? 'disabled' : ''} icon="${buttonIcon}" id="btn-joinroom-${room.id}">
+            ${buttonText}
+          </mdui-button>
+          <mdui-tooltip content="分享">
+            <mdui-button-icon icon="share" variant="standard" id="btn-share-${room.sessionName}"></mdui-button-icon>
           </mdui-tooltip>
         </div>
-      `
+      `;
       } else {
-        document.querySelector('.room-list').style = 'padding: 10px 0; display: grid ; grid-template-columns: repeat(auto-fill, minmax(35vh, 1fr)); gap: 10px; width: 98%; margin: 0 auto;'
-        roomCard.className = 'room-items'
-        roomCard.innerHTML = ` <p id="room-name2" title="${room.name}">${formatMinecraftText(room.name)}</p>
-        <div class="room-info">
-          <p id="room-host">
-            <img
-              src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${room.xuid}/image/head"
-              width="18"
-              height="18"
-              class="room-icon"
-              id=${room.host}
-              style="vertical-align: -10%; margin-right: 6px;image-rendering: pixelated;"
-              loading="lazy"
-            />${room.host}
-          </p>
-          <p id="room-people">
-            <mdui-icon name="people" class="room-icon"></mdui-icon><span class="${peopleNumClass}">${room.memberCount}/${room.maxMemberCount}</span
-            ><img
-              alt="GameMode"
-              src="src/${gamemode[0]}.png"
-              decoding="async"
-              loading="lazy"
-              width="18"
-              height="18"
-              class="room-icon"
-              style="
-                margin-left: 20px;
-                image-rendering: pixelated;
-                vertical-align: -18%;
-              "
-              loading="lazy"
-            />${gamemode[1]}<mdui-icon name="videogame_asset" class="room-icon" style="margin-left: 20px"></mdui-icon>${room.version}
-          </p>
-        </div>
-
-  <div style="display: flex; gap: 3px; margin-bottom: 10px">
-    <mdui-button ${isDisabled ? 'disabled' : ''} end-icon="${buttonIcon}" id="btn-joinroom-${room.id}" style="flex: 1;">${buttonText}</mdui-button>
-    <mdui-tooltip content="分享房间">
-      <mdui-button-icon icon="share" id="btn-share-${room.sessionName}"></mdui-button-icon>
-    </mdui-tooltip>
-</div>`
+        // 旧 UI 逻辑 (保持原样，略微修正结构)
+        roomCard.className = 'room-items'; // 恢复旧 class
+        roomCard.style.animation = 'none'; // 关闭动画
+        roomCard.style.opacity = '1'; // 强制显示
+        roomCard.innerHTML = `
+          <p id="room-name2" style="font-weight:bold; margin-bottom:5px;">${formatMinecraftText(room.name)}</p>
+          <div class="room-info" style="font-size: 0.9rem; margin-bottom: 10px;">
+            <div style="margin-bottom: 4px;">
+              <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${room.xuid}/image/head" width="16" height="16" style="vertical-align:middle; margin-right:4px; border-radius:50%;">
+              ${room.host}
+            </div>
+            <div>
+              <span class="${peopleNumClass}">${room.memberCount}/${room.maxMemberCount}</span> 人 
+              <span style="margin: 0 8px;">|</span> ${gamemode[1]} 
+              <span style="margin: 0 8px;">|</span> ${room.version}
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <mdui-button style="flex:1" variant="filled" ${isDisabled ? 'disabled' : ''} id="btn-joinroom-${room.id}">${buttonText}</mdui-button>
+            <mdui-button-icon icon="share" id="btn-share-${room.sessionName}"></mdui-button-icon>
+          </div>`;
       }
 
-      roomListElement.appendChild(roomCard)
+      listElement.appendChild(roomCard);
 
-      // Add listener for room info dialog
+      // --- 事件绑定 ---
+      
+      // 点击卡片显示详情 (排除按钮点击)
       roomCard.addEventListener('click', async (event) => {
-        // Prevent dialog from opening if a button, icon button, or link was clicked
-        if (event.target.closest('mdui-button, mdui-button-icon, a')) {
-          return
-        }
-        loadingScreen.open = true
+        if (event.target.closest('mdui-button, mdui-button-icon, a')) return;
+        
+        loadingScreen.open = true;
         try {
-          const roomInfo = await fetchRoomInfo(room.sessionName, room.roomFrom)
-          if (roomInfo) {
-            renderRoomInfoDialog(roomInfo)
-          } else {
-            throw new Error('roomInfo is empty')
-          }
+          const roomInfo = await fetchRoomInfo(room.sessionName, room.roomFrom);
+          if (roomInfo) renderRoomInfoDialog(roomInfo);
         } catch (error) {
-          console.error('Failed to show room info:', error)
-          toastrs.error(error, '获取房间信息失败')
+          toastrs.error('获取详情失败', '错误');
         } finally {
-          loadingScreen.open = false
+          loadingScreen.open = false;
         }
-      })
+      });
 
-      // 绑定事件监听器
-      // 注意：为防止ID冲突，使用room.id作为唯一标识
-      if (!isDisabled) {
-        roomCard.querySelector('#btn-joinroom-' + room.id).addEventListener('click', () => {
-          joinroom(activeAccount, room.roomFrom, room.id, room.sessionName, xuid)
-        })
+      // 按钮功能绑定
+      const joinBtn = roomCard.querySelector(`#btn-joinroom-${room.id}`);
+      if (joinBtn) {
+        joinBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          joinroom(activeAccount, room.roomFrom, room.id, room.sessionName, xuid);
+        });
       }
+
+      const shareBtn = roomCard.querySelector(`#btn-share-${room.sessionName}`);
+      if (shareBtn) {
+        shareBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // 防止触发详情弹窗
+          // 分享逻辑...
+          const shareUrl = `${clients ? 'https://lianji.qqaq.top' : window.location.origin}/share/?host=${room.host}&user=${userID === '未设置id' ? '' : userID}`;
+          document.getElementById('dialog-room-share').open = true;
+          document.getElementById('t-share-url').value = shareUrl;
+          document.getElementById('t-share-code').value = '/mcroom join ' + room.host;
+          // ...二维码逻辑...
+          new AwesomeQR.AwesomeQR({
+            text: shareUrl,
+            size: 350,
+            logoImage: 'favicon.ico',
+            logoScale: 0.2,
+          }).draw().then((dataURL) => {
+            document.getElementById('share-qrcode').src = dataURL;
+          });
+        });
+      }
+
+      // 搜索标签绑定 (新 UI 独有)
       if (!enableOldUI) {
-        document.getElementById(`btn-mode-${room.id}`).addEventListener('click', (e) => {
-          toastr.info('按游戏模式搜索:' + gamemode[1])
-          document.getElementById('search-input').value = gamemode[1]
-          searchRooms(gamemode[1])
-        })
-        document.getElementById(`btn-version-${room.id}`).addEventListener('click', (e) => {
-          toastr.info('按游戏版本搜索:' + room.version)
-          document.getElementById('search-input').value = room.version
-          searchRooms(room.version)
-        })
-        document.getElementById(`btn-lang-${room.id}`).addEventListener('click', (e) => {
-          toastr.info('按语言搜索:' + langText)
-          document.getElementById('search-input').value = 'lang::' + room.worldNameLang
-          searchRooms('lang::' + room.worldNameLang)
-        })
+        const bindSearch = (id, text) => {
+          const el = document.getElementById(id);
+          if(el) el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('search-input').value = text;
+            searchRooms(text);
+            toastr.info(`正在搜索: ${text}`);
+          });
+        };
+        bindSearch(`btn-mode-${room.id}`, gamemode[1]);
+        bindSearch(`btn-version-${room.id}`, room.version);
+        bindSearch(`btn-lang-${room.id}`, 'lang::' + room.worldNameLang);
       }
-      roomCard.querySelector('#btn-share-' + room.sessionName).addEventListener('click', () => {
-        const shareUrl = `${clients ? 'https://lianji.qqaq.top' : window.location.origin}/share/?host=${room.host}&user=${userID === '未设置id' ? '' : userID}` //&avatar=${user_avatar}`
-        document.getElementById('dialog-room-share').open = true
-        document.getElementById('t-share-url').value = shareUrl
-        document.getElementById('t-share-code').value = '/mcroom join ' + room.host
-        navigator.clipboard
-          .writeText(document.getElementById('t-share-url').value)
-          .then(() => {
-            toastr.success('分享链接已复制到剪贴板')
-          })
-          .catch((err) => {
-            console.error('复制失败:', err)
-            toastr.error('复制失败，请手动复制')
-          })
-
-        new AwesomeQR.AwesomeQR({
-          text: shareUrl,
-          size: 350,
-          logoImage: 'favicon.ico', // 中间的 Logo 图片
-          logoScale: 0.2, // Logo 大小比例
-        })
-          .draw()
-          .then((dataURL) => {
-            document.getElementById('share-qrcode').src = dataURL
-          })
-      })
     }
-  })
+  });
 }
 
 function searchRooms(keyword) {
@@ -1057,6 +1042,10 @@ document.getElementById('search-btn').addEventListener('click', () => {
   searchRooms(searchInput.value)
 })
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 708fe965e0eb03f9942c95d84a65190aefc5541f
 // 回车搜索
 document.getElementById('search-input').addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
