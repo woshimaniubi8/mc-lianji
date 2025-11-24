@@ -63,7 +63,6 @@
     <div class="search-bar" style="display: flex; align-items: center; gap: 8px">
       <div style="flex-grow: 1">
         <mdui-tooltip content="输入房间名、房主、游戏模式、版本号进行搜索">
-          <!-- 移除 variant="outlined" 使用纯净风格，CSS 会加阴影 -->
           <mdui-text-field label="搜索房间..." id="search-input" type="search" inputmode="search" style="width: 100%">
             <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
           </mdui-text-field>
@@ -358,16 +357,6 @@
 
         <mdui-divider></mdui-divider>
         <div style="flex-direction: row; width: 100%">
-          <!-- <p>
-            <mdui-icon style="vertical-align: -29%">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path
-                  d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
-                />
-              </svg>
-            </mdui-icon>
-            <span id="dialog-toastr-message">我是一条信息</span>
-          </p> -->
           <mdui-text-field variant="outlined" id="dialog-toastr-message" autosize readonly max-rows="5" value="我是一条信息"
             ><mdui-button-icon slot="end-icon" icon="content_copy" id="dialog-toastr-message-copy"></mdui-button-icon
           ></mdui-text-field>
@@ -426,7 +415,7 @@
       <mdui-button id="dialog-exit" icon="close" style="display: none">关闭新手教程</mdui-button>
       <mdui-button onclick="window.open('./newer_help.html')" icon="open_in_new">新页面打开</mdui-button>
       <p>为了提升阅读体验,建议在新页面打开新手教程</p>
-      <!-- 这个 div 将会伸展并填充剩余空间 -->
+      <!-- 这个 div 将会填充剩余空间 -->
       <div id="newer-context" style="width: 99%; height: 71vh">
         <iframe src="./newer_help.html" width="100%" allowtransparency="yes" frameborder="no" border="0" style="height: 100%; border: none"></iframe>
       </div>
@@ -435,12 +424,9 @@
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="🚪房间信息" id="dialog-room-info">
-      <!-- 1. Moved the title outside the scrollable area -->
       <p>房间成员:</p>
       <div style="max-height: 30vh; overflow-y: auto; border: 1px solid rgb(var(--mdui-color-outline-variant)); border-radius: 8px; margin-bottom: 16px; width: 40vh; max-width: 98%">
-        <!-- 3. Removed the problematic inline styles from mdui-list -->
         <mdui-list id="room-info-members-list">
-          <!-- Example items to show scrolling. These would be added dynamically. -->
           <mdui-list-item>
             Madefake114514
             <mdui-avatar slot="icon" src="favicon.ico"></mdui-avatar>
@@ -448,7 +434,6 @@
         </mdui-list>
       </div>
 
-      <!-- 4. Corrected the duplicate IDs to be unique -->
       <p style="padding-right: 3px">名称: <span id="room-info-name"></span></p>
       <p style="padding-right: 3px">房主: <span id="room-info-host"></span></p>
       <p style="padding-right: 3px">游戏模式: <span id="room-info-gamemode"></span></p>
@@ -482,7 +467,7 @@
         <mdui-fab variant="primary" icon="menu" id="fab-menu" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
     </div>
-    <!-- AI 聊天自定义窗口 (非 mdui-dialog) -->
+    <!-- AI  -->
     <div id="ai-chat-window" class="ai-chat-closed">
       <div class="ai-header">
         <div class="ai-title">
@@ -492,9 +477,7 @@
           <img title="status" loading="lazy" src="https://api.netlify.com/api/v1/badges/af1beb50-4eec-4603-9b46-57d274705ef1/deploy-status" style="padding-left: 10px" />
         </div>
         <div class="ai-actions">
-          <!-- 清空历史按钮 -->
           <mdui-button-icon icon="delete_outline" id="ai-clear-btn" variant="standard" title="清空对话"></mdui-button-icon>
-          <!-- 关闭按钮 -->
           <mdui-button-icon icon="close" id="ai-close-btn" variant="standard"></mdui-button-icon>
         </div>
       </div>
@@ -503,8 +486,6 @@
         <div class="ai-message ai-welcome">👋 你好！我是你的 AI 助手。<br />有问题请尽管问我，例如：“如何联机？”</div>
         <!-- 消息将插入到这里 -->
       </div>
-
-      <!-- 思考过程展示区 (类似 DeepSeek/O1 的思考链) -->
       <div id="ai-reasoning-container" style="display: none">
         <div class="reasoning-header"><mdui-icon name="psychology" style="font-size: 16px"></mdui-icon> 深度思考中...</div>
         <div><p id="ai-reasoning-content"></p></div>
