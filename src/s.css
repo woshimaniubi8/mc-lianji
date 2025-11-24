@@ -898,7 +898,7 @@ mdui-top-app-bar {
     right: 0;
     border-radius: 0;
     border: none;
-    z-index: 9999; /* 全屏遮盖 */
+    z-index: 9000; /* 全屏遮盖 */
   }
 
   .ai-header {
@@ -915,7 +915,7 @@ mdui-top-app-bar {
   }
 }
 @media (max-width: 340px) {
-  .lj_title.b {
+  .lj_title.b {11
     display: none; /* 在非常小的屏幕上隐藏标题 */
   }
 }
