@@ -1304,14 +1304,10 @@ CheckVconsole.addEventListener('click', (e) => {
 ///
 
 ///
-/* --- s.js 末尾添加 --- */
-
-// AI 聊天配置
-// ⚠️ 安全警告：强烈建议将 API Key 放在后端，这里仅作演示 ⚠️
 const AI_CONFIG = {
-  apiKey: 'ab592778WoCaNima_mcliAnji114514', // 你的 Key
+  apiKey: 'ab592778WocANima_mcLiAnji114514shaoyUbiub', //Key
   apiUrl: 'https://glm-netlify.netlify.app/api/paas/v4/chat/completions',
-  model: 'glm-4-flash', // 或 glm-4-plus
+  model: 'glm-4-flash', 
 }
 
 const aiChatWindow = document.getElementById('ai-chat-window')
@@ -1322,7 +1318,7 @@ const aiReasoningBox = document.getElementById('ai-reasoning-container')
 const aiReasoningContent = document.getElementById('ai-reasoning-content')
 
 let isGenerating = false
-let messageHistory = [] // 存储上下文
+let messageHistory = [] // 上下文
 
 // 1. 打开/关闭 AI 窗口
 document.getElementById('fab-ai').addEventListener('click', () => {
@@ -1333,7 +1329,7 @@ document.getElementById('fab-ai').addEventListener('click', () => {
     openAIChat()
   }
 
-  // 关闭 FAB 菜单以便更好地展示聊天窗
+  // 关闭 FAB 菜单
   const fabContainer = document.getElementById('fab-container')
   if (fabContainer.classList.contains('fab-menu-open')) {
     document.getElementById('fab-menu').click()

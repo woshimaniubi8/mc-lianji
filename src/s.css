@@ -129,8 +129,8 @@ a:hover {
 /* --- 顶部栏美化 (毛玻璃) --- */
 mdui-top-app-bar {
   background-color: rgba(var(--mdui-color-primary-container), 0.8) !important;
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(var(--mdui-color-outline), 0.1);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
@@ -390,7 +390,10 @@ mdui-top-app-bar {
 #newer-context {
   overflow: auto;
   -ms-overflow-style: none; /* IE/Edge */
+  -webkit-scrollbar-width: none; /* WebKit-based browsers */
   scrollbar-width: none; /* Firefox */
+  overflow: hidden; /* Fallback for unsupported browsers */
+  -webkit-scrollbar-width: none; /* Fallback for WebKit-based browsers */
 }
 #dialog-help::-webkit-scrollbar {
   display: none; /* 隐藏滚动条 */
@@ -471,7 +474,7 @@ mdui-top-app-bar {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(60px);
   }
   to {
     opacity: 1;
@@ -560,6 +563,7 @@ mdui-top-app-bar {
   z-index: 2000; /* 保证在 FAB 之上 */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  -webkit-backdrop-filter: blur(10px); /* 毛玻璃 for Safari */
   backdrop-filter: blur(10px); /* 毛玻璃 */
 }
 
@@ -579,6 +583,7 @@ mdui-top-app-bar {
   background-color: rgba(var(--mdui-color-surface-container-high), 0.9);
   border-bottom: 1px solid rgba(var(--mdui-color-outline), 0.1);
   -webkit-user-select: none;
+  user-select: none;
 }
 
 .ai-title {
@@ -750,6 +755,7 @@ mdui-top-app-bar {
   padding: 4px 12px;
   font-size: 0.75rem;
   -webkit-user-select: none;
+  user-select: none;
   border-bottom: 1px solid #333;
 }
 
