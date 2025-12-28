@@ -1410,12 +1410,6 @@ const ThemeConfig = {
       this.syncUiToState()
     })
 
-    this.modeGroup.addEventListener('change', (e) => {
-      const mode = e.target.value
-      mdui.setTheme(mode)
-      this.updateFabIcon(mode)
-      this.saveSetting('theme_mode', mode)
-    })
     this.swatches.forEach((swatch) => {
       swatch.addEventListener('click', () => this.setColor(swatch.dataset.color))
     })
@@ -1545,12 +1539,6 @@ const ThemeConfig = {
 
   loadSettings() {
     const config = JSON.parse(localStorage.getItem('theme_config') || '{}')
-
-    let savedMode = config.theme_mode || (localStorage.getItem('themes') && ['light', 'light', 'dark', 'auto'][localStorage.getItem('themes')])
-    savedMode = savedMode || this.defaults.mode
-    mdui.setTheme(savedMode)
-    this.updateFabIcon(savedMode)
-
     const color = config.theme_color || this.defaults.color
     mdui.setColorScheme(color)
     this.setColor(color)
