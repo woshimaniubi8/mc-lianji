@@ -966,7 +966,7 @@ function searchRooms(keyword) {
 async function catchNewVersion() {
   //{"ver":'1.0.1',"notice":'修复了一些bug'}
   try {
-    const res = await fetch('https://lianji.qqaq.top/new_notice.json')
+    const res = await fetch('https://woshisb.eu.org/mc-lianji/new_notice.json')
     const data = await res.json()
     // console.log('1')
     //  toastr.success(data)
@@ -988,7 +988,7 @@ async function fetchLanguageCode() {
     languageCode = await r.json()
   } catch (e) {
     console.error('error-get-languageCode:', e)
-    toastrs.error('error-get-languageCode:' + e, '获取语言代码失败')
+    toastrs.error('' + e, '获取语言代码失败')
   }
 }
 
