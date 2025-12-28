@@ -7,14 +7,14 @@
 // 你要他干啥呀[发怒]反正我是不要[发怒]快看[憨笑]我命由我不由天🤬这是谁说的[发怒]所以啊[憨笑]才不要敖丙进来呢[发怒]
 // 爱[憨笑]这个放到我这不刚刚好吗[憨笑]正好我的敖丙缺了一半[憨笑]就算你拼上了敖丙也特别的丑[发怒]倒是好玩啊[愉快]你看
 
-const version_code = '1.0.4'
+const version_code = '1.0.7'
 const clients = 0 //1: electron  0: 浏览器
 const LOCAL_TEST = 0
 
 const mdui_theme = {
-  1: ['light', 'light_mode', '浅色主题'],
-  2: ['dark', 'dark_mode', '深色主题'],
-  3: ['auto', 'brightness_auto', '主题跟随系统'],
+  1: ['light', 'light_mode--outlined', '浅色主题'],
+  2: ['dark', 'dark_mode--outlined', '深色主题'],
+  3: ['auto', 'brightness_auto--outlined', '主题跟随系统'],
 }
 const gameMode = {
   Survival: ['shengcun', '生存'],
@@ -744,7 +744,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
 
       let isDisabled = isFull
       let buttonText = isFull ? '房间已满' : '广播房间'
-      let buttonIcon = isFull ? 'close' : 'login'
+      let buttonIcon = isFull ? 'close--outlined' : 'login--outlined'
 
       if (room.broadcastSetting < 3) {
         if (hideInvalidroom) {
@@ -752,7 +752,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
         }
         isDisabled = true
         buttonText = '限制加入'
-        buttonIcon = 'block'
+        buttonIcon = 'block--outlined'
       }
 
       const peopleNumClass = isFull ? 'people-num full' : 'people-num non-full'
@@ -778,11 +778,11 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
             <span><a href="https://www.xbox.com/play/user/${room.host}" target="_blank" title="查看 ${room.host} 的Xbox档案"><strong>${room.host}</strong></span></a>
           </div>
           <div class="info-line">
-            <mdui-icon name="people"></mdui-icon>
+            <mdui-icon name="people--outlined"></mdui-icon>
             <span><span class="${peopleNumClass}">${room.memberCount} / ${room.maxMemberCount}</span></span>
           </div>
           <div class="info-line">
-            <mdui-icon name="access_time"></mdui-icon>
+            <mdui-icon name="access_time--outlined"></mdui-icon>
             <span>${getTimeText(room.createTime)}</span>
           </div>
           <div style="display:flex" id="room-list-icongroup${enableTwoFr ? '-twofr' : ''}">
@@ -795,7 +795,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
             <span style="color:rgb(var(--mdui-color-on-primary))">${room.version}</span>
            </div>
              <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-lang-${room.id}">
-            <mdui-icon name="translate" class="room-tag-img" style="font-size:16px;margin-left:2px;color:rgb(var(--mdui-color-surface-container-lowest))" ></mdui-icon>
+            <mdui-icon name="translate--outlined" class="room-tag-img" style="font-size:16px;margin-left:2px;color:rgb(var(--mdui-color-surface-container-lowest))" ></mdui-icon>
             <span style="color:rgb(var(--mdui-color-on-primary))">${langText}</span>
            </div>
            </div>
@@ -805,7 +805,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
         <div class="room-card-footer">
           <mdui-button class="join-button" ${isDisabled ? 'disabled' : ''} end-icon="${buttonIcon}" id="btn-joinroom-${room.id}">${buttonText}</mdui-button>
           <mdui-tooltip content="分享房间">
-            <mdui-button-icon icon="share" id="btn-share-${room.sessionName}"></mdui-button-icon>
+            <mdui-button-icon icon="share--outlined" id="btn-share-${room.sessionName}"></mdui-button-icon>
           </mdui-tooltip>
         </div>
       `
@@ -826,7 +826,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
             />${room.host}
           </p>
           <p id="room-people">
-            <mdui-icon name="people" class="room-icon"></mdui-icon><span class="${peopleNumClass}">${room.memberCount}/${room.maxMemberCount}</span
+            <mdui-icon name="people--outlined" class="room-icon"></mdui-icon><span class="${peopleNumClass}">${room.memberCount}/${room.maxMemberCount}</span
             ><img
               alt="GameMode"
               src="src/${gamemode[0]}.png"
@@ -848,7 +848,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
   <div style="display: flex; gap: 3px; margin-bottom: 10px">
     <mdui-button ${isDisabled ? 'disabled' : ''} end-icon="${buttonIcon}" id="btn-joinroom-${room.id}" style="flex: 1;">${buttonText}</mdui-button>
     <mdui-tooltip content="分享房间">
-      <mdui-button-icon icon="share" id="btn-share-${room.sessionName}"></mdui-button-icon>
+      <mdui-button-icon icon="share--outlined" id="btn-share-${room.sessionName}"></mdui-button-icon>
     </mdui-tooltip>
 </div>`
       }
@@ -936,18 +936,24 @@ function searchRooms(keyword) {
   const searchTerm = keyword.toLowerCase()
 
   // 过滤房间
-  filteredRoomList = allRoomList.filter((room) => {
-    return (
-      room.name.toLowerCase().includes(searchTerm) ||
-      room.host.toLowerCase().includes(searchTerm) ||
-      room.version.toLowerCase().includes(searchTerm) ||
-      room.type.toLowerCase().includes(searchTerm) ||
-      (gameMode[room.type] && (!room.isHardcore ? gameMode[room.type][1] : '极限').toLowerCase().includes(searchTerm)) ||
-      room.sessionName.toLowerCase().includes(searchTerm) ||
-      'lang::' + room.worldNameLang.toLowerCase() == searchTerm
-    )
-  })
-  displayRoomList(filteredRoomList)
+  try {
+    //这里总会发生莫明其妙的错误
+    filteredRoomList = allRoomList.filter((room) => {
+      return (
+        room.name.toLowerCase().includes(searchTerm) ||
+        room.host.toLowerCase().includes(searchTerm) ||
+        room.version.toLowerCase().includes(searchTerm) ||
+        room.type.toLowerCase().includes(searchTerm) ||
+        (gameMode[room.type] && (!room.isHardcore ? gameMode[room.type][1] : '极限').toLowerCase().includes(searchTerm)) ||
+        room.sessionName.toLowerCase().includes(searchTerm) ||
+        'lang::' + (room.worldNameLang || 'otto棍母说的道理').toLowerCase() == searchTerm
+      )
+    })
+    displayRoomList(filteredRoomList)
+  } catch (e) {
+    toastrs.error(e, '意外错误')
+    loadingScreen.open = false
+  }
   if (filteredRoomList.length < 1) {
     toastrs.warning('QaQ~', '没有匹配到房间')
   }
@@ -1362,6 +1368,225 @@ aiInput.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') sendAIMessage()
 })
 
+const ThemeConfig = {
+  dialog: document.getElementById('dialog-theme-settings'),
+  btn: document.getElementById('theme-btn'),
+
+  modeGroup: document.getElementById('theme-mode-group'),
+  colorPicker: document.getElementById('theme-color-picker'),
+  swatches: document.querySelectorAll('.color-swatch'),
+
+  bgTabs: document.getElementById('bg-type-tabs'),
+  bgUrlInput: document.getElementById('input-bg-url'),
+  bgApplyUrlBtn: document.getElementById('btn-apply-url'),
+  bgFileInput: document.getElementById('input-bg-file'),
+  bgResetBtn: document.getElementById('btn-reset-bg'),
+
+  blurSlider: document.getElementById('bg-blur-slider'),
+  opacitySlider: document.getElementById('bg-opacity-slider'),
+  resetAllBtn: document.getElementById('dialog-theme-reset'),
+
+  appBg: document.getElementById('app-background'),
+  appMask: document.getElementById('app-mask'),
+
+  // 默认配置
+  defaults: {
+    mode: 'auto',
+    color: '#6750a4',
+    bgType: 'solid',
+    bgValue: '',
+    blur: 0,
+    opacity: 0.5, // 默认半透明遮罩
+  },
+
+  init() {
+    this.bindEvents()
+    requestAnimationFrame(() => this.loadSettings())
+  },
+
+  bindEvents() {
+    this.btn.addEventListener('click', () => {
+      this.dialog.open = true
+      this.syncUiToState()
+    })
+
+    this.modeGroup.addEventListener('change', (e) => {
+      const mode = e.target.value
+      mdui.setTheme(mode)
+      this.updateFabIcon(mode)
+      this.saveSetting('theme_mode', mode)
+    })
+    this.swatches.forEach((swatch) => {
+      swatch.addEventListener('click', () => this.setColor(swatch.dataset.color))
+    })
+    this.colorPicker.addEventListener('input', (e) => this.setColor(e.target.value))
+    this.bgTabs.addEventListener('change', (e) => {
+      const tab = e.target.value
+      const currentOpacity = parseFloat(this.opacitySlider.value)
+
+      if ((tab === 'image' || tab === 'upload') && currentOpacity >= 0.9) {
+        this.opacitySlider.value = 0.5
+        this.updateOpacity(0.5)
+        toastr.info('已自动调低遮罩浓度')
+      }
+    })
+
+    this.bgResetBtn.addEventListener('click', () => {
+      this.setBackground('solid', '')
+      toastr.success('已恢复默认主题背景')
+    })
+
+    this.bgApplyUrlBtn.addEventListener('click', () => {
+      const url = this.bgUrlInput.value
+      if (url) {
+        this.setBackground('image', url)
+        toastr.success('背景已应用')
+      }
+    })
+
+    this.bgFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0]
+      if (file) {
+        document.getElementById('file-name-display').textContent = file.name
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          try {
+            this.setBackground('upload', event.target.result)
+            toastr.success('本地图片已应用')
+          } catch (err) {
+            toastr.warning('图片过大，仅本次有效')
+            this.applyBackgroundStyles(event.target.result)
+            this.saveSetting('bg_type', 'upload')
+          }
+        }
+        reader.readAsDataURL(file)
+      }
+    })
+
+    // 4. 滑块控制
+    this.blurSlider.addEventListener('input', (e) => {
+      this.updateBlur(e.target.value)
+    })
+
+    this.opacitySlider.addEventListener('input', (e) => {
+      this.updateOpacity(e.target.value)
+    })
+
+    // 重置
+    this.resetAllBtn.addEventListener('click', () => {
+      if (confirm('确定重置外观设置？')) {
+        localStorage.removeItem('theme_config')
+        location.reload()
+      }
+    })
+  },
+
+  updateOpacity(val) {
+    // 直接控制遮罩层的 opacity
+    if (this.appMask) {
+      this.appMask.style.opacity = val
+    }
+    this.saveSetting('bg_opacity', val)
+  },
+
+  updateBlur(val) {
+    if (this.appBg) {
+      this.appBg.style.filter = `blur(${val}px)`
+      this.appBg.style.webkitFilter = `blur(${val}px)`
+    }
+    this.saveSetting('bg_blur', val)
+  },
+
+  updateFabIcon(mode) {
+    const fabTheme = document.getElementById('fab-theme')
+    if (fabTheme) {
+      const iconMap = { light: 'light_mode--outlined', dark: 'dark_mode--outlined', auto: 'brightness_auto--outlined' }
+      fabTheme.icon = iconMap[mode] || 'light_mode--outlined'
+    }
+  },
+
+  setColor(hex) {
+    mdui.setColorScheme(hex)
+    this.saveSetting('theme_color', hex)
+
+    this.swatches.forEach((s) => s.classList.remove('active'))
+    const matched = Array.from(this.swatches).find((s) => s.dataset.color.toLowerCase() === hex.toLowerCase())
+    if (matched) matched.classList.add('active')
+    this.colorPicker.value = hex
+  },
+
+  setBackground(type, value) {
+    this.saveSetting('bg_type', type)
+    this.saveSetting('bg_value', value)
+
+    if (type === 'solid') {
+      // 纯色模式：移除 custom-bg，由 MDUI 控制背景色
+      this.appBg.style.backgroundImage = 'none'
+      document.body.classList.remove('custom-bg')
+      document.documentElement.classList.remove('custom-bg')
+    } else {
+      // 图片模式：添加 custom-bg，强制 body 透明，显示 #app-background 和 #app-mask
+      this.applyBackgroundStyles(value)
+    }
+  },
+
+  applyBackgroundStyles(imageUrl) {
+    if (!imageUrl) return
+    this.appBg.style.backgroundImage = `url('${imageUrl}')`
+    document.body.classList.add('custom-bg')
+    document.documentElement.classList.add('custom-bg')
+  },
+
+  saveSetting(key, value) {
+    let config = JSON.parse(localStorage.getItem('theme_config') || '{}')
+    config[key] = value
+    localStorage.setItem('theme_config', JSON.stringify(config))
+  },
+
+  loadSettings() {
+    const config = JSON.parse(localStorage.getItem('theme_config') || '{}')
+
+    let savedMode = config.theme_mode || (localStorage.getItem('themes') && ['light', 'light', 'dark', 'auto'][localStorage.getItem('themes')])
+    savedMode = savedMode || this.defaults.mode
+    mdui.setTheme(savedMode)
+    this.updateFabIcon(savedMode)
+
+    const color = config.theme_color || this.defaults.color
+    mdui.setColorScheme(color)
+    this.setColor(color)
+
+    const blur = config.bg_blur !== undefined ? config.bg_blur : this.defaults.blur
+    const opacity = config.bg_opacity !== undefined ? config.bg_opacity : this.defaults.opacity
+    this.updateBlur(blur)
+    this.updateOpacity(opacity)
+
+    const bgType = config.bg_type || this.defaults.bgType
+    const bgValue = config.bg_value || ''
+
+    if (bgType !== 'solid' && bgValue) {
+      this.applyBackgroundStyles(bgValue)
+    } else {
+      document.body.classList.remove('custom-bg')
+      document.documentElement.classList.remove('custom-bg')
+    }
+  },
+
+  syncUiToState() {
+    const config = JSON.parse(localStorage.getItem('theme_config') || '{}')
+    this.modeGroup.value = mdui.getTheme()
+
+    const type = config.bg_type || 'solid'
+    this.bgTabs.value = type === 'upload' ? 'upload' : type === 'image' ? 'image' : 'solid'
+    if (type === 'image') this.bgUrlInput.value = config.bg_value || ''
+
+    this.blurSlider.value = config.bg_blur !== undefined ? config.bg_blur : 0
+    // 直接读取遮罩元素的 opacity，如果没有则默认 0.5
+    this.opacitySlider.value = this.appMask.style.opacity !== '' ? this.appMask.style.opacity : 0.5
+  },
+}
+
+ThemeConfig.init()
+
 //Function define finish here
 // mdui.setColorScheme('#02deeeff')
 loadingScreen.open = true
@@ -1527,10 +1752,10 @@ document.getElementById('fab-menu').addEventListener('click', (e) => {
 
   // Change the icon and tooltip based on the state
   if (isOpen) {
-    fabMenuButton.icon = 'add'
+    fabMenuButton.icon = 'add--outlined'
     fabMenuButton.parentElement.content = '关闭' // Update tooltip text
   } else {
-    fabMenuButton.icon = 'menu'
+    fabMenuButton.icon = 'menu--outlined'
     fabMenuButton.parentElement.content = '菜单' // Restore original tooltip text
   }
 })
@@ -1642,8 +1867,10 @@ CheckVconsole.addEventListener('click', (e) => {
 // 以“甘权联机”、“MiniWorld联机”等理由诱导用户点击诈骗链接。
 // 据悉，在点击链接后，用户30秒内自动跑路，同时手机自动下载《迷你世界》，造成用户的巨大损失。
 // 2025/08/10 11:37
-
 mdui.setTheme(mdui_theme[LDtheme][0])
+const config = JSON.parse(localStorage.getItem('theme_config') || '{}')
+const color = config.theme_color || '#6750a4'
+mdui.setColorScheme(color)
 toastr.options = {
   // toastr配置
   closeButton: true,

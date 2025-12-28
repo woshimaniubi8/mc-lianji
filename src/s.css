@@ -99,6 +99,8 @@ a:hover {
   gap: 8px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(var(--mdui-color-outline), 0.1);
+  background-color: rgb(var(--mdui-color-surface-container-high)) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
 .search-bar:focus-within {
@@ -159,9 +161,7 @@ mdui-top-app-bar {
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
   min-height: 180px;
-  /* 修复动画闪烁：默认透明 */
   opacity: 0;
-  /* 动画定义在 s.js 动态添加 class 时生效，或者这里定义默认状态 */
 }
 
 .room-card:hover {
@@ -828,12 +828,11 @@ mdui-top-app-bar {
 .ai-message pre code {
   display: block;
   padding: 12px;
-  overflow-x: auto; /* 支持横向滚动 */
-  white-space: pre; /* 保持代码格式 */
+  overflow-x: auto;
+  white-space: pre;
   line-height: 1.4;
 }
 
-/* 滚动条美化 (针对代码块) */
 .ai-message pre code::-webkit-scrollbar {
   height: 6px;
 }
@@ -841,9 +840,7 @@ mdui-top-app-bar {
   background-color: #555;
   border-radius: 3px;
 }
-/* --- s.css 末尾追加 --- */
 
-/* [新] 图片样式 */
 .ai-image {
   max-width: 100%; /* 防止撑破容器 */
   border-radius: 8px; /* 圆角 */
@@ -858,22 +855,18 @@ mdui-top-app-bar {
   transform: scale(1.02); /* 悬停微放大 */
 }
 
-/* [新] 删除线样式 */
 .ai-message del {
   color: rgba(var(--mdui-color-on-surface), 0.6); /* 颜色变淡 */
   text-decoration-thickness: 2px; /* 线条加粗 */
 }
 
-/* [新] 水平分割线样式 */
 .ai-hr {
   border: 0;
   height: 1px;
   background-image: linear-gradient(to right, rgba(var(--mdui-color-outline), 0), rgba(var(--mdui-color-outline), 0.5), rgba(var(--mdui-color-outline), 0)); /* 渐变线条，两头淡中间深 */
   margin: 16px 0;
 }
-/* --- s.css 末尾追加 --- */
 
-/* [新] 引用块样式 */
 .ai-message blockquote {
   margin: 8px 0;
   padding: 8px 12px 8px 16px;
@@ -887,13 +880,92 @@ mdui-top-app-bar {
   line-height: 1.5;
 }
 
-/* 引用块内部的段落不应有额外边距 */
 .ai-message blockquote p {
   margin: 0;
 }
 
-/* 之前的样式保持不变... */
-/* 之前的样式保持不变... */
+#app-background {
+  background-color: rgb(var(--mdui-color-surface-container)); /* 使用柔和的背景色提升质感 */
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: filter 0.2s linear;
+  visibility: hidden; /* 默认隐藏 */
+}
+
+#app-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* 在背景图之上，内容之下 */
+  background-color: rgb(var(--mdui-color-surface-container));
+  transition: opacity 0.1s linear, background-color 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+html.custom-bg,
+body.custom-bg {
+  background-color: transparent !important;
+}
+
+body.custom-bg #app-background,
+body.custom-bg #app-mask {
+  visibility: visible;
+}
+
+.color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+  padding: 8px;
+}
+
+.color-swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid rgba(var(--mdui-color-outline), 0.2);
+  flex-shrink: 0; /* 防止被挤压 */
+  transition: transform 0.2s;
+}
+
+.color-swatch:hover {
+  transform: scale(1.1);
+}
+
+.color-swatch.active {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px rgb(var(--mdui-color-surface-container)), 0 0 0 4px rgb(var(--mdui-color-primary));
+  border: none;
+}
+
+/* 6. 其他 UI 微调 */
+#dialog-theme-settings mdui-tab-panel {
+  background-color: transparent !important;
+  padding: 10px 4px;
+}
+
+.settings-title {
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  color: rgb(var(--mdui-color-on-surface));
+  font-size: 0.95rem;
+}
+
+#dialog-theme-settings .mdui-dialog-content {
+  overflow-x: hidden;
+}
 /* 移动端适配 */
 @media (max-width: 600px) {
   #ai-chat-window {

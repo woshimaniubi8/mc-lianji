@@ -40,23 +40,30 @@
     ></script>
   </head>
   <body>
+    <div id="app-background"></div>
+    <div id="app-mask"></div>
     <mdui-top-app-bar scroll-behavior="hide" style="background: rgb(var(--mdui-color-primary-container)); --shape-corner: 20px">
-      <img
-        class="lj_title b"
-        title="联机大厅"
-        src="favicon.ico"
-        class="material-icons"
-        style="padding-left: 10px; padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%"
-      />
+      <a href="\" style="text-decoration: none; color: inherit">
+        <img
+          class="lj_title b"
+          title="联机大厅"
+          src="favicon.ico"
+          class="material-icons"
+          style="padding-left: 10px; padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%"
+        />
+      </a>
       <mdui-top-app-bar-title class="lj_title a">联机大厅</mdui-top-app-bar-title>
 
       <div style="flex-grow: 1"></div>
       <span>
-        <mdui-avatar style="margin-right: 1px; font-size: 24px; vertical-align: -41%" icon="account_circle" id="avatar-view"></mdui-avatar>
+        <mdui-avatar style="margin-right: 1px; height: 30px; width: 30px; font-size: 20px; vertical-align: -22%" icon="account_circle--outlined" id="avatar-view"></mdui-avatar>
         <span class="username" id="span-userid">未设置id</span>
       </span>
-      <mdui-tooltip variant="rich" headline="设置按钮" content="单击打开用户配置界面,可进行自定义设置">
-        <mdui-button-icon icon="settings" style="vertical-align: -39%" id="settings-btn"></mdui-button-icon>
+      <mdui-tooltip variant="rich" headline="页面样式" content="单击进行颜色，背景等样式设置">
+        <mdui-button-icon icon="color_lens--outlined" style="vertical-align: -39%" id="theme-btn"></mdui-button-icon>
+      </mdui-tooltip>
+      <mdui-tooltip variant="rich" headline="设置" content="单击打开用户配置界面,可进行自定义设置">
+        <mdui-button-icon icon="settings--outlined" style="vertical-align: -39%" id="settings-btn"></mdui-button-icon>
       </mdui-tooltip>
     </mdui-top-app-bar>
 
@@ -64,30 +71,30 @@
       <div style="flex-grow: 1">
         <mdui-tooltip content="输入房间名、房主、游戏模式、版本号进行搜索">
           <mdui-text-field label="搜索房间..." id="search-input" type="search" inputmode="search" style="width: 100%">
-            <mdui-button-icon slot="icon" icon="search" id="search-btn"></mdui-button-icon>
+            <mdui-button-icon slot="icon" icon="search--outlined" id="search-btn"></mdui-button-icon>
           </mdui-text-field>
         </mdui-tooltip>
       </div>
       <div style="padding-left: 10px">
         <mdui-dropdown>
-          <mdui-button-icon icon="sort" variant="tonal" slot="trigger" title="房间排序"></mdui-button-icon>
+          <mdui-button-icon icon="sort--outlined" variant="tonal" slot="trigger" title="房间排序"></mdui-button-icon>
 
           <mdui-menu selects="single" value="time" id="sort-list">
             <mdui-menu-item id="sort-by-time" value="time"
-              ><mdui-icon name="access_time" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按时间排序</span>
-              <mdui-icon id="icon-sort-by-time" name="check" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon>
+              ><mdui-icon name="access_time--outlined" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按时间排序</span>
+              <mdui-icon id="icon-sort-by-time" name="check--outlined" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon>
             </mdui-menu-item>
             <mdui-menu-item id="sort-by-name" value="name"
-              ><mdui-icon name="sort_by_alpha" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按房间名称排序</span
-              ><mdui-icon id="icon-sort-by-name" name="check" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
+              ><mdui-icon name="sort_by_alpha--outlined" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按房间名称排序</span
+              ><mdui-icon id="icon-sort-by-name" name="check--outlined" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
             ></mdui-menu-item>
             <mdui-menu-item id="sort-by-host" value="host"
-              ><mdui-icon name="sort_by_alpha" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按房主名字排序</span
-              ><mdui-icon id="icon-sort-by-host" name="check" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
+              ><mdui-icon name="sort_by_alpha--outlined" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">按房主名字排序</span
+              ><mdui-icon id="icon-sort-by-host" name="check--outlined" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
             ></mdui-menu-item>
             <mdui-menu-item id="sort-by-none" value="none"
-              ><mdui-icon name="block" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">不要啊♥</span
-              ><mdui-icon id="icon-sort-by-none" name="check" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
+              ><mdui-icon name="block--outlined" style="font-size: 20px; vertical-align: -20%"></mdui-icon><span style="padding-left: 5px">不要啊♥</span
+              ><mdui-icon id="icon-sort-by-none" name="check--outlined" style="display: none; font-size: 16px; vertical-align: -20%; padding-left: 3px"></mdui-icon
             ></mdui-menu-item>
           </mdui-menu>
         </mdui-dropdown>
@@ -250,7 +257,7 @@
     <mdui-dialog headline="👋欢迎" id="dialog-new-user">
       <p>
         欢迎来到Minecraft基岩版联机大厅，本站适用于游戏《Minecraft》基岩版进行多人联机。<br />赶快点击<span style="color: blueviolet">
-          <mdui-icon name="arrow_outward" style="font-size: 18px; vertical-align: -16%"></mdui-icon>开始 </span
+          <mdui-icon name="arrow_outward--outlined" style="font-size: 18px; vertical-align: -16%"></mdui-icon>开始 </span
         >开始联机吧
       </p>
       <div id="newer-video">
@@ -266,13 +273,13 @@
         <!-- 仅新用户回加载这个iframe -->
       </div>
 
-      <mdui-button slot="action" variant="outlined" id="dialog-next-help" icon="help">教程</mdui-button>
-      <mdui-button slot="action" variant="filled" id="dialog-next" icon="arrow_outward">开始</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-next-help" icon="help--outlined">教程</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-next" icon="arrow_outward--outlined">开始</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="🔧用户配置" id="dialog-user-settings">
       <p>游戏ID</p>
-      <mdui-text-field label="输入你的游戏id" icon="person" id="input-userid" class="input-config userid"></mdui-text-field>
+      <mdui-text-field label="输入你的游戏id" icon="person--outlined" id="input-userid" class="input-config userid"></mdui-text-field>
       <div id="accounts-list" class="accounts-list">
         <!-- 这里是账号列表 -->
       </div>
@@ -300,40 +307,40 @@
       <div class="other-settings">
         <mdui-button onclick="toastr.success('我是张大树，欠钱已跑路');//window.open('https:/\/space.bilibili.com/454289422')">肘击👊张大树🌳</mdui-button>
       </div>
-      <mdui-button slot="action" variant="outlined" id="dialog-cancel" icon="close">取消</mdui-button>
-      <mdui-button slot="action" variant="filled" id="dialog-save" icon="save">保存</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-cancel" icon="close--outlined">取消</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-save" icon="save--outlined">保存</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="📄有新版本" id="dialog-app-update">
       <p class="newver-p">版本号：1.0.1</p>
       <p class="newver-p">修复了一些bug</p>
-      <mdui-button slot="action" variant="outlined" id="dialog-ca" icon="close">取消</mdui-button>
-      <mdui-button slot="action" variant="filled" id="dialog-update" icon="download">下载更新</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-ca" icon="close--outlined">取消</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-update" icon="download--outlined">下载更新</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="🔗分享房间" id="dialog-room-share">
-      <p class="newver-p"><mdui-icon name="link" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享链接:</span></p>
+      <p class="newver-p"><mdui-icon name="link--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享链接:</span></p>
       <div class="share-link">
         <mdui-text-field id="t-share-url" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
-          <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-link"></mdui-button-icon>
+          <mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="btn-copy-link"></mdui-button-icon>
         </mdui-text-field>
       </div>
-      <p class="newver-p"><mdui-icon name="code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>或在QQ群发送以下指令</span></p>
+      <p class="newver-p"><mdui-icon name="code--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>或在QQ群发送以下指令</span></p>
       <div class="share-link">
         <mdui-text-field id="t-share-code" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
-          <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-code"></mdui-button-icon>
+          <mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="btn-copy-code"></mdui-button-icon>
         </mdui-text-field>
       </div>
       <mdui-divider></mdui-divider>
       <div class="share-link">
-        <p class="newver-p"><mdui-icon name="qr_code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享二维码:</span></p>
+        <p class="newver-p"><mdui-icon name="qr_code--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享二维码:</span></p>
         <div style="text-align: center">
           <img id="share-qrcode" title="分享二维码" style="max-width: 300px; width: 98%" />
         </div>
       </div>
-      <p><mdui-icon name="info" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>赶快将上面的链接或二维码发送给其他人吧!</span></p>
+      <p><mdui-icon name="info--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>赶快将上面的链接或二维码发送给其他人吧!</span></p>
       <!-- <p>赶快将上面的链接或二维码发送给其他人吧!</p> -->
-      <mdui-button slot="action" variant="filled" id="dialog-share-done" icon="check">完成</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-share-done" icon="check--outlined">完成</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog id="dialog-loading">
@@ -358,7 +365,7 @@
         <mdui-divider></mdui-divider>
         <div style="flex-direction: row; width: 100%">
           <mdui-text-field variant="outlined" id="dialog-toastr-message" autosize readonly max-rows="5" value="我是一条信息"
-            ><mdui-button-icon slot="end-icon" icon="content_copy" id="dialog-toastr-message-copy"></mdui-button-icon
+            ><mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="dialog-toastr-message-copy"></mdui-button-icon
           ></mdui-text-field>
         </div>
       </div>
@@ -366,14 +373,14 @@
 
     <mdui-dialog close-on-overlay-click headline="#️⃣其他选项" id="dialog-chat">
       <div id="other-btn-group">
-        <mdui-button id="dialog-newer" icon="menu_book" style="margin-right: 0px">新手教程</mdui-button>
+        <mdui-button id="dialog-newer" icon="menu_book--outlined" style="margin-right: 0px">新手教程</mdui-button>
 
-        <mdui-button id="dialog-newer" icon="file_download" onclick="window.open('https:/\/lianji.qqaq.top/app-release.apk')">下载apk</mdui-button>
+        <mdui-button id="dialog-newer" icon="file_download--outlined" onclick="window.open('https:/\/lianji.qqaq.top/app-release.apk')">下载apk</mdui-button>
         <!-- <p>如果您在使用过程中遇到问题，或者想要给我们提出一些建议，可以点击下方按钮联系我们</p> -->
 
-        <mdui-button id="dialog-addqq" icon="group" style="margin-right: 1px">加入QQ群</mdui-button>
-        <mdui-button id="dialog-feedback" icon="feedback">在线反馈</mdui-button>
-        <mdui-button icon="event_note" onclick="window.open('https:\/\/lianji.qqaq.top/update_notice.html')">更新日志</mdui-button>
+        <mdui-button id="dialog-addqq" icon="group--outlined" style="margin-right: 1px">加入QQ群</mdui-button>
+        <mdui-button id="dialog-feedback" icon="feedback--outlined">在线反馈</mdui-button>
+        <mdui-button icon="event_note--outlined" onclick="window.open('https:\/\/lianji.qqaq.top/update_notice.html')">更新日志</mdui-button>
         <mdui-button onclick="window.open('https:\/\/github.com/woshimaniubi8/mc-lianji')">
           <mdui-icon style="font-size: 18px">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -389,38 +396,38 @@
       <!-- <p>性价比稳定云服务器</p>
       <a href="https://www.rainyun.com/wzy_?s=hsb"><  src="src/rainyun.png" width="30%" /></a>
       <p style="color: red">点击注册可享专属首月5折优惠</p> -->
-      <mdui-button slot="action" variant="outlined" id="dialog-done" icon="check">完成</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-done" icon="check--outlined">完成</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="📜在线反馈" id="dialog-efeedback">
       <p>您的每一个反馈与建议都在促使我们的网站变得更好，我们十分重视您的每一个建议。如果您有任何意见，可以发送邮件到下方的邮箱或是填写下方的表单并提交。我们收到您的反馈后会及时给您回复</p>
-      <p><mdui-icon name="emails" style="vertical-align: -23%; margin-right: 5px"></mdui-icon>反馈邮箱：<a href="mailto:wzy@qqaq.top">wzy@qqaq.top</a></p>
+      <p><mdui-icon name="emails--outlined" style="vertical-align: -23%; margin-right: 5px"></mdui-icon>反馈邮箱：<a href="mailto:wzy@qqaq.top">wzy@qqaq.top</a></p>
       <div>
         <p>昵称：</p>
-        <mdui-text-field label="昵称" id="dialog-feedback-name" icon="person"></mdui-text-field>
+        <mdui-text-field label="昵称" id="dialog-feedback-name" icon="person--outlined"></mdui-text-field>
         <br />
         <p>联系邮箱：</p>
-        <mdui-text-field label="邮箱" id="dialog-feedback-mail" type="email" inputmode="email" icon="email"></mdui-text-field>
+        <mdui-text-field label="邮箱" id="dialog-feedback-mail" type="email" inputmode="email" icon="email--outlined"></mdui-text-field>
         <br />
         <p>反馈内容：</p>
-        <mdui-text-field label="反馈内容" autosize min-rows="2" maxlength="1024" counter id="dialog-feedback-context" icon="brush"></mdui-text-field>
+        <mdui-text-field label="反馈内容" autosize min-rows="2" maxlength="1024" counter id="dialog-feedback-context" icon="brush--outlined"></mdui-text-field>
       </div>
       <div style="text-align: center">
-        <mdui-button icon="done" style="width: 70%; max-width: 350px; margin: 0 auto" id="dialog-feedback-submit">提交反馈</mdui-button>
+        <mdui-button icon="done--outlined" style="width: 70%; max-width: 350px; margin: 0 auto" id="dialog-feedback-submit">提交反馈</mdui-button>
       </div>
-      <mdui-button slot="action" variant="outlined" id="dialog-fdone" icon="arrow_back">返回</mdui-button>
+      <mdui-button slot="action" variant="outlined" id="dialog-fdone" icon="arrow_back--outlined">返回</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click fullscreen headline="❔新手教程" id="dialog-help">
-      <mdui-button id="dialog-exit" icon="close" style="display: none">关闭新手教程</mdui-button>
-      <mdui-button onclick="window.open('./newer_help.html')" icon="open_in_new">新页面打开</mdui-button>
+      <mdui-button id="dialog-exit" icon="close--outlined" style="display: none">关闭新手教程</mdui-button>
+      <mdui-button onclick="window.open('./newer_help.html')" icon="open_in_new--outlined">新页面打开</mdui-button>
       <p>为了提升阅读体验,建议在新页面打开新手教程</p>
       <!-- 这个 div 将会填充剩余空间 -->
       <div id="newer-context" style="width: 99%; height: 71vh">
         <iframe src="./newer_help.html" width="100%" allowtransparency="yes" frameborder="no" border="0" style="height: 100%; border: none"></iframe>
       </div>
 
-      <mdui-button icon="close" slot="action" variant="outlined" id="dialog-exit1">关闭新手教程</mdui-button>
+      <mdui-button icon="close--outlined" slot="action" variant="outlined" id="dialog-exit1">关闭新手教程</mdui-button>
     </mdui-dialog>
 
     <mdui-dialog close-on-overlay-click headline="🚪房间信息" id="dialog-room-info">
@@ -439,46 +446,46 @@
       <p style="padding-right: 3px">游戏模式: <span id="room-info-gamemode"></span></p>
       <p style="padding-right: 3px">游戏版本: <span id="room-info-version"></span></p>
 
-      <mdui-button icon="close" slot="action" variant="outlined" id="dialog-close-room-info">关闭</mdui-button>
+      <mdui-button icon="close--outlined" slot="action" variant="outlined" id="dialog-close-room-info">关闭</mdui-button>
     </mdui-dialog>
     <mdui-dialog headline="Develop" id="dialog-dev">
-      <mdui-button onclick="Debug.clearLocalStorage() " icon="functions">Debug.clearLocalStorage()</mdui-button>
-      <mdui-button onclick="Debug.testToastr() " icon="functions">Debug.testToastr()</mdui-button>
-      <mdui-button onclick="Debug.logCookies() " icon="functionss">Debug.logCookies()</mdui-button>
+      <mdui-button onclick="Debug.clearLocalStorage() " icon="functions--outlined">Debug.clearLocalStorage()</mdui-button>
+      <mdui-button onclick="Debug.testToastr() " icon="functions--outlined">Debug.testToastr()</mdui-button>
+      <mdui-button onclick="Debug.logCookies() " icon="functions--outlined">Debug.logCookies()</mdui-button>
       <div class="other-settings"><mdui-checkbox id="enable_vconsole"></mdui-checkbox><span>Enable vConsole</span></div>
-      <mdui-button icon="close" slot="action" variant="filled" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
+      <mdui-button icon="close--outlined" slot="action" variant="filled" onclick="document.getElementById('dialog-dev').open=false">关闭</mdui-button>
     </mdui-dialog>
 
     <div id="fab-container">
       <mdui-tooltip placement="left" content="刷新房间列表">
-        <mdui-fab variant="primary" icon="refresh" id="fab-reload" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+        <mdui-fab variant="primary" icon="refresh--outlined" id="fab-reload" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
       <mdui-tooltip placement="left" content="主题颜色">
-        <mdui-fab variant="primary" icon="light_mode" id="fab-theme" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+        <mdui-fab variant="primary" icon="light_mode--outlined" id="fab-theme" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
       <mdui-tooltip placement="left" content="更多">
-        <mdui-fab variant="primary" icon="more_horiz" id="fab-chat" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+        <mdui-fab variant="primary" icon="more_horiz--outlined" id="fab-chat" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
       <mdui-tooltip placement="left" content="AI">
-        <mdui-fab variant="primary" icon="auto_awesome" id="fab-ai" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"> </mdui-fab>
+        <mdui-fab variant="primary" icon="auto_awesome--outlined" id="fab-ai" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"> </mdui-fab>
       </mdui-tooltip>
 
       <mdui-tooltip placement="left" content="菜单">
-        <mdui-fab variant="primary" icon="menu" id="fab-menu" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+        <mdui-fab variant="primary" icon="menu--outlined" id="fab-menu" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
     </div>
     <!-- AI  -->
     <div id="ai-chat-window" class="ai-chat-closed">
       <div class="ai-header">
         <div class="ai-title">
-          <mdui-icon name="auto_awesome" style="margin-right: 8px; color: rgb(var(--mdui-color-primary))"></mdui-icon>
+          <mdui-icon name="auto_awesome--outlined" style="margin-right: 8px; color: rgb(var(--mdui-color-primary))"></mdui-icon>
 
           <span>AI 助手 </span>
           <img title="status" loading="lazy" src="https://api.netlify.com/api/v1/badges/af1beb50-4eec-4603-9b46-57d274705ef1/deploy-status" style="padding-left: 10px" />
         </div>
         <div class="ai-actions">
-          <mdui-button-icon icon="delete_outline" id="ai-clear-btn" variant="standard" title="清空对话"></mdui-button-icon>
-          <mdui-button-icon icon="close" id="ai-close-btn" variant="standard"></mdui-button-icon>
+          <mdui-button-icon icon="delete_outline--outlined" id="ai-clear-btn" variant="standard" title="清空对话"></mdui-button-icon>
+          <mdui-button-icon icon="close--outlined" id="ai-close-btn" variant="standard"></mdui-button-icon>
         </div>
       </div>
 
@@ -487,13 +494,13 @@
         <!-- 消息将插入到这里 -->
       </div>
       <div id="ai-reasoning-container" style="display: none">
-        <div class="reasoning-header"><mdui-icon name="psychology" style="font-size: 16px"></mdui-icon> 深度思考中...</div>
+        <div class="reasoning-header"><mdui-icon name="psychology--outlined" style="font-size: 16px"></mdui-icon> 深度思考中...</div>
         <div><p id="ai-reasoning-content"></p></div>
       </div>
 
       <div class="ai-input-area">
         <input type="text" id="ai-input" placeholder="输入问题... (Enter发送)" autocomplete="off" />
-        <mdui-button-icon icon="send" id="ai-send-btn" variant="filled"></mdui-button-icon>
+        <mdui-button-icon icon="send--outlined" id="ai-send-btn" variant="filled"></mdui-button-icon>
       </div>
     </div>
     <script src="src/jquery.min.js" defer></script>
@@ -512,6 +519,94 @@
       //   vConsole.hideSwitch()
       // })
     </script>
+    <!-- 外观设置弹窗 -->
+    <mdui-dialog close-on-overlay-click headline="🎨 外观自定义" id="dialog-theme-settings">
+      <div style="width: 98%; display: flex; flex-direction: column; gap: 20px">
+        <!-- 1. 主题模式 -->
+        <div>
+          <p class="settings-title">主题模式</p>
+          <mdui-segmented-button-group selects="single" id="theme-mode-group" full-width>
+            <mdui-segmented-button value="light" icon="light_mode--outlined">浅色</mdui-segmented-button>
+            <mdui-segmented-button value="auto" icon="brightness_auto--outlined">跟随系统</mdui-segmented-button>
+            <mdui-segmented-button value="dark" icon="dark_mode--outlined">深色</mdui-segmented-button>
+          </mdui-segmented-button-group>
+        </div>
+
+        <mdui-divider></mdui-divider>
+
+        <!-- 2. 主题色 -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <p class="settings-title">主题色</p>
+            <input type="color" id="theme-color-picker" title="拾色器" style="height: 30px; width: 50px; cursor: pointer" />
+          </div>
+          <div class="color-swatches">
+            <!-- 预设颜色 -->
+            <div class="color-swatch" style="background: #f44336" data-color="#f44336"></div>
+            <div class="color-swatch" style="background: #e91e63" data-color="#e91e63"></div>
+            <div class="color-swatch" style="background: #c31279" data-color="#c31279"></div>
+            <div class="color-swatch" style="background: #9c27b0" data-color="#9c27b0"></div>
+            <div class="color-swatch" style="background: #673ab7" data-color="#673ab7"></div>
+            <div class="color-swatch" style="background: #3f51b5" data-color="#3f51b5"></div>
+            <div class="color-swatch" style="background: #2196f3" data-color="#2196f3"></div>
+            <div class="color-swatch" style="background: #03a9f4" data-color="#03a9f4"></div>
+            <div class="color-swatch" style="background: #00bcd4" data-color="#00bcd4"></div>
+            <div class="color-swatch" style="background: #12dfd9" data-color="#12dfd9"></div>
+            <div class="color-swatch" style="background: #009688" data-color="#009688"></div>
+            <div class="color-swatch" style="background: #4caf50" data-color="#4caf50"></div>
+            <div class="color-swatch" style="background: #8bc34a" data-color="#8bc34a"></div>
+            <div class="color-swatch" style="background: #cddc39" data-color="#cddc39"></div>
+            <div class="color-swatch" style="background: #ffeb3b" data-color="#ffeb3b"></div>
+            <div class="color-swatch" style="background: #ffc107" data-color="#ffc107"></div>
+            <div class="color-swatch" style="background: #ff9800" data-color="#ff9800"></div>
+            <div class="color-swatch" style="background: #ff5722" data-color="#ff5722"></div>
+            <div class="color-swatch" style="background: #ff7300" data-color="#ff7300"></div>
+            <div class="color-swatch" style="background: #634915" data-color="#634915"></div>
+          </div>
+        </div>
+
+        <mdui-divider></mdui-divider>
+        <div>
+          <p class="settings-title">背景设置</p>
+          <mdui-tabs value="solid" id="bg-type-tabs" full-width>
+            <mdui-tab value="solid" icon="format_paint--outlined">默认/纯色</mdui-tab>
+            <mdui-tab value="image" icon="image--outlined">图片 URL</mdui-tab>
+            <mdui-tab value="upload" icon="upload_file--outlined">上传图片</mdui-tab>
+
+            <mdui-tab-panel slot="panel" value="solid">
+              <div style="padding: 10px 0">
+                <mdui-button full-width icon="restart_alt--outlined" variant="outlined" id="btn-reset-bg">恢复默认背景</mdui-button>
+              </div>
+            </mdui-tab-panel>
+
+            <mdui-tab-panel slot="panel" value="image">
+              <div style="padding: 10px 0">
+                <mdui-text-field label="图片链接 (URL)" icon="link--outlined" id="input-bg-url" clearable></mdui-text-field>
+                <mdui-button full-width icon="check--outlined" variant="filled" style="margin-top: 10px" id="btn-apply-url">应用链接</mdui-button>
+              </div>
+            </mdui-tab-panel>
+
+            <mdui-tab-panel slot="panel" value="upload">
+              <div style="padding: 10px 0; text-align: center">
+                <input type="file" id="input-bg-file" accept="image/*" style="display: none" />
+                <mdui-button icon="upload--outlined" variant="tonal" onclick="document.getElementById('input-bg-file').click()">选择本地图片</mdui-button>
+                <p id="file-name-display" style="font-size: 12px; margin-top: 5px; color: gray"></p>
+              </div>
+            </mdui-tab-panel>
+          </mdui-tabs>
+
+          <!-- 背景遮罩/模糊控制 -->
+          <div style="margin-top: 10px">
+            <p class="settings-title" style="font-size: 14px">背景模糊度</p>
+            <mdui-slider min="0" max="20" step="1" id="bg-blur-slider" value="0"></mdui-slider>
+            <p class="settings-title" style="font-size: 14px">背景不透明度</p>
+            <mdui-slider min="0" max="1" step="0.01" id="bg-opacity-slider" value="0.80"></mdui-slider>
+          </div>
+        </div>
+      </div>
+      <mdui-button slot="action" icon="restart_alt--outlined" variant="outlined" id="dialog-theme-reset">重置所有</mdui-button>
+      <mdui-button slot="action" icon="close--outlined" variant="filled" onclick="document.getElementById('dialog-theme-settings').open = false">关闭</mdui-button>
+    </mdui-dialog>
     <div class="footer">
       <a href="https://icp.gov.moe/?keyword=20257892" target="_blank" rel="noopener">萌ICP备20257892号</a>
     </div>

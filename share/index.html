@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Minecraft基岩版联机平台 - 分享房间" />
     <meta name="keywords" content="Minecraft,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,Multi" />
-    <title>分享房间 - MinecraftBE 联机平台</title>
+    <title>分享房间 - 我的世界Minecraft联机大厅</title>
     <link rel="stylesheet" href="../src/mdui.css" />
     <script src="../src/mdui.global.js"></script>
     <script src="../src/jquery.min.js"></script>
@@ -82,10 +82,14 @@
   <body>
     <header class="mdui-appbar mdui-appbar-fixed">
       <div style="height: 80px">
-        <mdui-button class="back-button" variant="text" icon="arrow_back" onclick="window.location.href='../'" style="padding-right: 15px; font-size: 16px"><p>返回</p></mdui-button>
+        <mdui-button class="back-button" variant="text" icon="arrow_back--outlined" onclick="window.location.href='../'" style="padding-right: 15px; font-size: 16px"
+          ><p>返回</p></mdui-button
+        >
       </div>
       <h2 id="lj_title">
-        <img title="联机大厅" src="/favicon.ico" class="material-icons" style="padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%" />我的世界联机大厅
+        <a href="/" style="text-decoration: none; color: inherit">
+          <img title="联机大厅" src="/favicon.ico" class="material-icons" style="padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%" /></a
+        >我的世界联机大厅
       </h2>
     </header>
     <mdui-dialog id="dialog-loading">
@@ -115,10 +119,10 @@
       <p style="padding-right: 3px">游戏模式: <span id="room-info-gamemode"></span></p>
       <p style="padding-right: 3px">游戏版本: <span id="room-info-version"></span></p>
 
-      <mdui-button icon="close" slot="action" variant="outlined" id="dialog-close-room-info">关闭</mdui-button>
+      <mdui-button icon="close--outlined" slot="action" variant="outlined" id="dialog-close-room-info">关闭</mdui-button>
     </mdui-dialog>
     <div style="display: flex; flex-direction: row; margin-top: 40px; justify-content: center; align-items: center">
-      <mdui-avatar style="margin-right: 16px; font-size: 30px; vertical-align: -5%; width: 64px; height: 64px" icon="account_circle" id="avatar-view"></mdui-avatar>
+      <mdui-avatar style="margin-right: 16px; font-size: 30px; vertical-align: -5%; width: 64px; height: 64px" icon="account_circle--outlined" id="avatar-view"></mdui-avatar>
       <h2 style="text-align: center" id="share-text">有人给你分享了一个房间</h2>
     </div>
     <div class="share-container">
@@ -131,43 +135,43 @@
 
       <div class="share-link">
         <mdui-text-field id="share-url" readonly variant="outlined" value="加载中...">
-          <mdui-button-icon slot="end-icon" icon="content_copy" id="copy-link"></mdui-button-icon>
+          <mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="copy-link"></mdui-button-icon>
         </mdui-text-field>
       </div>
 
       <div class="share-actions">
-        <mdui-button variant="outlined" icon="share" id="share-qq">分享</mdui-button>
-        <mdui-button variant="outlined" icon="qr_code" id="share-qrcode">分享二维码</mdui-button>
+        <mdui-button variant="outlined" icon="share--outlined" id="share-qq">分享</mdui-button>
+        <mdui-button variant="outlined" icon="qr_code--outlined" id="share-qrcode">分享二维码</mdui-button>
       </div>
     </div>
     <div style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">
       <mdui-tooltip placement="left" content="主题颜色">
-        <mdui-fab variant="primary" icon="light_mode" id="fab-theme" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+        <mdui-fab variant="primary" icon="light_mode--outlined" id="fab-theme" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
       </mdui-tooltip>
     </div>
     <mdui-dialog close-on-overlay-click headline="分享房间" id="dialog-room-share">
-      <p class="newver-p"><mdui-icon name="link" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享链接:</span></p>
+      <p class="newver-p"><mdui-icon name="link--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享链接:</span></p>
       <div class="share-link">
         <mdui-text-field id="t-share-url" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
-          <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-link"></mdui-button-icon>
+          <mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="btn-copy-link"></mdui-button-icon>
         </mdui-text-field>
       </div>
-      <p class="newver-p"><mdui-icon name="code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>或在QQ群发送以下指令</span></p>
+      <p class="newver-p"><mdui-icon name="code--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>或在QQ群发送以下指令</span></p>
       <div class="share-link">
         <mdui-text-field id="t-share-code" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
-          <mdui-button-icon slot="end-icon" icon="content_copy" id="btn-copy-code"></mdui-button-icon>
+          <mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="btn-copy-code"></mdui-button-icon>
         </mdui-text-field>
       </div>
       <mdui-divider></mdui-divider>
       <div>
-        <p class="newver-p"><mdui-icon name="qr_code" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享二维码:</span></p>
+        <p class="newver-p"><mdui-icon name="qr_code--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>分享二维码:</span></p>
         <div style="text-align: center">
           <img id="share-qrcodes" title="分享二维码" style="max-width: 300px; width: 98%" />
         </div>
       </div>
-      <p><mdui-icon name="info" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>赶快将上面的链接或二维码发送给其他人吧!</span></p>
+      <p><mdui-icon name="info--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>赶快将上面的链接或二维码发送给其他人吧!</span></p>
       <!-- <p>赶快将上面的链接或二维码发送给其他人吧!</p> -->
-      <mdui-button slot="action" variant="filled" id="dialog-share-done" icon="check">完成</mdui-button>
+      <mdui-button slot="action" variant="filled" id="dialog-share-done" icon="check--outlined">完成</mdui-button>
     </mdui-dialog>
     <script>
       toastr.options = {
@@ -189,9 +193,9 @@
     <script>
       const LOCAL_TEST = 0
       const mdui_theme = {
-        1: ['light', 'light_mode', '浅色主题'],
-        2: ['dark', 'dark_mode', '深色主题'],
-        3: ['auto', 'hdr_auto', '主题跟随系统'],
+        1: ['light', 'light_mode--outlined', '浅色主题'],
+        2: ['dark', 'dark_mode--outlined', '深色主题'],
+        3: ['auto', 'brightness_auto--outlined', '主题跟随系统'],
       }
       let activeAccount = localStorage.getItem('ac_id')
       let enableOldUI = localStorage.getItem('enable_old_ui') === 'false' ? false : true
@@ -499,16 +503,16 @@
         const langText = langText_1 ? langText_1.name_zh : '未知'
         const isFull = room.customProperties.MemberCount >= room.customProperties.MaxMemberCount
         const peopleNumClass = isFull ? 'people-num full' : 'people-num non-full'
-        let buttonStatus = isFull ? 'disabled' : ''
+        let buttonStatus = isFull ? 'disabled--outlined' : ''
         let buttonText = isFull ? '房间已满' : '广播房间'
-        let buttonIcon = isFull ? 'close' : 'login'
+        let buttonIcon = isFull ? 'close--outlined' : 'login--outlined'
 
         const verIcon = Number(room.customProperties.version.slice(0, 4)) >= 1.2 ? '/src/new_mc.png' : '/src/old_mc.png'
 
         if (room.customProperties.BroadcastSetting < 3) {
           buttonStatus = 'disabled'
           buttonText = '限制加入'
-          buttonIcon = 'block'
+          buttonIcon = 'block--outlined'
         }
 
         let roomMode
@@ -533,11 +537,11 @@
           }</strong></span></a>
                       </div>
                       <div class="info-line">
-                        <mdui-icon name="people"></mdui-icon>
+                        <mdui-icon name="people--outlined"></mdui-icon>
                         <span><span class="${peopleNumClass}">${room.customProperties.MemberCount} / ${room.customProperties.MaxMemberCount}</span></span>
                       </div>
                       <div class="info-line">
-                        <mdui-icon name="access_time"></mdui-icon>
+                        <mdui-icon name="access_time--outlined"></mdui-icon>
                         <span>${getTimeText(room.createTime)}</span>
                       </div>
                       <div style="display:flex">
@@ -550,7 +554,7 @@
                         <span style="color:rgb(var(--mdui-color-on-primary))">${room.customProperties.version}</span>
                        </div>
                         <div class="info-line tags ver" style="margin-left:0px;" title="单击以搜索标签" id="btn-lang-${room.id}">
-                        <mdui-icon name="translate" class="room-tag-img" style="font-size:16px;margin-left:2px;color:rgb(var(--mdui-color-surface-container-lowest))" ></mdui-icon>
+                        <mdui-icon name="translate--outlined" class="room-tag-img" style="font-size:16px;margin-left:2px;color:rgb(var(--mdui-color-surface-container-lowest))" ></mdui-icon>
                         <span style="color:rgb(var(--mdui-color-on-primary))">${langText}</span>
                        </div>
                        </div>
@@ -578,7 +582,7 @@
                         />${room.customProperties.hostName}
                       </p>
                       <p id="room-people">
-                        <mdui-icon name="people" class="room-icon"></mdui-icon><span class="${peopleNumClass}">${room.customProperties.MemberCount}/${
+                        <mdui-icon name="people--outlined" class="room-icon"></mdui-icon><span class="${peopleNumClass}">${room.customProperties.MemberCount}/${
             room.customProperties.MaxMemberCount
           }</span
                         ><img
@@ -594,7 +598,7 @@
                             image-rendering: pixelated;
                             vertical-align: -18%;
                           "
-                        />${roomMode[1]}<mdui-icon name="videogame_asset" class="room-icon" style="margin-left: 20px"></mdui-icon> ${room.customProperties.version}
+                        />${roomMode[1]}<mdui-icon name="videogame_asset--outlined" class="room-icon" style="margin-left: 20px"></mdui-icon> ${room.customProperties.version}
                       </p>
                     </div>
 
