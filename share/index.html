@@ -232,7 +232,7 @@
       if (!sessionId) {
         document.getElementById('room-card').innerHTML = `
                             <div style="padding: 20px; text-align: center;">
-                              <mdui-icon style="font-size: 48px; color: var(--mdui-color-error);">error</mdui-icon>
+                              <mdui-icon style="font-size: 48px; color: var(--mdui-color-error);">error--outlined</mdui-icon>
                               <h3>房间ID无效</h3>
                               <p>请检查分享链接是否正确</p>
                               <mdui-button onclick="window.location.href='../'">返回首页</mdui-button>
@@ -449,7 +449,7 @@
           console.error('Error:', error)
           document.getElementById('room-card').innerHTML = `
                               <div style="padding: 20px; text-align: center;">
-                                <mdui-icon style="font-size: 48px; color: var(--mdui-color-error);">error</mdui-icon>
+                                <mdui-icon style="font-size: 48px; color: var(--mdui-color-error);">error--outlined</mdui-icon>
                                 <h3>加载失败</h3>
                                 <p>${error.message}</p>
                                 <mdui-button onclick="window.location.reload()">重新加载</mdui-button>

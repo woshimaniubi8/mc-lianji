@@ -841,7 +841,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
                 vertical-align: -18%;
               "
               loading="lazy"
-            />${gamemode[1]}<mdui-icon name="videogame_asset" class="room-icon" style="margin-left: 20px"></mdui-icon>${room.version}
+            />${gamemode[1]}<mdui-icon name="videogame_asset--outlined" class="room-icon" style="margin-left: 20px"></mdui-icon>${room.version}
           </p>
         </div>
 
