@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/github/release/woshimaniubi8/mc-lianji" alt="latest version" />
   </a>
   <br /><br />
-  <img src="/mclj.png" width="75%">
+  <img src="/mclj.png" width="90%">
 </div>
 
 
