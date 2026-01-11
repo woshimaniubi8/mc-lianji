@@ -1,6 +1,17 @@
-# mc-lianji
+<div align="center">
+<img src="/favicon.ico" height="84px" />
+<h3>基于Xbox的我的世界基岩板联机大厅</h3>
+<h4>Minecraft Bedrock Edition Online Connection Website Based on Xbox</h4>
+  <a href="https://github.com/woshimaniubi8/mc-lianji/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/woshimaniubi8/mc-lianji" alt="License" />
+  </a>
+    <a href="https://github.com/woshimaniubi8/mc-lianji/releases">
+    <img src="https://img.shields.io/github/release/woshimaniubi8/mc-lianji" alt="latest version" />
+  </a>
+  <br /><br />
+  <img src="/mclj.png" width="75%">
+</div>
 
-**基于Xbox的我的世界基岩板联机网页**
 
 ---
 
