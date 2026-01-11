@@ -42,7 +42,7 @@
   <body>
     <div id="app-background"></div>
     <div id="app-mask"></div>
-    <mdui-top-app-bar scroll-behavior="hide" style="background: rgb(var(--mdui-color-primary-container)); --shape-corner: 20px">
+    <mdui-top-app-bar scroll-behavior="hide" style="background: rgb(var(--mdui-color-primary-container)); --shape-corner: 5px">
       <a href="\" style="text-decoration: none; color: inherit">
         <img
           class="lj_title b"
@@ -283,28 +283,33 @@
       <div id="accounts-list" class="accounts-list">
         <!-- 这里是账号列表 -->
       </div>
+      <p>AI模型选择</p>
+      <div class="other-settings">
+        <mdui-select id="ai-model-select" variant="outlined" value="z-ai/glm4.7" style="margin-left: 12px">
+          <mdui-menu-item value="moonshotai/kimi-k2-thinking"><img title="kimi" height="16px" class="ai-model-icon" src="src/kimi.ico" />kimi-k2-thinking (NVDIA)</mdui-menu-item>
+          <mdui-menu-item value="minimaxai/minimax-m2.1"><img title="minmax" height="16px" class="ai-model-icon" src="src/minmax.ico" />minimax-m2.1 (NVDIA)</mdui-menu-item>
+          <mdui-menu-item value="z-ai/glm4.7"><img title="bigmodel" height="16px" class="ai-model-icon" src="src/bigmodel.ico" />glm4.7 (NVDIA)</mdui-menu-item>
+          <mdui-menu-item value="glm-4.5-flash"><img title="bigmodel" height="16px" class="ai-model-icon" src="src/bigmodel.ico" />glm-4.5-flash (Bigmodel)</mdui-menu-item>
+        </mdui-select>
+      </div>
       <p>其他设置</p>
-      <div class="other-settings">
-        <mdui-switch id="hide-invalid-room"></mdui-switch>
-        <span>隐藏不可加入的房间</span>
+      <div>
+        <mdui-checkbox id="hide-invalid-room">隐藏不可加入的房间</mdui-checkbox>
       </div>
-      <div class="other-settings">
-        <mdui-switch id="hide-other-room"></mdui-switch>
-        <span>隐藏其他共享账号的房间</span>
+      <div>
+        <mdui-checkbox id="hide-other-room">隐藏其他共享账号的房间</mdui-checkbox>
       </div>
-      <div class="other-settings">
-        <mdui-switch id="decode-color-string" checked="true"></mdui-switch>
-        <span>解析颜色代码(§)</span>
+      <div>
+        <mdui-checkbox id="decode-color-string" checked="true">解析颜色代码(§)</mdui-checkbox>
       </div>
-      <div class="other-settings">
-        <mdui-switch id="enable-old-ui" checked="true"></mdui-switch>
-        <span>使用旧UI</span>
+      <div>
+        <mdui-checkbox id="enable-old-ui" checked="true">使用旧UI</mdui-checkbox>
       </div>
-      <div class="other-settings">
-        <mdui-switch id="enable-TwoFr" checked="false"></mdui-switch>
-        <span>开启双列(仅新UI)</span>
+      <div>
+        <mdui-checkbox id="enable-TwoFr">开启双列(仅新UI)</mdui-checkbox>
       </div>
-      <div class="other-settings">
+
+      <div>
         <mdui-button onclick="toastr.success('我是张大树，欠钱已跑路');//window.open('https:/\/space.bilibili.com/454289422')">肘击👊张大树🌳</mdui-button>
       </div>
       <mdui-button slot="action" variant="outlined" id="dialog-cancel" icon="close--outlined">取消</mdui-button>
@@ -325,8 +330,8 @@
           <mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="btn-copy-link"></mdui-button-icon>
         </mdui-text-field>
       </div>
-      <p class="newver-p"><mdui-icon name="code--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>或在QQ群发送以下指令</span></p>
-      <div class="share-link">
+      <!-- <p class="newver-p"><mdui-icon name="code--outlined" style="vertical-align: -20%; font-size: 20px; padding-right: 5px"></mdui-icon><span>或在QQ群发送以下指令</span></p> -->
+      <div class="share-link" style="display: none">
         <mdui-text-field id="t-share-code" readonly style="width: 50vh; max-width: 100%" variant="outlined" value="加载中...">
           <mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="btn-copy-code"></mdui-button-icon>
         </mdui-text-field>
@@ -495,7 +500,7 @@
       </div>
       <div id="ai-reasoning-container" style="display: none">
         <div class="reasoning-header"><mdui-icon name="psychology--outlined" style="font-size: 16px"></mdui-icon> 深度思考中...</div>
-        <div><p id="ai-reasoning-content"></p></div>
+        <div id="ai-reasoning-content"></div>
       </div>
 
       <div class="ai-input-area">

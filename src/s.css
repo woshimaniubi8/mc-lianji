@@ -136,7 +136,7 @@ mdui-top-app-bar {
   border-bottom: 1px solid rgba(var(--mdui-color-outline), 0.1);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
-/* 1. 优化房间列表的网格布局 */
+
 .room-list {
   padding: 10px 2%; /* 增加左右内边距防止贴边 */
   display: grid;
@@ -144,18 +144,17 @@ mdui-top-app-bar {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
   width: 100%;
-  box-sizing: border-box; /* 关键：防止宽度溢出 */
+  box-sizing: border-box; /* 防止宽度溢出 */
   margin: 0 auto;
   /* max-width: 1400px; */
 }
 
-/* 2. 全新的卡片设计 */
 .room-card {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: rgb(var(--mdui-color-primary-container)); /* 使用更亮的背景 */
+  background-color: rgba(var(--mdui-color-primary-container), 0.5); /* 使用更亮的背景 */
   border: 1px solid rgba(var(--mdui-color-outline), 0.08);
   border-radius: 24px; /* 更大的圆角 */
   overflow: hidden;
@@ -163,11 +162,13 @@ mdui-top-app-bar {
   min-height: 180px;
   opacity: 0;
 }
-
+.room-card.bgimg {
+  background-color: rgba(var(--mdui-color-primary-container), 0.3); /* 使用更亮的背景 */
+}
 .room-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  border-color: rgb(var(--mdui-color-primary));
+  border-color: rgba(var(--mdui-color-primary), 0.6);
 }
 
 /* 3. 卡片头部 */
@@ -176,7 +177,9 @@ mdui-top-app-bar {
   background-color: rgba(var(--mdui-color-primary-container), 0.9);
   border-bottom: 1px solid rgba(var(--mdui-color-primary), 0.7);
 }
-
+.room-card-header.bgimg {
+  background-color: rgba(var(--mdui-color-primary-container), 0.3);
+}
 #room-name {
   font-size: 1.1rem;
   font-weight: bold;
@@ -196,7 +199,9 @@ mdui-top-app-bar {
   flex-direction: column;
   gap: 12px;
 }
-
+.room-card-body.bgimg {
+  background-color: rgba(var(--mdui-color-primary-container), 0.3);
+}
 .info-line {
   display: flex;
   align-items: center;
@@ -279,7 +284,9 @@ mdui-top-app-bar {
   border-top: 1px solid rgb(var(--mdui-color-outline-variant));
   background-color: rgba(var(--mdui-color-primary-container), 0.9);
 }
-
+.room-card-footer.bgimg {
+  background-color: rgba(var(--mdui-color-primary-container), 0.3);
+}
 .join-button {
   flex-grow: 1;
 }
@@ -544,6 +551,11 @@ mdui-top-app-bar {
 
 #dialog-toastr {
   z-index: 9999;
+}
+
+.ai-model-icon {
+  vertical-align: middle;
+  padding-right: 5px;
 }
 
 /* AI 聊天窗口容器 */

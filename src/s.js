@@ -10,6 +10,7 @@
 const version_code = '1.0.7'
 const clients = 0 //1: electron  0: 浏览器
 const LOCAL_TEST = 0
+const AI_LOCAL_TEST = 0
 
 const mdui_theme = {
   1: ['light', 'light_mode--outlined', '浅色主题'],
@@ -43,6 +44,7 @@ LDtheme = Number(LDtheme)
 let xuid = localStorage.getItem('user_xuid') || ''
 let user_avatar = localStorage.getItem('user_avatar') || ''
 let enbaleVconsole = localStorage.getItem('enable_vconsole') === 'true' ? true : false
+let aiModelName = localStorage.getItem('ai_model_name') || 'z-ai/glm4.7'
 let headimg = ''
 let newerMarkdown
 let accountInfo = []
@@ -53,8 +55,8 @@ const nowDate = new Date()
 const lastOpenDate = new Date(localStorage.getItem('last_open_date'))
 const AI_CONFIG = {
   apiKey: 'ab592778WocANima_mcLiAnji114514shaoyUbiub', //Key
-  apiUrl: 'https://glm-netlify.netlify.app/api/paas/v4/chat/completions',
-  model: 'glm-4.5-flash',
+  apiUrl: AI_LOCAL_TEST ? 'http://127.0.0.1:8888/api/local' : 'https://glm-netlify.netlify.app/api/woyaocaobi',
+  model: aiModelName,
 }
 
 const aiChatWindow = document.getElementById('ai-chat-window')
@@ -710,11 +712,14 @@ async function saveUserConfig() {
   decodeColorstring = document.getElementById('decode-color-string').checked
   enableOldUI = document.getElementById('enable-old-ui').checked
   enableTwoFr = document.getElementById('enable-TwoFr').checked
+  aiModelName = document.getElementById('ai-model-select').value
   localStorage.setItem('hide_invalid_room', hideInvalidroom)
   localStorage.setItem('hide_other_room', hideOtherroom)
   localStorage.setItem('decode_color_string', decodeColorstring)
   localStorage.setItem('enable_old_ui', enableOldUI)
   localStorage.setItem('enable_TwoFr', enableTwoFr)
+  localStorage.setItem('ai_model_name', aiModelName)
+  AI_CONFIG.model = aiModelName
   await displayRoomList(filteredRoomList) // 修改：使用 filteredRoomList 保留搜索结果
   loadingScreen.open = false
   document.getElementById('dialog-cancel').style.display = 'block'
@@ -762,15 +767,17 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
       // console.log(room.worldNameLang)
       const langText_1 = languageCode.find((item) => item.code === room.worldNameLang)
       const langText = langText_1 ? langText_1.name_zh : '未知'
-      roomCard.className = 'room-card card-animate'
+      const bgConfig = JSON.parse(localStorage.getItem('theme_config') || '{}').bg_type
+      roomCard.className = `room-card ${bgConfig == 'image' || bgConfig == 'upload' ? 'bgimg' : ''} card-animate`
       roomCard.style.cursor = 'pointer'
+
       if (!enableOldUI) {
         roomCard.innerHTML = `
-        <div class="room-card-header">
+        <div class="${bgConfig == 'image' || bgConfig == 'upload' ? 'room-card-header bgimg' : 'room-card-header'}">
           <p id="room-name2" title="${room.name.replace(/§./g, '')}">${formatMinecraftText(room.name)}</p>
         </div>
 
-        <div class="room-card-body">
+        <div class="${bgConfig == 'image' || bgConfig == 'upload' ? 'room-card-body bgimg' : 'room-card-body'}">
           <div class="info-line">
             <img src="https://persona-secondary.franchise.minecraft-services.net/api/v1.0/profile/xuid/${
               room.xuid
@@ -802,7 +809,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
           </div>
         </div>
 
-        <div class="room-card-footer">
+        <div class="${bgConfig == 'image' || bgConfig == 'upload' ? 'room-card-footer bgimg' : 'room-card-footer'}">
           <mdui-button class="join-button" ${isDisabled ? 'disabled' : ''} end-icon="${buttonIcon}" id="btn-joinroom-${room.id}">${buttonText}</mdui-button>
           <mdui-tooltip content="分享房间">
             <mdui-button-icon icon="share--outlined" id="btn-share-${room.sessionName}"></mdui-button-icon>
@@ -913,7 +920,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
         new AwesomeQR.AwesomeQR({
           text: shareUrl,
           size: 350,
-          logoImage: 'favicon.ico', // Logo
+          logoImage: 'src/favicon.ico', // Logo
           logoScale: 0.2, // Logo 大小比例
         })
           .draw()
@@ -1014,6 +1021,7 @@ function openConfigDialog() {
   document.getElementById('hide-other-room').checked = hideOtherroom
   document.getElementById('decode-color-string').checked = decodeColorstring
   document.getElementById('enable-TwoFr').checked = enableTwoFr
+  document.getElementById('ai-model-select').value = aiModelName
   userInput.value = localStorage.getItem('user_id')
   const accountList = document.getElementById('accounts-list')
   accountList.innerHTML = ''
@@ -1069,14 +1077,16 @@ function executeAICommands(text) {
         case 'RELOAD_ROOMLIST':
           toastr.info('AI 正在刷新房间列表...')
           document.getElementById('fab-reload').click()
-          cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试刷新房间列表 \n')
+          //   cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试刷新房间列表 \n')
+          cleanText = cleanText.replace(fullCommandStr, '\n\n')
           break
 
         case 'SEARCH':
           if (param) {
             toastr.info(`AI 正在搜索: ${param}`)
             document.getElementById('search-input').value = param
-            cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试搜索房间 \n')
+            //   cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试搜索房间 \n')
+            cleanText = cleanText.replace(fullCommandStr, '\n\n')
             searchRooms(param) // 搜索函数
           }
           break
@@ -1087,7 +1097,8 @@ function executeAICommands(text) {
               const params = JSON.parse(param)
               toastr.info(`正在加入房间: ${params.name}`)
               joinroom(activeAccount, params.roomfrom, params.id, params.session, xuid)
-              cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试加入房间 \n')
+              // cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试加入房间 \n')
+              cleanText = cleanText.replace(fullCommandStr, '\n\n')
             } catch (e) {
               toastrs.error('加入房间失败', e)
             }
@@ -1361,6 +1372,7 @@ function formatAIResponse(text) {
 // 滚动到底部
 function scrollToBottom() {
   aiMessagesArea.scrollTop = aiMessagesArea.scrollHeight
+  aiReasoningContent.scrollTop = aiReasoningContent.scrollHeight
 }
 
 aiSendBtn.addEventListener('click', sendAIMessage)
@@ -1427,6 +1439,7 @@ const ThemeConfig = {
 
     this.bgResetBtn.addEventListener('click', () => {
       this.setBackground('solid', '')
+      displayRoomList(filteredRoomList)
       toastr.success('已恢复默认主题背景')
     })
 
@@ -1434,7 +1447,8 @@ const ThemeConfig = {
       const url = this.bgUrlInput.value
       if (url) {
         this.setBackground('image', url)
-        toastr.success('背景已应用')
+        displayRoomList(filteredRoomList)
+        toastrs.success('背景已应用')
       }
     })
 
@@ -1446,10 +1460,12 @@ const ThemeConfig = {
         reader.onload = (event) => {
           try {
             this.setBackground('upload', event.target.result)
-            toastr.success('本地图片已应用')
+            displayRoomList(filteredRoomList)
+            toastrs.success('本地图片已应用')
           } catch (err) {
             toastr.warning('图片过大，仅本次有效')
             this.applyBackgroundStyles(event.target.result)
+            displayRoomList(filteredRoomList)
             this.saveSetting('bg_type', 'upload')
           }
         }
