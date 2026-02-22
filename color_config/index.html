@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh" class="mdui-theme-light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在线配色方案</title>
+    <link rel="stylesheet" href="/src/s.css" as="style" />
+    <link rel="preload" href="/src/mdui.css" as="style" onload="this.rel = 'stylesheet'" />
+    <link rel="preload" href="/src/toastr.min.css" as="style" onload="this.rel = 'stylesheet'" />
+    <link rel="preload" href="/src/mdui_icon.css" as="style" onload="this.rel = 'stylesheet'" />
+    <link href="/src/mdui_icon.css" rel="stylesheet" />
+    <script src="/src/jquery.min.js"></script>
+    <script src="/src/toastr.min.js"></script>
+    <script src="/src/mdui.global.js"></script>
+  </head>
+  <style>
+    body {
+      padding: 10px;
+    }
+
+    .title_img {
+      vertical-align: middle;
+      margin-right: 15px;
+    }
+
+    button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .colorc_card {
+      flex-direction: column;
+      display: flex;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    p {
+      margin: 8px 0;
+    }
+    .download-panel {
+      gap: 5px;
+      flex-direction: row-reverse;
+      display: flex;
+      margin-top: 15px;
+    }
+    mdui-icon {
+      font-size: 20px;
+      vertical-align: -22%;
+      margin-right: 5px;
+    }
+  </style>
+  <body>
+    <h1><img class="title_img" title="fu_mo_shu" alt="icon_title" width="48px" height="auto" src="/src/fumoshu.png" />在线配色方案</h1>
+    <p>这是一些由官方或其他人上传的配色方案，您可以直接下载并应用 (手机app请手动下载并应用)</p>
+    <p>声明：背景素材取材网络，请合理使用以避免法律风险</p>
+    <p>
+      <strong>投稿: <a href="mailto:wzy@qqaq.top">wzy@qqaq.top (邮箱)</a> | <a href="https://qm.qq.com/q/bZVU7ZPkVG" target="_blank" rel="noopener">2377659724 (QQ)</a></strong>
+    </p>
+    <br />
+    <mdui-divider></mdui-divider>
+    <br />
+
+    <!-- Minecraft 15th -->
+    <div class="colorc_card">
+      <p><mdui-icon name="palette--outlined"></mdui-icon>名称: <strong>Minecraft 15th</strong></p>
+      <p><mdui-icon name="person--outlined"></mdui-icon>作者: <strong>官方</strong></p>
+      <p><mdui-icon name="description--outlined"></mdui-icon>描述: <strong>Minecraft 15 周年主题</strong></p>
+      <p><mdui-icon name="image--outlined"></mdui-icon>预览: (单击放大)</p>
+      <br />
+      <a href="preview/minecraft-15th.webp" target="_blank">
+        <img src="preview/minecraft-15th.webp" alt="Minecraft 15th 配色方案预览" style="width: 100%; border: 1px solid #ccc; border-radius: 4px" />
+      </a>
+      <div class="download-panel">
+        <a href="minecraft-15th.json" download="minecraft-15th.json" style="text-decoration: none">
+          <mdui-button icon="file_download--outlined" variant="outlined">下载</mdui-button>
+        </a>
+        <mdui-button onclick="downloadAndApply('minecraft-15th.json')" icon="check--outlined">一键应用</mdui-button>
+      </div>
+    </div>
+
+    <!-- Minecraft 1 (example) -->
+    <div class="colorc_card">
+      <p><mdui-icon name="palette--outlined"></mdui-icon>名称: <strong>Minecraft 1</strong></p>
+      <p><mdui-icon name="person--outlined"></mdui-icon>作者: <strong>官方</strong></p>
+      <p><mdui-icon name="description--outlined"></mdui-icon>描述: <strong>Minecraft PC 壁纸包</strong></p>
+      <p><mdui-icon name="image--outlined"></mdui-icon>预览: (单击放大)</p>
+      <br />
+      <a href="preview/minecraft-pc.webp" target="_blank">
+        <img src="preview/minecraft-pc.webp" alt="Minecraft 1 配色方案预览" style="width: 100%; border: 1px solid #ccc; border-radius: 4px" />
+      </a>
+      <div class="download-panel">
+        <a href="minecraft-pc.json" download="minecraft-pc.json" style="text-decoration: none">
+          <mdui-button icon="file_download--outlined" variant="outlined">下载</mdui-button>
+        </a>
+        <mdui-button onclick="downloadAndApply('minecraft-pc.json')" icon="check--outlined">一键应用</mdui-button>
+      </div>
+    </div>
+
+    <!-- Minecraft Winter -->
+    <div class="colorc_card">
+      <p><mdui-icon name="palette--outlined"></mdui-icon>名称: <strong>Minecraft Winter</strong></p>
+      <p><mdui-icon name="person--outlined"></mdui-icon>作者: <strong>官方</strong></p>
+      <p><mdui-icon name="description--outlined"></mdui-icon>描述: <strong>Minecraft 冬季主题壁纸与配色</strong></p>
+      <p><mdui-icon name="image--outlined"></mdui-icon>预览: (单击放大)</p>
+      <br />
+      <a href="preview/minecraft-winter.webp" target="_blank">
+        <img src="preview/minecraft-winter.webp" alt="Minecraft Winter 配色方案预览" style="width: 100%; border: 1px solid #ccc; border-radius: 4px" />
+      </a>
+      <div class="download-panel">
+        <a href="minecraft-winter.json" download="minecraft-winter.json" style="text-decoration: none">
+          <mdui-button icon="file_download--outlined" variant="outlined">下载</mdui-button>
+        </a>
+        <mdui-button onclick="downloadAndApply('minecraft-winter.json')" icon="check--outlined">一键应用</mdui-button>
+      </div>
+    </div>
+
+    <!-- Nachoneko -->
+    <div class="colorc_card">
+      <p><mdui-icon name="palette--outlined"></mdui-icon>名称: <strong>Nachoneko</strong></p>
+      <p><mdui-icon name="person--outlined"></mdui-icon>作者: <strong>官方</strong></p>
+      <p><mdui-icon name="description--outlined"></mdui-icon>描述: <strong>甘城猫猫 (可爱捏)</strong></p>
+      <p><mdui-icon name="image--outlined"></mdui-icon>预览: (单击放大)</p>
+      <br />
+      <a href="preview/nachoneko.webp" target="_blank">
+        <img src="preview/nachoneko.webp" alt="Nachoneko 配色方案预览" style="width: 100%; border: 1px solid #ccc; border-radius: 4px" />
+      </a>
+      <div class="download-panel">
+        <a href="nachoneko.json" download="nachoneko.json" style="text-decoration: none">
+          <mdui-button icon="file_download--outlined" variant="outlined">下载</mdui-button>
+        </a>
+        <mdui-button onclick="downloadAndApply('nachoneko.json')" icon="check--outlined">一键应用</mdui-button>
+      </div>
+    </div>
+
+    <!-- Nachoneko2 -->
+    <div class="colorc_card">
+      <p><mdui-icon name="palette--outlined"></mdui-icon>名称: <strong>Nachoneko 2</strong></p>
+      <p><mdui-icon name="person--outlined"></mdui-icon>作者: <strong>官方</strong></p>
+      <p><mdui-icon name="description--outlined"></mdui-icon>描述: <strong>甘城猫猫 2</strong></p>
+      <p><mdui-icon name="image--outlined"></mdui-icon>预览: (单击放大)</p>
+      <br />
+      <a href="preview/nachoneko2.webp" target="_blank">
+        <img src="preview/nachoneko2.webp" alt="Nachoneko2 配色方案预览" style="width: 100%; border: 1px solid #ccc; border-radius: 4px" />
+      </a>
+      <div class="download-panel">
+        <a href="nachoneko2.json" download="nachoneko2.json" style="text-decoration: none">
+          <mdui-button icon="file_download--outlined" variant="outlined">下载</mdui-button>
+        </a>
+        <mdui-button onclick="downloadAndApply('nachoneko2.json')" icon="check--outlined">一键应用</mdui-button>
+      </div>
+    </div>
+
+    <!-- Nachoneko3 -->
+    <div class="colorc_card">
+      <p><mdui-icon name="palette--outlined"></mdui-icon>名称: <strong>Nachoneko 3</strong></p>
+      <p><mdui-icon name="person--outlined"></mdui-icon>作者: <strong>官方</strong></p>
+      <p><mdui-icon name="description--outlined"></mdui-icon>描述: <strong>甘城猫猫 竖屏</strong></p>
+      <p><mdui-icon name="image--outlined"></mdui-icon>预览: (单击放大)</p>
+      <br />
+      <a href="preview/nachoneko3.webp" target="_blank">
+        <img src="preview/nachoneko3.webp" alt="Nachoneko3 配色方案预览" style="width: 100%; border: 1px solid #ccc; border-radius: 4px" />
+      </a>
+      <div class="download-panel">
+        <a href="nachoneko3.json" download="nachoneko3.json" style="text-decoration: none">
+          <mdui-button icon="file_download--outlined" variant="outlined">下载</mdui-button>
+        </a>
+        <mdui-button onclick="downloadAndApply('nachoneko3.json')" icon="check--outlined">一键应用</mdui-button>
+      </div>
+    </div>
+
+    <div class="colorc_card">
+      <p><mdui-icon name="palette--outlined"></mdui-icon>名称: <strong>Miku</strong></p>
+      <p><mdui-icon name="person--outlined"></mdui-icon>作者: <strong>官方</strong></p>
+      <p><mdui-icon name="description--outlined"></mdui-icon>描述: <strong>Vocaloid 初音未来 红</strong></p>
+      <p><mdui-icon name="image--outlined"></mdui-icon>预览: (单击放大)</p>
+      <br />
+      <a href="preview/miku.webp" target="_blank">
+        <img src="preview/miku.webp" alt="初音未来 配色方案预览" style="width: 100%; border: 1px solid #ccc; border-radius: 4px" />
+      </a>
+      <div class="download-panel">
+        <a href="miku.json" download="miku.json" style="text-decoration: none">
+          <mdui-button icon="file_download--outlined" variant="outlined">下载</mdui-button>
+        </a>
+        <mdui-button onclick="downloadAndApply('miku.json')" icon="check--outlined">一键应用</mdui-button>
+      </div>
+    </div>
+
+    <div class="colorc_card">
+      <p><mdui-icon name="palette--outlined"></mdui-icon>名称: <strong>Pikachu</strong></p>
+      <p><mdui-icon name="person--outlined"></mdui-icon>作者: <strong>官方</strong></p>
+      <p><mdui-icon name="description--outlined"></mdui-icon>描述: <strong>《宝可梦》系列 皮卡丘</strong></p>
+      <p><mdui-icon name="image--outlined"></mdui-icon>预览: (单击放大)</p>
+      <br />
+      <a href="preview/pikachu.webp" target="_blank">
+        <img src="preview/pikachu.webp" alt="皮卡丘 配色方案预览" style="width: 100%; border: 1px solid #ccc; border-radius: 4px" />
+      </a>
+      <div class="download-panel">
+        <a href="pikachu.json" download="pikachu.json" style="text-decoration: none">
+          <mdui-button icon="file_download--outlined" variant="outlined">下载</mdui-button>
+        </a>
+        <mdui-button onclick="downloadAndApply('pikachu.json')" icon="check--outlined">一键应用</mdui-button>
+      </div>
+    </div>
+
+    <div style="display: flex; position: fixed; right: 15px; bottom: 15px; z-index: 1000; flex-direction: column; gap: 10px">
+      <mdui-tooltip placement="left" content="主题颜色">
+        <mdui-fab variant="primary" icon="light_mode--outlined" id="fab-theme" style="background-color: rgb(var(--mdui-color-primary)); color: rgb(var(--mdui-color-on-primary))"></mdui-fab>
+      </mdui-tooltip>
+    </div>
+
+    <script>
+      toastr.options = {
+        closeButton: true,
+        debug: false,
+        progressBar: true,
+        positionClass: 'toast-bottom-center',
+        showDuration: '400',
+        hideDuration: '1000',
+        timeOut: '3000',
+        extendedTimeOut: '1000',
+        showEasing: 'swing',
+        hideEasing: 'linear',
+        showMethod: 'fadeIn',
+        hideMethod: 'fadeOut',
+      }
+
+      const mdui_theme = {
+        1: ['light', 'light_mode--outlined', '浅色主题'],
+        2: ['dark', 'dark_mode--outlined', '深色主题'],
+        3: ['auto', 'brightness_auto--outlined', '主题跟随系统'],
+      }
+
+      let LDtheme = localStorage.getItem('themes') || 1
+      LDtheme = Number(LDtheme)
+
+      async function downloadAndApply(url) {
+        toastr.warning('正在获取并应用配色方案...')
+        try {
+          const response = await fetch(url)
+          if (!response.ok) throw new Error('下载失败')
+          const configText = await response.text()
+          const config = JSON.parse(configText)
+          localStorage.setItem('theme_config', configText)
+          toastr.success('成功应用配色方案,请返回查看')
+        } catch (error) {
+          toastr.error(error.message)
+        }
+      }
+
+      document.getElementById('fab-theme').addEventListener('click', (e) => {
+        if (!LDtheme) LDtheme = 1
+        LDtheme++
+        if (LDtheme >= 4) LDtheme = 1
+        mdui.setTheme(mdui_theme[LDtheme][0])
+        document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
+        toastr.info(mdui_theme[LDtheme][2])
+        localStorage.setItem('themes', LDtheme)
+      })
+
+      mdui.setTheme(mdui_theme[LDtheme][0])
+      document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
+    </script>
+  </body>
+</html>

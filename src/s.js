@@ -1,13 +1,13 @@
 //文件:s.js
 //描述:前端逻辑
-//时间:2025-11-01
+//时间:2025-02-22
 //作者:wohenaighs@163.com
 
 // 这怎么一半敖丙一半哪吒呀😱这敖丙混起来是怎么回事啊出去出去😡不要了不要了😱😱😱不要了😭不要我要[发怒]
 // 你要他干啥呀[发怒]反正我是不要[发怒]快看[憨笑]我命由我不由天🤬这是谁说的[发怒]所以啊[憨笑]才不要敖丙进来呢[发怒]
 // 爱[憨笑]这个放到我这不刚刚好吗[憨笑]正好我的敖丙缺了一半[憨笑]就算你拼上了敖丙也特别的丑[发怒]倒是好玩啊[愉快]你看
 
-const version_code = '1.0.7'
+const version_code = '1.0.8'
 const clients = 0 //1: electron  0: 浏览器
 const LOCAL_TEST = 0
 const AI_LOCAL_TEST = 0
@@ -887,16 +887,19 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
       }
       if (!enableOldUI) {
         document.getElementById(`btn-mode-${room.id}`).addEventListener('click', (e) => {
+          e.stopPropagation()
           toastr.info('按游戏模式搜索:' + gamemode[1])
           document.getElementById('search-input').value = gamemode[1]
           searchRooms(gamemode[1])
         })
         document.getElementById(`btn-version-${room.id}`).addEventListener('click', (e) => {
+          e.stopPropagation()
           toastr.info('按游戏版本搜索:' + room.version)
           document.getElementById('search-input').value = room.version
           searchRooms(room.version)
         })
         document.getElementById(`btn-lang-${room.id}`).addEventListener('click', (e) => {
+          e.stopPropagation()
           toastr.info('按语言搜索:' + langText)
           document.getElementById('search-input').value = 'lang::' + room.worldNameLang
           searchRooms('lang::' + room.worldNameLang)
@@ -1138,7 +1141,7 @@ async function sendAIMessage() {
     {
       role: 'system',
       content: `当前时间${times.toLocaleString()},用户的游戏名称为${userID},xuid为${xuid},头像URL:${user_avatar}，用户选择的共享账号(-1为未选择)id:${activeAccount} 。当前房间列表：${JSON.stringify(
-        allRoomList
+        allRoomList,
       )} 共${allRoomList.length}房间 当前共享账号：${JSON.stringify(accountInfo)} 共${accountInfo.lenth}账号`,
     },
     ...messageHistory,
@@ -1263,7 +1266,7 @@ function formatAIResponse(text) {
           '>': '&gt;',
           '"': '&quot;',
           "'": '&#039;',
-        }[m])
+        })[m],
     )
   }
 
@@ -1383,21 +1386,16 @@ aiInput.addEventListener('keyup', (e) => {
 const ThemeConfig = {
   dialog: document.getElementById('dialog-theme-settings'),
   btn: document.getElementById('theme-btn'),
-
-  modeGroup: document.getElementById('theme-mode-group'),
   colorPicker: document.getElementById('theme-color-picker'),
   swatches: document.querySelectorAll('.color-swatch'),
-
   bgTabs: document.getElementById('bg-type-tabs'),
   bgUrlInput: document.getElementById('input-bg-url'),
   bgApplyUrlBtn: document.getElementById('btn-apply-url'),
   bgFileInput: document.getElementById('input-bg-file'),
   bgResetBtn: document.getElementById('btn-reset-bg'),
-
   blurSlider: document.getElementById('bg-blur-slider'),
   opacitySlider: document.getElementById('bg-opacity-slider'),
   resetAllBtn: document.getElementById('dialog-theme-reset'),
-
   appBg: document.getElementById('app-background'),
   appMask: document.getElementById('app-mask'),
 
@@ -1577,7 +1575,6 @@ const ThemeConfig = {
 
   syncUiToState() {
     const config = JSON.parse(localStorage.getItem('theme_config') || '{}')
-    this.modeGroup.value = mdui.getTheme()
 
     const type = config.bg_type || 'solid'
     this.bgTabs.value = type === 'upload' ? 'upload' : type === 'image' ? 'image' : 'solid'
@@ -1830,8 +1827,6 @@ document.getElementById('fab-ai').addEventListener('click', () => {
   } else {
     openAIChat()
   }
-
-  // 关闭 FAB 菜单
   const fabContainer = document.getElementById('fab-container')
   if (fabContainer.classList.contains('fab-menu-open')) {
     document.getElementById('fab-menu').click()
@@ -1839,6 +1834,53 @@ document.getElementById('fab-ai').addEventListener('click', () => {
 })
 
 document.getElementById('ai-close-btn').addEventListener('click', closeAIChat)
+
+document.getElementById('btn-color-export').addEventListener('click', (e) => {
+  try {
+    let colorConfig = new Blob([localStorage.getItem('theme_config')], { type: 'application/json;charset=utf-8' })
+    const url = URL.createObjectURL(colorConfig)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'lianji-color-config-' + localStorage.getItem('user_id') + '.json'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+    toastr.success('成功导出配色方案')
+  } catch (e) {
+    toastrs.error(e, '导出配色方案时出错')
+  }
+})
+
+document.getElementById('btn-color-import').addEventListener('click', (e) => {
+  let finput = document.getElementById('input-color-import')
+  if (!finput) return
+  finput.click()
+  const handleFile = () => {
+    const file = finput.files[0]
+    if (!file) {
+      finput.removeEventListener('change', handleFile)
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = async function (evt) {
+      try {
+        const resu = await JSON.parse(evt.target.result)
+        if (resu.theme_color == undefined) throw new Error('错误的配色方案文件')
+        localStorage.setItem('theme_config', evt.target.result)
+        toastr.success('成功导入配色方案')
+        location.reload()
+      } catch (err) {
+        console.error()
+        toastrs.error(err, '读取文件时出错')
+      }
+    }
+    reader.readAsText(file, 'utf-8')
+    finput.value = ''
+    finput.removeEventListener('change', handleFile)
+  }
+  finput.addEventListener('change', handleFile)
+})
 
 let debug_click_count = 0
 document.getElementById('span-userid').addEventListener('click', (e) => {
@@ -1853,6 +1895,7 @@ CheckVconsole.addEventListener('click', (e) => {
   enbaleVconsole = !CheckVconsole.checked
   localStorage.setItem('enable_vconsole', enbaleVconsole)
 })
+
 // document.getElementById('demo-card1').addEventListener('click', (e) => {
 //   document.getElementById('ui-choose-old').value = 'false'
 // })
@@ -1904,9 +1947,8 @@ if (localStorage.getItem('enable_old_ui') === null) {
   enableOldUI = false
 }
 if (first_go) {
-  document.getElementById(
-    'newer-video'
-  ).innerHTML = `<iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=115026656497077&bvid=BV1VCbzztE1g&cid=31691440462&p=1&autoplay=0"
+  document.getElementById('newer-video').innerHTML =
+    `<iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=115026656497077&bvid=BV1VCbzztE1g&cid=31691440462&p=1&autoplay=0"
           scrolling="no"
           border="0"
           width="95%"

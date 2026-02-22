@@ -1,7 +1,7 @@
 /* 
 // 文件: s.css
 // 描述: 前端样式
-// 时间: 2025-11-01
+// 时间: 2026-02-22
 // 作者: wohenaighs@163.com 
 */
 
@@ -158,7 +158,9 @@ mdui-top-app-bar {
   border: 1px solid rgba(var(--mdui-color-outline), 0.08);
   border-radius: 24px; /* 更大的圆角 */
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
   min-height: 180px;
   opacity: 0;
 }
@@ -217,7 +219,9 @@ mdui-top-app-bar {
   width: max-content;
   background-color: rgb(var(--mdui-color-primary));
   border-radius: 7px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   margin: 3px;
   cursor: pointer;
 }
@@ -311,7 +315,9 @@ mdui-top-app-bar {
   flex-wrap: wrap;
   position: relative;
   display: flex;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   background-color: rgb(var(--mdui-color-primary-container));
   /* max-height: 218px; */
   min-width: 10%;
@@ -516,7 +522,9 @@ mdui-top-app-bar {
   transform: scale(0.5) translateY(0);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s linear;
+  transition:
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s linear;
 }
 /* Rotate the main menu button when the menu is open */
 #fab-container.fab-menu-open #fab-menu {
@@ -919,7 +927,9 @@ mdui-top-app-bar {
   height: 100%;
   z-index: -1; /* 在背景图之上，内容之下 */
   background-color: rgb(var(--mdui-color-surface-container));
-  transition: opacity 0.1s linear, background-color 0.3s ease;
+  transition:
+    opacity 0.1s linear,
+    background-color 0.3s ease;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -958,7 +968,9 @@ body.custom-bg #app-mask {
 
 .color-swatch.active {
   transform: scale(1.15);
-  box-shadow: 0 0 0 2px rgb(var(--mdui-color-surface-container)), 0 0 0 4px rgb(var(--mdui-color-primary));
+  box-shadow:
+    0 0 0 2px rgb(var(--mdui-color-surface-container)),
+    0 0 0 4px rgb(var(--mdui-color-primary));
   border: none;
 }
 
@@ -978,6 +990,12 @@ body.custom-bg #app-mask {
 #dialog-theme-settings .mdui-dialog-content {
   overflow-x: hidden;
 }
+
+#btn-color-export,
+#btn-color-import {
+  width: 49%;
+}
+
 /* 移动端适配 */
 @media (max-width: 600px) {
   #ai-chat-window {
