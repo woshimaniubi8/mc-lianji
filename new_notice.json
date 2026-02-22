@@ -1,4 +1,4 @@
 {
-  "ver": "1.0.7",
-  "notice": "<br>2025-12-28<br>修复了一些bug<br>加入主题样式自定义<br>加入自定义背景功能<br>优化了界面样式<br>调整了icon样式<br><strong>祝大家在新的一年里红红火火，顺顺利利，未来不忧，心之所向，终将抵达！</strong>"
+  "ver": "1.0.8",
+  "notice": "2026-02-22<br>修复了一些bug<br>修复了房间卡片tag点击穿透bug<br>加入<strong>更多AI模型选择</strong><br>优化<strong>图片背景显示</strong><br>优化<strong>设置页面</strong><br>优化<strong>对话框(dialog)的显示</strong><br>添加<strong>配色方案导出/导入</strong><br>上线<strong>在线配色方案</strong>"
 }
