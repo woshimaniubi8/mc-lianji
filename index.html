@@ -383,6 +383,9 @@
           <mdui-text-field variant="outlined" id="dialog-toastr-message" autosize readonly max-rows="5" value="我是一条信息"
             ><mdui-button-icon slot="end-icon" icon="content_copy--outlined" id="dialog-toastr-message-copy"></mdui-button-icon
           ></mdui-text-field>
+          <mdui-button slot="action" variant="filled" id="dialog-toastr-start-game" icon="rocket_launch--outlined" onclick="window.open('minecraft:/\/')">启动游戏</mdui-button>
+
+          <mdui-button slot="action" variant="outlined" id="dialog-toastr-close" icon="checked--outlined" onclick="document.getElementById('dialog-toastr').open = 0">完成</mdui-button>
         </div>
       </div>
     </mdui-dialog>
@@ -612,7 +615,7 @@
 
       <mdui-button slot="action" icon="close--outlined" variant="filled" onclick="document.getElementById('dialog-theme-settings').open = false">关闭</mdui-button>
     </mdui-dialog>
-    <script src="src/jquery.min.js" defer></script>
+    <!-- <script src="src/jquery.min.js" defer></script> -->
     <script src="src/toastr.min.js" defer></script>
     <script src="src/my-toastr.js" defer></script>
 

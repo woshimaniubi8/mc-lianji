@@ -356,15 +356,16 @@ async function joinroom(addid, roomfrom, roomid, sessionid, xuids) {
       res_data = { code: '1', message_zh_CN: '使用本地数据测试，默认成功' }
     }
     loadingScreen.open = false
-    if (res_data.code === '1') {
-      toastrs.warning(res_data.message_zh_CN, '加入成功')
+    if (res_data.code == '2') {
+      toastrs.success(res_data.message_zh_CN, '加入成功', 1, 1)
+      console.log('have id')
     } else {
-      toastrs.success(res_data.message_zh_CN, '加入成功')
+      toastrs.success(res_data.message_zh_CN + '\n(不影响游戏，设置id后即可消除)', '加入成功', 1, 0)
     }
     loadingScreen.open = false
   } catch (error) {
     console.error('join failed :', error)
-    toastrs.error(error, '广播房间失败')
+    toastrs.error(error, '加入房间失败')
     loadingScreen.open = false
   }
 }
@@ -724,7 +725,7 @@ async function saveUserConfig() {
   loadingScreen.open = false
   document.getElementById('dialog-cancel').style.display = 'block'
   document.getElementById('dialog-user-settings').open = false
-  toastrs.success('更新配置成功')
+  toastrs.success('', '更新配置成功', 0, 1)
 }
 async function displayRoomList(roomsToDisplay = filteredRoomList) {
   roomListElement.className = `room-list${enableTwoFr ? ' TwoFr' : ''}`
@@ -748,7 +749,7 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
       }
 
       let isDisabled = isFull
-      let buttonText = isFull ? '房间已满' : '广播房间'
+      let buttonText = isFull ? '房间已满' : '加入房间'
       let buttonIcon = isFull ? 'close--outlined' : 'login--outlined'
 
       if (room.broadcastSetting < 3) {
@@ -913,11 +914,11 @@ async function displayRoomList(roomsToDisplay = filteredRoomList) {
         navigator.clipboard
           .writeText(document.getElementById('t-share-url').value)
           .then(() => {
-            toastr.success('分享链接已复制到剪贴板')
+            toastr.success('分享链接已复制到剪贴板', '成功')
           })
           .catch((err) => {
             console.error('复制失败:', err)
-            toastr.error('复制失败，请手动复制')
+            toastr.error('复制失败，请手动复制', '失败')
           })
 
         new AwesomeQR.AwesomeQR({
@@ -987,7 +988,7 @@ async function catchNewVersion() {
       ps[1].innerHTML = `${data.notice}`
     }
   } catch (error) {
-    toastr.error('获取更新信息失败：<br>' + error)
+    toastr.error('获取更新信息失败：<br>' + error, '失败')
     console.error('获取更新信息失败：', error)
   }
 }
@@ -1098,7 +1099,7 @@ function executeAICommands(text) {
           if (param) {
             try {
               const params = JSON.parse(param)
-              toastr.info(`正在加入房间: ${params.name}`)
+              toastr.info(`正在加入房间: ${params.name}`, '请稍等')
               joinroom(activeAccount, params.roomfrom, params.id, params.session, xuid)
               // cleanText = cleanText.replace(fullCommandStr, '\n> 🤖AI尝试加入房间 \n')
               cleanText = cleanText.replace(fullCommandStr, '\n\n')
@@ -1232,7 +1233,7 @@ async function sendAIMessage() {
   } catch (error) {
     console.error(error)
     aiMessageBubble.innerHTML += `<br><span style="color:rgb(var(--mdui-color-error))">[出错]: ${error.message}</span>`
-    toastr.error('AI 请求失败，请稍后重试')
+    toastr.error('AI 请求失败，请稍后重试', '失败')
   } finally {
     isGenerating = false
     aiSendBtn.disabled = false
@@ -1438,7 +1439,7 @@ const ThemeConfig = {
     this.bgResetBtn.addEventListener('click', () => {
       this.setBackground('solid', '')
       displayRoomList(filteredRoomList)
-      toastr.success('已恢复默认主题背景')
+      toastr.success('已恢复默认主题背景', '成功')
     })
 
     this.bgApplyUrlBtn.addEventListener('click', () => {
@@ -1446,7 +1447,7 @@ const ThemeConfig = {
       if (url) {
         this.setBackground('image', url)
         displayRoomList(filteredRoomList)
-        toastrs.success('背景已应用')
+        toastrs.success('背景已应用', '成功')
       }
     })
 
@@ -1459,9 +1460,9 @@ const ThemeConfig = {
           try {
             this.setBackground('upload', event.target.result)
             displayRoomList(filteredRoomList)
-            toastrs.success('本地图片已应用')
+            toastrs.success('', '本地图片已应用', 0, 1)
           } catch (err) {
-            toastr.warning('图片过大，仅本次有效')
+            toastr.warning('图片过大，仅本次有效', '注意')
             this.applyBackgroundStyles(event.target.result)
             displayRoomList(filteredRoomList)
             this.saveSetting('bg_type', 'upload')
@@ -1701,11 +1702,11 @@ document.getElementById('btn-copy-link').addEventListener('click', (e) => {
   navigator.clipboard
     .writeText(document.getElementById('t-share-url').value)
     .then(() => {
-      toastr.success('分享链接已复制到剪贴板')
+      toastr.success('分享链接已复制到剪贴板', '成功')
     })
     .catch((err) => {
       console.error('复制失败:', err)
-      toastr.error('复制失败')
+      toastr.error('复制失败:' + err, '失败')
     })
 })
 
@@ -1727,7 +1728,7 @@ document.getElementById('fab-theme').addEventListener('click', (e) => {
   if (LDtheme >= 4) LDtheme = 1
   mdui.setTheme(mdui_theme[LDtheme][0])
   document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
-  toastr.info(mdui_theme[LDtheme][2])
+  toastr.info(mdui_theme[LDtheme][2], '当前主题')
   localStorage.setItem('themes', LDtheme)
 })
 
@@ -1846,7 +1847,7 @@ document.getElementById('btn-color-export').addEventListener('click', (e) => {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-    toastr.success('成功导出配色方案')
+    toastr.success('成功导出配色方案', '成功')
   } catch (e) {
     toastrs.error(e, '导出配色方案时出错')
   }
@@ -1868,7 +1869,7 @@ document.getElementById('btn-color-import').addEventListener('click', (e) => {
         const resu = await JSON.parse(evt.target.result)
         if (resu.theme_color == undefined) throw new Error('错误的配色方案文件')
         localStorage.setItem('theme_config', evt.target.result)
-        toastr.success('成功导入配色方案')
+        toastr.success('成功导入配色方案', '成功')
         location.reload()
       } catch (err) {
         console.error()
@@ -1980,7 +1981,7 @@ class Debug {
     try {
       localStorage.clear()
       console.log('Local storage has been cleared. Current item count:', localStorage.length)
-      toastr.info('Local storage has been cleared. Current item count:' + localStorage.length)
+      toastr.info('Local storage has been cleared. Current item count:' + localStorage.length, 'debug')
     } catch (e) {
       console.error('Failed to clear local storage:', e)
       toastr.error('Failed to clear local storage:' + e)
@@ -1989,14 +1990,14 @@ class Debug {
 
   static logCookies() {
     console.log('Cookies:', document.cookie)
-    toastr.info('Cookies:' + document.cookie)
+    toastr.info('Cookies:' + document.cookie, 'debug')
   }
 
   static testToastr() {
-    toastr.error('Error msg')
-    toastr.warning('Warning msg')
-    toastr.success('Success msg')
-    toastr.info('Info msg')
+    toastr.error('Error msg', 'debug')
+    toastr.warning('Warning msg', 'debug')
+    toastr.success('Success msg', 'debug')
+    toastr.info('Info msg', 'debug')
     console.log('测试Toastr成功')
   }
 }

@@ -9,7 +9,7 @@
     <link rel="preload" href="/src/toastr.min.css" as="style" onload="this.rel = 'stylesheet'" />
     <link rel="preload" href="/src/mdui_icon.css" as="style" onload="this.rel = 'stylesheet'" />
     <link href="/src/mdui_icon.css" rel="stylesheet" />
-    <script src="/src/jquery.min.js"></script>
+    <!-- <script src="/src/jquery.min.js"></script> -->
     <script src="/src/toastr.min.js"></script>
     <script src="/src/mdui.global.js"></script>
   </head>
@@ -251,14 +251,14 @@
       LDtheme = Number(LDtheme)
 
       async function downloadAndApply(url) {
-        toastr.warning('正在获取并应用配色方案...')
+        toastr.info('正在获取并应用配色方案...', '请稍候')
         try {
           const response = await fetch(url)
           if (!response.ok) throw new Error('下载失败')
           const configText = await response.text()
           const config = JSON.parse(configText)
           localStorage.setItem('theme_config', configText)
-          toastr.success('成功应用配色方案,请返回查看')
+          toastr.success('成功应用配色方案,请返回查看', '应用成功')
         } catch (error) {
           toastr.error(error.message)
         }
@@ -270,7 +270,7 @@
         if (LDtheme >= 4) LDtheme = 1
         mdui.setTheme(mdui_theme[LDtheme][0])
         document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
-        toastr.info(mdui_theme[LDtheme][2])
+        toastr.info(mdui_theme[LDtheme][2], '当前主题')
         localStorage.setItem('themes', LDtheme)
       })
 

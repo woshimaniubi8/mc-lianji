@@ -4,6 +4,8 @@ const icon = document.getElementById('dialog-toastr-icon')
 const iconBg = document.getElementById('dialog-toastr-icon-background')
 const msg = document.getElementById('dialog-toastr-message')
 const msgCopy = document.getElementById('dialog-toastr-message-copy')
+const gameStartbtn = document.getElementById('dialog-toastr-start-game')
+const closeBtn = document.getElementById('dialog-toastr-close')
 const imgs = {
   info: 'M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z',
   warning:
@@ -24,32 +26,68 @@ msgCopy.addEventListener('click', () => {
 })
 
 class toastrs {
-  static error(a, b = '') {
+  static error(a, b = '', c, d) {
     tip.innerText = b
     icon.setAttribute('d', imgs.error)
     iconBg.style.backgroundColor = '#f44336'
     msg.value = a
+    if (c) {
+      gameStartbtn.style.display = 'block'
+      closeBtn.setAttribute('variant', 'outlined')
+    } else {
+      gameStartbtn.style.display = 'none'
+      closeBtn.setAttribute('variant', 'filled')
+    }
+    if (!d) msg.style.display = 'block'
+    if (d) msg.style.display = 'none'
     dialog.open = 'true'
   }
-  static warning(a, b = '') {
+  static warning(a, b = '', c, d) {
     tip.innerText = b
     icon.setAttribute('d', imgs.warning)
     iconBg.style.backgroundColor = '#ff9800'
     msg.value = a
+    if (c) {
+      gameStartbtn.style.display = 'block'
+      closeBtn.setAttribute('variant', 'outlined')
+    } else {
+      gameStartbtn.style.display = 'none'
+      closeBtn.setAttribute('variant', 'filled')
+    }
+    if (!d) msg.style.display = 'block'
+    if (d) msg.style.display = 'none'
     dialog.open = 'true'
   }
-  static success(a, b = '') {
+  static success(a, b = '', c, d) {
     tip.innerText = b
     icon.setAttribute('d', imgs.success)
     iconBg.style.backgroundColor = '#4caf50'
     msg.value = a
+    if (c) {
+      gameStartbtn.style.display = 'block'
+      closeBtn.setAttribute('variant', 'outlined')
+    } else {
+      gameStartbtn.style.display = 'none'
+      closeBtn.setAttribute('variant', 'filled')
+    }
+    if (!d) msg.style.display = 'block'
+    if (d) msg.style.display = 'none'
     dialog.open = 'true'
   }
-  static info(a, b = '') {
+  static info(a, b = '', c, d) {
     tip.innerText = b
     icon.setAttribute('d', imgs.info)
     iconBg.style.backgroundColor = '#2196f3'
     msg.value = a
+    if (c) {
+      gameStartbtn.style.display = 'block'
+      closeBtn.setAttribute('variant', 'outlined')
+    } else {
+      gameStartbtn.style.display = 'none'
+      closeBtn.setAttribute('variant', 'filled')
+    }
+    if (!d) msg.style.display = 'block'
+    if (d) msg.style.display = 'none'
     dialog.open = 'true'
   }
 }

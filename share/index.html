@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN" class="mdui-theme-light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Minecraft基岩版联机平台 - 分享房间" />
-    <meta name="keywords" content="Minecraft,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,Multi" />
-    <title>分享房间 - 我的世界Minecraft联机大厅</title>
+    <meta name="keywords" content="Minecraft,我的世界联机,联机,基岩板,我的世界,在线联机,多人联机,Bedrock,Multi,分享房间,share" />
+    <title>分享房间 - Minecraft联机大厅</title>
     <link rel="stylesheet" href="../src/mdui.css" />
     <script src="../src/mdui.global.js"></script>
-    <script src="../src/jquery.min.js"></script>
+    <!-- <script src="../src/jquery.min.js"></script> -->
     <script src="../src/toastr.min.js"></script>
     <script src="../src/awesome-qr.min.js"></script>
     <script type="text/javascript">
@@ -33,7 +33,7 @@
         width: 95%;
         max-width: 430px;
         margin: 30px auto 30px;
-        padding: 20px;
+        /* padding: 20px; */
       }
       .room-items {
         height: auto;
@@ -82,14 +82,14 @@
   <body>
     <header class="mdui-appbar mdui-appbar-fixed">
       <div style="height: 80px">
-        <mdui-button class="back-button" variant="text" icon="arrow_back--outlined" onclick="window.location.href='../'" style="padding-right: 15px; font-size: 16px"
+        <mdui-button class="back-button" variant="text" icon="arrow_back--outlined" onclick="window.location.href = '../'" style="padding-right: 15px; font-size: 16px"
           ><p>返回</p></mdui-button
         >
       </div>
       <h2 id="lj_title">
         <a href="/" style="text-decoration: none; color: inherit">
           <img title="联机大厅" src="/favicon.ico" class="material-icons" style="padding-right: 5px; height: 40px; width: auto; margin: 0 10px 0 0; vertical-align: -46%" /></a
-        >我的世界联机大厅
+        >联机大厅
       </h2>
     </header>
     <mdui-dialog id="dialog-loading">
@@ -492,7 +492,7 @@
           languageCode = await r.json()
         } catch (e) {
           console.error('error-get-languageCode:', e)
-          toastr.error('error-get-languageCode:' + e)
+          toastr.error('error' + e, '获取语言代码失败')
         }
       }
 
@@ -533,8 +533,8 @@
                           room.customProperties.ownerId
                         }/image/head" class="host-avatar" alt="Host Avatar"/>
                         <span><a href="https://www.xbox.com/play/user/${room.customProperties.hostName}" target="_blank" title="查看 ${room.customProperties.hostName} 的Xbox主页"><strong>${
-            room.customProperties.hostName
-          }</strong></span></a>
+                          room.customProperties.hostName
+                        }</strong></span></a>
                       </div>
                       <div class="info-line">
                         <mdui-icon name="people--outlined"></mdui-icon>
@@ -568,7 +568,7 @@
         } else {
           document.getElementById('room-card').className = 'room-items'
           document.getElementById('room-card').innerHTML = ` <p id="room-name2" title="${room.customProperties.worldName.replace(/§./g, '')}">${formatMinecraftText(
-            room.customProperties.worldName
+            room.customProperties.worldName,
           )}</p>
                     <div class="room-info">
                       <p id="room-host">
@@ -583,8 +583,8 @@
                       </p>
                       <p id="room-people">
                         <mdui-icon name="people--outlined" class="room-icon"></mdui-icon><span class="${peopleNumClass}">${room.customProperties.MemberCount}/${
-            room.customProperties.MaxMemberCount
-          }</span
+                          room.customProperties.MaxMemberCount
+                        }</span
                         ><img
                           alt="GameMode"
                           src="/src/${roomMode[0]}.png"
@@ -672,7 +672,7 @@
             }
           } catch (error) {
             console.error('Failed to show room info:', error)
-            toastr.error('获取房间信息失败: ' + error.message)
+            toastr.error('获取房间信息失败: ' + error.message, '错误')
           } finally {
             loadingScreen.open = false
           }
@@ -800,47 +800,63 @@
           const res_data = await res.json()
           loadingScreen.open = false
           if (res_data.code === '1') {
-            toastr.warning(res_data.message_zh_CN)
+            toastr.warning(res_data.message_zh_CN, '成功加入房间')
           } else {
-            toastr.success(res_data.message_zh_CN)
+            toastr.success(res_data.message_zh_CN, '成功加入房间')
           }
         } catch (error) {
           console.error('join failed :', error)
-          toastr.error('广播房间失败 :' + error)
+          toastr.error('广播房间失败 :' + error, '错误')
           loadingScreen.open = false
         }
       }
       async function joinRoom(room) {
         // 这里需要实现与原s.js中相同的加入房间逻辑
         // 需要获取用户配置等信息
-        toastr.info('正在广播房间...')
+        toastr.info('正在加入房间...', '请稍等')
 
         // 模拟加入房间过程
         try {
           // 这里应该调用实际的API
           await joinroom(activeAccount || room.roomfrom, room.roomfrom, room.id, room.sessionRef.name, xuid)
         } catch (error) {
-          toastr.error('加入房间失败，请尝试回到首页进行配置后重试: ' + error.message)
+          toastr.error('加入房间失败，请尝试回到首页进行配置后重试: ' + error.message, '错误')
         }
       }
       document.getElementById('dialog-close-room-info').addEventListener('click', (e) => {
         document.getElementById('dialog-room-info').open = false
       })
       // 复制链接功能
-      document.getElementById('copy-link').addEventListener('click', () => {
-        const shareUrl = document.getElementById('share-url')
-        shareUrl.select()
-        document.execCommand('copy')
-        toastr.success('链接已复制到剪贴板')
-      })
-
+      try {
+        document.getElementById('copy-link').addEventListener('click', () => {
+          const shareUrl = document.getElementById('share-url')
+          shareUrl.select()
+          navigator.clipboard
+            .writeText(shareUrl.value)
+            .then(() => {
+              toastr.success('链接已复制到剪贴板', '复制成功')
+            })
+            .catch((err) => {
+              console.error('复制失败:', err)
+              toastr.error('复制失败')
+            })
+        })
+      } catch (e) {
+        console.error('Clipboard API 不受支持，回退到 execCommand:', e)
+        try {
+          document.execCommand('copy')
+        } catch (err) {
+          console.error('execCommand 复制失败:', err)
+          toastr.error('复制失败,请尝试升级浏览器', '错误')
+        }
+      }
       // 分享到QQ
       document.getElementById('share-qq').addEventListener('click', () => {
         const url = encodeURIComponent(window.location.href)
         const title = encodeURIComponent('Minecraft联机房间分享')
 
         if (!navigator.share) {
-          toastr.error('您的浏览器不支持此功能')
+          toastr.error('您的浏览器不支持此功能', '错误')
         } else {
           navigator.share({
             //要共享的标题
@@ -874,22 +890,22 @@
         navigator.clipboard
           .writeText(document.getElementById('t-share-url').value)
           .then(() => {
-            toastr.success('分享链接已复制到剪贴板')
+            toastr.success('分享链接已复制到剪贴板', '复制成功')
           })
           .catch((err) => {
             console.error('复制失败:', err)
-            toastr.error('复制失败')
+            toastr.error(err.message, '复制失败')
           })
       })
       document.getElementById('btn-copy-code').addEventListener('click', (e) => {
         navigator.clipboard
           .writeText(document.getElementById('t-share-code').value)
           .then(() => {
-            toastr.success('加入指令已复制到剪贴板')
+            toastr.success('加入指令已复制到剪贴板', '复制成功')
           })
           .catch((err) => {
             console.error('复制失败:', err)
-            toastr.error('复制失败')
+            toastr.error(err.message, '复制失败')
           })
       })
       document.getElementById('dialog-share-done').addEventListener('click', (e) => {
@@ -902,7 +918,7 @@
         if (LDtheme >= 4) LDtheme = 1
         mdui.setTheme(mdui_theme[LDtheme][0])
         document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
-        toastr.info(mdui_theme[LDtheme][2])
+        toastr.info(mdui_theme[LDtheme][2], '当前主题')
         localStorage.setItem('themes', LDtheme)
       })
       mdui.setTheme(mdui_theme[LDtheme][0])

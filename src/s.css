@@ -996,6 +996,12 @@ body.custom-bg #app-mask {
   width: 49%;
 }
 
+#dialog-toastr-start-game,
+#dialog-toastr-close {
+  display: block;
+  margin-top: 7px;
+}
+
 /* 移动端适配 */
 @media (max-width: 600px) {
   #ai-chat-window {
