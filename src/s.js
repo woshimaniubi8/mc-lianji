@@ -301,7 +301,7 @@ async function fetchAccount() {
       localStorage.setItem('ac_id', activeAccount)
     }
   } catch (error) {
-    console.error('Fetch dick failed: ', error)
+    console.error('Fetch account list failed: ', error)
     toastrs.error(error, '获取账号列表失败')
   }
 }
@@ -1017,7 +1017,10 @@ async function fetchMarkdown() {
   // })
 }
 
-function openConfigDialog() {
+async function openConfigDialog() {
+  loadingScreen.open = true
+  await fetchAccount()
+  loadingScreen.open = false
   document.getElementById('dialog-user-settings').open = true
   const userInput = document.getElementById('input-userid')
   document.getElementById('enable-old-ui').checked = enableOldUI
@@ -1935,7 +1938,7 @@ toastr.options = {
   hideMethod: 'fadeOut',
 }
 document.getElementById('fab-theme').icon = mdui_theme[LDtheme][1]
-fetchAccount()
+//fetchAccount()
 //fetchMarkdown()
 if ((userID != '未设置id') | (xuid != '')) {
   document.getElementById('avatar-view').src = user_avatar
